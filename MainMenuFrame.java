@@ -30,7 +30,7 @@ public class MainMenuFrame extends JFrame{
         statisticsButton = makeButton("STATISTICS", font); 
         exitButton = makeButton("EXIT GAME", font);
         signInButton = makeButton("Sign In", null);
-        signUpButton = new JButton("Sign Ip", null);
+        signUpButton = new JButton("Sign Up", null);
         user = new JLabel("Player: ");
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
