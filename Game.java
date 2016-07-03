@@ -1,5 +1,7 @@
 package game;
+
 import java.awt.EventQueue;
+
 /**
  * Klasa <code>Game</code> reprezentuje główną klasę gry.
  */
