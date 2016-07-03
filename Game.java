@@ -10,6 +10,7 @@ public class Game {
         new Style("Nimbus");
         
         EventQueue.invokeLater(() -> new MainMenuFrame() {{
+            setLocationByPlatform(true);
             setTitle("Zestaw gier");
             setDefaultCloseOperation(EXIT_ON_CLOSE);
             setVisible(true);
