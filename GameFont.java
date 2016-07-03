@@ -12,8 +12,7 @@ public class GameFont {
      * @return artystyczna czcionka lub w razie braku - zwykła
      */
     public static Font makeArtisticFont(){
-        String[] fontNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-        for(String fontName : fontNames)
+        for(String fontName : GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames())
             if(fontName.equals("Lucida Handwriting"))
                 return new Font("Lucida Handwriting", Font.BOLD, 25);
         return font;
