@@ -1,15 +1,67 @@
 package game;
-// DOKOŃCZĘ POTEM 
-public class User { // tą klasę zastosuję w MainMenuFrame w przyciskach logowania i rejestracji 
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
+class DialogWindow extends JPanel{
+    private JTextField username;
+    private JPasswordField password;
+    private JPasswordField passwordConfirmation;
+    private JDialog dialog;
+    private JButton okButton;
+    private JButton cancelButton;
+    public DialogWindow(){
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(3, 2));
+        panel.add(new JLabel("Username:"));
+        panel.add(username = new JTextField(""));
+        panel.add(new JLabel("Password:"));
+        panel.add(password = new JPasswordField(""));
+        panel.add(new JLabel("Confirm password: "));
+        panel.add(passwordConfirmation = new JPasswordField(""));
+        add(panel, BorderLayout.CENTER);
+        okButton = new JButton("OK");
+        okButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent ae) {
+                dialog.setVisible(false);
+            }
+        });
+        cancelButton = new JButton("Cancel");
+        cancelButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent ae){
+                dialog.setVisible(false);
+            }
+        });
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(okButton);
+        buttonPanel.add(cancelButton);
+        add(buttonPanel, BorderLayout.SOUTH);
+    }
+    public void showDialog(Component parent, String title){
+        Frame owner = null;
+        if(parent instanceof Frame) owner = (Frame) parent;
+        else owner = (Frame) SwingUtilities.getAncestorOfClass(Frame.class, parent);
+        if(dialog == null || dialog.getOwner() != owner)
+        {
+            dialog = new JDialog(owner, true);
+            dialog.add(this);
+            dialog.getRootPane().setDefaultButton(okButton);
+            dialog.pack();
+        }
+        dialog.setTitle(title);
+        dialog.setVisible(true);
+    }
+}
+public class User { 
     private String nick = "Anonim";
-    public String signIn(){
-        // Tu wyświetla ramkę z pytaniem o użytkownika i hasło
-        // sprawdza czy taki użytkownik istnieje w pliku i czy hasło poprawne
-        // jeśli tak - loguje i zmienia nick, jeśli nie - bład i pozostaje anonimowy 
+    private static DialogWindow dialog;
+    /*public String signIn(){
+        
+    }*/ 
+    public static void signUp(){
+        dialog = new DialogWindow();
+        dialog.showDialog(new MainMenuFrame(), "Registration");
     }
-    public void signUp(){
-        // Tu wyświetla ramkę z pytaniem o użytkownika, hasło i potwierdzenie hasła 
-        // sprawdza czy takiego użytkownika jeszcze nie ma. W między czasie działa też szyfrowanie
-        // jeśli nikogo takiego nie ma - zapisuje do pliku, inaczej bład 
-    }
+    
 }
