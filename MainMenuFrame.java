@@ -1,17 +1,8 @@
 package game;
-import javax.swing.JFrame;
-import java.awt.GridBagLayout;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GraphicsEnvironment;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import java.awt.GridBagConstraints;
-import javax.swing.JLabel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+
+import java.awt.*;
+import javax.swing.*;
+
 /**
  * Obiekt <code>MainMenuFrame</code> reprezentuje menu główne gry. 
  * Zawiera ono przyciski służace do wybrania nowej gry, załadowania zapisanej gry, ustawienia opcji,
@@ -77,4 +68,3 @@ public class MainMenuFrame extends JFrame{
         return button;
     }
 }
-
