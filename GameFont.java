@@ -7,7 +7,7 @@ import java.awt.*;
  * Zawiera dwa warianty czcionki - artystyczną oraz jeśli system jej nie posiada - zwykłą.
  */
 public class GameFont {
-    private static final Font font = new Font("Serif", Font.BOLD, 25);
+    private static final Font font = new FONT("Serif", Font.BOLD, 25);
     
     /**
      * Tworzy artystyczną, ładną czcionkę. 
@@ -17,6 +17,6 @@ public class GameFont {
         for(String fontName : GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames())
             if(fontName.equals("Lucida Handwriting"))
                 return new Font("Lucida Handwriting", Font.BOLD, 25);
-        return font;
+        return FONT;
     }
 }
