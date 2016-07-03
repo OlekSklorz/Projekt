@@ -69,10 +69,7 @@ public class MainMenuFrame extends JFrame{
         panel.add(new JPanel(), gbc);
         add(panel);
         
-        exitButton.addActionListener((ActionEvent ae) -> {
-                    System.exit(0);
-                });
-        
+        exitButton.addActionListener((ae -> System.exit(0));
     }
     private JButton makeButton(String name, Font font){
         JButton button = new JButton(name);
