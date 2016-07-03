@@ -72,6 +72,14 @@ class DialogWindow extends JPanel{
     }
     public void writeToFile(String name, char[] p){
         PrintWriter file = null;
+        String allowedSigns = "";
+        for(int i = 0; i < 94; i++){
+            allowedSigns += (char)(i + 32);
+        }
+        for(int i = 0; i < p.length; i++){
+            int index = allowedSigns.indexOf(p[i]);
+            p[i] = (char)(allowedSigns.charAt(index) + 1);
+        }
         try{
             file = new PrintWriter(new FileWriter("C:\\Gra\\Users.txt", true));
             file.println(name + " " + String.valueOf(p));
