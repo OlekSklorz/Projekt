@@ -1,6 +1,7 @@
 package game;
-import java.awt.Font;
-import java.awt.GraphicsEnvironment;
+
+import java.awt.*;
+
 /**
  * Klasa <code>GameFont</code> reprezentuje czcionkę używaną w grze. 
  * Zawiera dwa warianty czcionki - artystyczną oraz jeśli system jej nie posiada - zwykłą.
