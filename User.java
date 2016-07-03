@@ -71,14 +71,18 @@ class DialogWindow extends JPanel{
         return passwordConfirmation.getPassword();
     }
     public void writeToFile(String name, char[] p){
+        File directory = new File("C:\\Gra");
+        if(!directory.exists())
+            directory.mkdir();
         PrintWriter file = null;
         String allowedSigns = "";
+        int shift = 130;
         for(int i = 0; i < 94; i++){
             allowedSigns += (char)(i + 32);
         }
         for(int i = 0; i < p.length; i++){
             int index = allowedSigns.indexOf(p[i]);
-            p[i] = (char)(allowedSigns.charAt(index) + 1);
+            p[i] = (char)(allowedSigns.charAt(index) + (shift % 93));
         }
         try{
             file = new PrintWriter(new FileWriter("C:\\Gra\\Users.txt", true));
