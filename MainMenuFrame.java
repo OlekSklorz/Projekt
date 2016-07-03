@@ -15,6 +15,7 @@ public class MainMenuFrame extends JFrame {
     private JButton newGameButton, loadGameButton, optionsButton, statisticsButton, exitButton, signInButton, signUpButton;
     private JLabel user;
     
+    @SuppressWarnings("OverridableMethodCallInConstructor")
     public MainMenuFrame() {
         Font font = GameFont.makeArtisticFont();
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
