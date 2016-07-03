@@ -14,10 +14,8 @@ public class GameFont {
     public static Font makeArtisticFont(){
         String[] fontNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
         for(String fontName : fontNames)
-        {
             if(fontName.equals("Lucida Handwriting"))
                 return new Font("Lucida Handwriting", Font.BOLD, 25);
-        }
         return font;
     }
 }
