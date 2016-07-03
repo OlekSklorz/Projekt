@@ -7,6 +7,8 @@ import java.awt.EventQueue;
  */
 public class Game {
     public static void main(String[] args) {
+        new Style("Nimbus");
+        
         EventQueue.invokeLater(() -> new MainMenuFrame() {{
             setTitle("Zestaw gier");
             setDefaultCloseOperation(EXIT_ON_CLOSE);
