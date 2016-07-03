@@ -1,8 +1,9 @@
 package game;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.io.*;
+import java.util.Arrays;
 import javax.swing.*;
 class DialogWindow extends JPanel{
     private JTextField username;
@@ -24,7 +25,15 @@ class DialogWindow extends JPanel{
         okButton = new JButton("OK");
         okButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
-                dialog.setVisible(false);
+                String nick = getUsername();
+                char[] tempPassword = getPassword();
+                char[] tempPasswordConfirmation = getPasswordConfirmation();
+                if(!nick.equals("") && tempPassword.length != 0 && tempPasswordConfirmation.length != 0 && Arrays.equals(tempPassword, tempPasswordConfirmation))
+                {
+                    System.out.println(username.getText());
+                    writeToFile(nick, tempPassword);
+                    dialog.setVisible(false);
+                }
             }
         });
         cancelButton = new JButton("Cancel");
@@ -52,6 +61,27 @@ class DialogWindow extends JPanel{
         dialog.setTitle(title);
         dialog.setVisible(true);
     }
+    public String getUsername(){
+        return username.getText();
+    }
+    public char[] getPassword(){
+        return password.getPassword();
+    }
+    public char[] getPasswordConfirmation(){
+        return passwordConfirmation.getPassword();
+    }
+    public void writeToFile(String name, char[] p){
+        PrintWriter file = null;
+        try{
+            file = new PrintWriter(new FileWriter("C:\\Gra\\Users.txt", true));
+            file.println(name + " " + String.valueOf(p));
+        }catch(IOException e){
+        }finally{
+            if(file != null){
+                file.close();
+            }
+        }
+    }
 }
 public class User { 
     private String nick = "Anonim";
@@ -63,5 +93,4 @@ public class User {
         dialog = new DialogWindow();
         dialog.showDialog(new MainMenuFrame(), "Registration");
     }
-    
 }
