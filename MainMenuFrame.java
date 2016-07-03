@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
 import javax.swing.JLabel;
+import game.GameFont;
 /**
  * Obiekt <code>MainMenuFrame</code> reprezentuje menu główne gry. 
  * Zawiera ono przyciski służace do wybrania nowej gry, załadowania zapisanej gry, ustawienia opcji,
@@ -20,7 +21,7 @@ public class MainMenuFrame extends JFrame{
     private JButton newGameButton, loadGameButton, optionsButton, statisticsButton, exitButton, signInButton, signUpButton;
     private JLabel user;
     public MainMenuFrame(){
-        Font font = selectFont();
+        Font font = GameFont.makeArtisticFont();
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         panel = new JPanel();
         panel.setLayout(new GridBagLayout());
@@ -30,7 +31,7 @@ public class MainMenuFrame extends JFrame{
         statisticsButton = makeButton("STATISTICS", font); 
         exitButton = makeButton("EXIT GAME", font);
         signInButton = makeButton("Sign In", null);
-        signUpButton = new JButton("Sign Up", null);
+        signUpButton = new JButton("Sign Ip", null);
         user = new JLabel("Player: ");
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -64,15 +65,6 @@ public class MainMenuFrame extends JFrame{
         panel.add(new JPanel(), gbc);
         add(panel);
     }
-    private Font selectFont(){
-        String[] fontNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-        for(String fontName : fontNames)
-        {
-            if(fontName.equals("Lucida Handwriting"))
-                return new Font("Lucida Handwriting", Font.BOLD, 25);
-        }
-        return new Font("Serif", Font.BOLD, 25);
-    }
     private JButton makeButton(String name, Font font){
         JButton button = new JButton(name);
         if(font != null)
@@ -80,3 +72,4 @@ public class MainMenuFrame extends JFrame{
         return button;
     }
 }
+
