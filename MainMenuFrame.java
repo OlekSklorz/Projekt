@@ -8,13 +8,14 @@ import javax.swing.*;
  * Zawiera ono przyciski służace do wybrania nowej gry, załadowania zapisanej gry, ustawienia opcji,
  * obejrzenia statystyk, wyjścia z gry oraz zarządzania użytkownikami.
  */
-public class MainMenuFrame extends JFrame{
+public class MainMenuFrame extends JFrame {
     private static final int DEFAULT_WIDTH = 800;
     private static final int DEFAULT_HEIGHT = 600;
     private JPanel panel;
     private JButton newGameButton, loadGameButton, optionsButton, statisticsButton, exitButton, signInButton, signUpButton;
     private JLabel user;
-    public MainMenuFrame(){
+    
+    public MainMenuFrame() {
         Font font = GameFont.makeArtisticFont();
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         panel = new JPanel();
@@ -58,9 +59,9 @@ public class MainMenuFrame extends JFrame{
         gbc.gridy = 8;
         panel.add(new JPanel(), gbc);
         add(panel);
-        
-        exitButton.addActionListener(ae -> System.exit(0));
+        exitButton.addActionListener(e -> System.exit(0));
     }
+    
     private JButton makeButton(String name, Font font){
         JButton button = new JButton(name);
         if(font != null)
