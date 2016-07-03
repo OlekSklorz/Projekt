@@ -62,7 +62,7 @@ public class MainMenuFrame extends JFrame {
         exitButton.addActionListener(e -> System.exit(0));
     }
     
-    private JButton makeButton(String name, Font font){
+    private JButton makeButton(String name, Font font) {
         JButton button = new JButton(name);
         if(font != null)
             button.setFont(font);
