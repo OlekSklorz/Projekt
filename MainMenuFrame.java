@@ -11,14 +11,17 @@ import javax.swing.*;
 public class MainMenuFrame extends JFrame {
     private static final int DEFAULT_WIDTH = 800;
     private static final int DEFAULT_HEIGHT = 600;
-    private JPanel panel;
-    private JButton newGameButton, loadGameButton, optionsButton, statisticsButton, exitButton, signInButton, signUpButton;
-    private JLabel user;
+    private static JPanel newGamePanel;
+    private static JPanel panel;
+    private final JButton newGameButton, loadGameButton, optionsButton, statisticsButton, exitButton, signInButton, signUpButton;
+    private final JLabel user;
     
     @SuppressWarnings("OverridableMethodCallInConstructor")
-    public MainMenuFrame() {
+    public MainMenuFrame(){
         Font font = GameFont.makeArtisticFont();
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        NewGameChoosing newGame = new NewGameChoosing();
+        newGamePanel = newGame.getJPanel();
         panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         newGameButton = makeButton("NEW GAME", font);
@@ -29,6 +32,7 @@ public class MainMenuFrame extends JFrame {
         signInButton = makeButton("Sign In", null);
         signUpButton = new JButton("Sign Up", null);
         user = new JLabel("Player: ");
+        
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -60,13 +64,30 @@ public class MainMenuFrame extends JFrame {
         gbc.gridy = 8;
         panel.add(new JPanel(), gbc);
         add(panel);
+        panel.setVisible(true);
+        
         exitButton.addActionListener(e -> System.exit(0));
+        
+        newGameButton.addActionListener(e -> {
+            panel.setVisible(false);
+            newGamePanel.setVisible(true);
+            add(newGamePanel);
+        });
+        
     }
     
-    private JButton makeButton(String name, Font font) {
+    public JButton makeButton(String name, Font font) {
         JButton button = new JButton(name);
         if(font != null)
             button.setFont(font);
         return button;
     }
+    
+    public JPanel getJPanel() {
+        return this.panel;
+    }
+    public static void setMainWindowVisable() {
+        panel.setVisible(true);
+    }
+    
 }
