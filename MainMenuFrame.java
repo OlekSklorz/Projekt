@@ -15,7 +15,7 @@ public class MainMenuFrame extends JFrame {
     private static final int DEFAULT_HEIGHT = 600;
     private static JPanel newGamePanel;
     private static JPanel panel;
-    private final JButton newGameButton, loadGameButton, optionsButton, statisticsButton, exitButton, signInButton, signUpButton;
+    private final JButton newGameButton, loadGameButton, optionsButton, statisticsButton, exitButton, signInButton, signUpButton, logOutButton;
     private final JLabel user; 
     
     @SuppressWarnings("OverridableMethodCallInConstructor")
@@ -32,9 +32,9 @@ public class MainMenuFrame extends JFrame {
         statisticsButton = makeButton("STATISTICS", font); 
         exitButton = makeButton("EXIT GAME", font);
         signInButton = makeButton("Sign In", null);
-        signUpButton = new JButton("Sign Up", null);
+        signUpButton = makeButton("Sign Up", null);
+        logOutButton = makeButton("Log Out", null);
         user = new JLabel("Player: Anonim");
-        
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -47,23 +47,25 @@ public class MainMenuFrame extends JFrame {
         panel.add(signInButton, gbc);
         gbc.gridy = 2;
         panel.add(signUpButton, gbc);
-        gbc.gridx = 1;
         gbc.gridy = 3;
+        panel.add(logOutButton, gbc);
+        gbc.gridx = 1;
+        gbc.gridy = 4;
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.weighty = 100;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.ipady = 10;
         panel.add(newGameButton, gbc);
-        gbc.gridy = 4;
-        panel.add(loadGameButton, gbc);
         gbc.gridy = 5;
-        panel.add(optionsButton, gbc);
+        panel.add(loadGameButton, gbc);
         gbc.gridy = 6;
-        panel.add(statisticsButton, gbc);
+        panel.add(optionsButton, gbc);
         gbc.gridy = 7;
+        panel.add(statisticsButton, gbc);
+        gbc.gridy = 8;
         panel.add(exitButton, gbc);
         gbc.gridx = 2;
-        gbc.gridy = 8;
+        gbc.gridy = 9;
         panel.add(new JPanel(), gbc);
         add(panel);
         panel.setVisible(true);
@@ -87,6 +89,7 @@ public class MainMenuFrame extends JFrame {
             dialog.showDialog(MainMenuFrame.this, "Registration");
         });
         
+        logOutButton.addActionListener(ae -> user.setText("Player: Anonim"));
     }
     
     private JButton makeButton(String name, Font font) {
