@@ -19,7 +19,7 @@ public class DialogWindow extends JPanel{
         else
             panel.setLayout(new GridLayout(2, 2));
         panel.add(new JLabel("Username:"));
-        panel.add(username = new JTextField(""));
+        panel.add(username = new JTextField("", 20));
         panel.add(new JLabel("Password:"));
         panel.add(password = new JPasswordField(""));
         if(!log){
@@ -34,36 +34,32 @@ public class DialogWindow extends JPanel{
                     String nick = getUsername();
                     char[] tempPassword = getPassword();
                     char[] tempPasswordConfirmation = getPasswordConfirmation();
-                    if(!nick.equals("") && tempPassword.length != 0 && tempPasswordConfirmation.length != 0 && Arrays.equals(tempPassword, tempPasswordConfirmation))
-                    {
-                        if(!isExists(nick, null)){
-                            writeToFile(nick, tempPassword);
-                            dialog.setVisible(false);
-                        }else{
-                            username.setText("Użytkownik istnieje!");
+                    if(!nick.matches("^[a-zA-Z0-9]*$"))
+                        username.setText("Zły zakres");
+                    else{
+                        if(!nick.equals("") && tempPassword.length != 0 && tempPasswordConfirmation.length != 0 && Arrays.equals(tempPassword, tempPasswordConfirmation)){
+                            if(!isExists(nick, null)){
+                                writeToFile(nick, tempPassword);
+                                dialog.setVisible(false);
+                            }else{
+                                username.setText("Użytkownik istnieje!");
+                            }
                         }
                     }
                 }
             });
         }else{
-            okButton.addActionListener(new ActionListener(){
-               public void actionPerformed(ActionEvent ae){
+            okButton.addActionListener(ae -> {
                    String nick = getUsername();
                    char[] tempPassword = getPassword();
                    if(isExists(nick, String.valueOf(tempPassword))){
-                       System.out.println("OKAAAAA");
                        dialog.setVisible(false);
                    }else
                        username.setText("Zły użytkownik lub hasło!");
-               } 
             });
         }
         cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent ae){
-                dialog.setVisible(false);
-            }
-        });
+        cancelButton.addActionListener(ae -> dialog.setVisible(false));
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(okButton);
         buttonPanel.add(cancelButton);
@@ -95,9 +91,7 @@ public class DialogWindow extends JPanel{
     private boolean isExists(String nick, String p){
         File directory = new File("C:\\Game");
         if(directory.exists()){
-            BufferedReader file = null;
-            try{
-                file = new BufferedReader(new FileReader("C:\\Game\\Users.txt"));
+            try(BufferedReader file = new BufferedReader(new FileReader("C:\\Game\\Users.txt"))){
                 String line = file.readLine();
                 line = file.readLine();
                 String name = "";
@@ -115,12 +109,6 @@ public class DialogWindow extends JPanel{
                 }
                 return false;
             }catch(IOException e){
-            }finally{
-                if(file != null){
-                    try{
-                        file.close();
-                    }catch(IOException ex){}
-                }
             }
         }
         return false;
@@ -138,9 +126,7 @@ public class DialogWindow extends JPanel{
     }
     private Double inverseHashcode(){
         Double inverse = 0.0;
-        BufferedReader fileR = null;
-        try{
-            fileR = new BufferedReader(new FileReader("C:\\Game\\Users.txt"));
+        try(BufferedReader fileR = new BufferedReader(new FileReader("C:\\Game\\Users.txt"))){
             String hashcode = fileR.readLine();
             int i = 1;
             do
@@ -149,12 +135,6 @@ public class DialogWindow extends JPanel{
                 i++;
             }while(inverse.hashCode() != Integer.parseInt(hashcode));
         }catch(IOException e){
-        }finally{
-            if(fileR != null){
-                try{
-                    fileR.close();
-                }catch(IOException ex){}
-            }
         }
         return inverse;
     }
@@ -170,17 +150,12 @@ public class DialogWindow extends JPanel{
             shift = inverseHashcode();
         }
         p = encrypt(p, shift);
-        PrintWriter fileW = null;
-        try{
-            fileW = new PrintWriter(new FileWriter("C:\\Game\\Users.txt", true));
+        try(PrintWriter fileW = new PrintWriter(new FileWriter("C:\\Game\\Users.txt", true))){
             if(!existenceDirectory){
                 fileW.println(shift.hashCode());
             }
             fileW.println(name + " " + String.valueOf(p));
         }catch(IOException e){
-        }finally{
-            if(fileW != null)
-                fileW.close();
         }
     }
 }
