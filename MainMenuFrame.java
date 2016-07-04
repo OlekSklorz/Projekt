@@ -16,7 +16,7 @@ public class MainMenuFrame extends JFrame {
     private static JPanel newGamePanel;
     private static JPanel panel;
     private final JButton newGameButton, loadGameButton, optionsButton, statisticsButton, exitButton, signInButton, signUpButton;
-    private final JLabel user;
+    private final JLabel user; 
     
     @SuppressWarnings("OverridableMethodCallInConstructor")
     public MainMenuFrame(){
@@ -33,7 +33,7 @@ public class MainMenuFrame extends JFrame {
         exitButton = makeButton("EXIT GAME", font);
         signInButton = makeButton("Sign In", null);
         signUpButton = new JButton("Sign Up", null);
-        user = new JLabel("Player: ");
+        user = new JLabel("Player: Anonim");
         
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -76,23 +76,20 @@ public class MainMenuFrame extends JFrame {
             add(newGamePanel);
         });
         
-        signInButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent ae){
-                DialogWindow dialog = new DialogWindow(true);
-                dialog.showDialog(MainMenuFrame.this, "Login");
-            }
+        signInButton.addActionListener(ae -> {
+            DialogWindow dialog = new DialogWindow(true);
+            if(dialog.showDialog(MainMenuFrame.this, "Login"))
+                user.setText("Player: " + dialog.getUsername());
         });
         
-        signUpButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent ae){
-                DialogWindow dialog = new DialogWindow(false);
-                dialog.showDialog(MainMenuFrame.this, "Registration");
-            }
+        signUpButton.addActionListener(ae -> {
+            DialogWindow dialog = new DialogWindow(false);
+            dialog.showDialog(MainMenuFrame.this, "Registration");
         });
         
     }
     
-    public JButton makeButton(String name, Font font) {
+    private JButton makeButton(String name, Font font) {
         JButton button = new JButton(name);
         if(font != null)
             button.setFont(font);
