@@ -1,6 +1,8 @@
 package game;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
@@ -72,6 +74,18 @@ public class MainMenuFrame extends JFrame {
             panel.setVisible(false);
             newGamePanel.setVisible(true);
             add(newGamePanel);
+        });
+        
+        signInButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent ae){
+                User.signIn();
+            }
+        });
+        
+        signUpButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent ae){
+                User.signUp();
+            }
         });
         
     }
