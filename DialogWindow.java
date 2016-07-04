@@ -1,18 +1,23 @@
 package game;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
 
+/**
+ * Obiekt <code>DialogWindow</code> reprezentuje okno dialogowe.
+ * To okno służy do rejestracji nowego użytkownika lub logowania się do programu.
+ * Pobiera informacje na temat nazwy i hasła użytkownika i zapisuje/odczytuje je do/z pliku.
+ * @author Tomek
+ */
 public class DialogWindow extends JPanel{
     private JTextField username;
-    private JPasswordField password;
+    private final JPasswordField password;
     private JPasswordField passwordConfirmation;
     private JDialog dialog;
-    private JButton okButton;
-    private JButton cancelButton;
+    private final JButton okButton;
+    private final JButton cancelButton;
     public DialogWindow(boolean log){
         JPanel panel = new JPanel();
         if(!log)
@@ -30,8 +35,7 @@ public class DialogWindow extends JPanel{
         add(panel, BorderLayout.CENTER);
         okButton = new JButton("OK");
         if(!log){
-            okButton.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent ae) {
+            okButton.addActionListener(ae -> {
                     String nick = getUsername();
                     char[] tempPassword = getPassword();
                     char[] tempPasswordConfirmation = getPasswordConfirmation();
@@ -47,7 +51,6 @@ public class DialogWindow extends JPanel{
                             }
                         }
                     }
-                }
             });
         }else{
             okButton.addActionListener(ae -> {
@@ -66,7 +69,11 @@ public class DialogWindow extends JPanel{
         buttonPanel.add(cancelButton);
         add(buttonPanel, BorderLayout.SOUTH);
     }
-    
+    /**
+     * Wyświetla okno dialogowe służące do rejestracji lub logowania.
+     * @param parent komponent będący właścicielem okna dialogowego.
+     * @param title tytuł okna dialogowego.
+     */
     public void showDialog(Component parent, String title){
         Frame owner = null;
         if(parent instanceof Frame) owner = (Frame) parent;
@@ -82,14 +89,26 @@ public class DialogWindow extends JPanel{
         dialog.setVisible(true);
     }
     
+    /**
+     * Pobiera nazwę użytkownika z pola username.
+     * @return nazwa użytkownika
+     */
     public String getUsername(){
         return username.getText();
     }
     
+    /**
+     * Pobiera hasło użytkownika z pola password.
+     * @return hasło użytkownika
+     */
     public char[] getPassword(){
         return password.getPassword();
     }
     
+    /**
+     * Pobiera powtórzone hasło użytkownika z pola confirm password.
+     * @return powtórzone hasło użytkownika
+     */
     public char[] getPasswordConfirmation(){
         return passwordConfirmation.getPassword();
     }
