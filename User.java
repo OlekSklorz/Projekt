@@ -33,6 +33,8 @@ class DialogWindow extends JPanel{
                     if(!isExists(nick)){
                         writeToFile(nick, tempPassword);
                         dialog.setVisible(false);
+                    }else{
+                        username.setText("Użytkownik istnieje!");
                     }
                 }
             }
