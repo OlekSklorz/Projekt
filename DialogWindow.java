@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
+
 public class DialogWindow extends JPanel{
     private JTextField username;
     private JPasswordField password;
@@ -65,6 +66,7 @@ public class DialogWindow extends JPanel{
         buttonPanel.add(cancelButton);
         add(buttonPanel, BorderLayout.SOUTH);
     }
+    
     public void showDialog(Component parent, String title){
         Frame owner = null;
         if(parent instanceof Frame) owner = (Frame) parent;
@@ -79,15 +81,19 @@ public class DialogWindow extends JPanel{
         dialog.setTitle(title);
         dialog.setVisible(true);
     }
+    
     public String getUsername(){
         return username.getText();
     }
+    
     public char[] getPassword(){
         return password.getPassword();
     }
+    
     public char[] getPasswordConfirmation(){
         return passwordConfirmation.getPassword();
     }
+    
     private boolean isExists(String nick, String p){
         if(new File("C:\\Game").exists()){
             try(BufferedReader file = new BufferedReader(new FileReader("C:\\Game\\Users.txt"))){
@@ -112,6 +118,7 @@ public class DialogWindow extends JPanel{
         }
         return false;
     }
+    
     private char[] encrypt(char[] p, Double shift){
         String allowedSigns = "";
         for(int i = 0; i < 94; i++){
@@ -123,6 +130,7 @@ public class DialogWindow extends JPanel{
         }
         return p;
     }
+    
     private Double inverseHashcode(){
         Double inverse = 0.0;
         try(BufferedReader fileR = new BufferedReader(new FileReader("C:\\Game\\Users.txt"))){
@@ -137,6 +145,7 @@ public class DialogWindow extends JPanel{
         }
         return inverse;
     }
+    
     private void writeToFile(String name, char[] p){
         File directory = new File("C:\\Game");
         boolean existenceFiles = directory.exists() && new File("C:\\Game\\Users.txt").exists();
@@ -158,3 +167,4 @@ public class DialogWindow extends JPanel{
         }
     }
 }
+
