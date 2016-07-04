@@ -9,7 +9,6 @@ import javax.swing.*;
  * Obiekt <code>DialogWindow</code> reprezentuje okno dialogowe.
  * To okno służy do rejestracji nowego użytkownika lub logowania się do programu.
  * Pobiera informacje na temat nazwy i hasła użytkownika i zapisuje/odczytuje je do/z pliku.
- * @author Tomek
  */
 public class DialogWindow extends JPanel{
     private JTextField username;
