@@ -3,7 +3,7 @@ package game;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.util.Arrays;
+import java.util.*;
 import javax.swing.*;
 class DialogWindow extends JPanel{
     private JTextField username;
@@ -71,27 +71,52 @@ class DialogWindow extends JPanel{
         return passwordConfirmation.getPassword();
     }
     public void writeToFile(String name, char[] p){
-        File directory = new File("C:\\Gra");
-        if(!directory.exists())
+        File directory = new File("C:\\Game");
+        boolean existenceDirectory = directory.exists();
+        Double shift = 0.0;
+        if(!existenceDirectory){
             directory.mkdir();
-        PrintWriter file = null;
+            Random x = new Random();
+            shift = (double)(x.nextInt(500) + 1);
+        }else{
+            BufferedReader fileR = null;
+            try{
+                fileR = new BufferedReader(new FileReader("C:\\Game\\Users.txt"));
+                String hashcode = fileR.readLine();
+                int i = 1;
+                do
+                {
+                    shift = (double)i;
+                    i++;
+                }while(shift.hashCode() != Integer.parseInt(hashcode));
+            }catch(IOException e){
+            }finally{
+                if(fileR != null){
+                    try{
+                        fileR.close();
+                    }catch(IOException ex){}
+                }
+            }
+        }
         String allowedSigns = "";
-        int shift = 130;
         for(int i = 0; i < 94; i++){
             allowedSigns += (char)(i + 32);
         }
         for(int i = 0; i < p.length; i++){
             int index = allowedSigns.indexOf(p[i]);
-            p[i] = (char)(allowedSigns.charAt(index) + (shift % 93));
+            p[i] = (char)((allowedSigns.charAt((index + (189 % 93)) % allowedSigns.length())));
         }
+        PrintWriter fileW = null;
         try{
-            file = new PrintWriter(new FileWriter("C:\\Gra\\Users.txt", true));
-            file.println(name + " " + String.valueOf(p));
+            fileW = new PrintWriter(new FileWriter("C:\\Game\\Users.txt", true));
+            if(!existenceDirectory){
+                fileW.println(shift.hashCode());
+            }
+            fileW.println(name + " " + String.valueOf(p));
         }catch(IOException e){
         }finally{
-            if(file != null){
-                file.close();
-            }
+            if(fileW != null)
+                fileW.close();
         }
     }
 }
