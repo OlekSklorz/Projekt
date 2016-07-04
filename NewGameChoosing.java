@@ -19,7 +19,6 @@ import javax.swing.*;
 public final class NewGameChoosing {
     private JPanel newGamePanel;
     private int activeGame = 1;
-    
     public NewGameChoosing(){
         try {
             JButton pingPong, tetris, snake, back, start;
@@ -27,9 +26,9 @@ public final class NewGameChoosing {
             newGamePanel = new JPanel();
             JLabel pingPongImage;
         
-            pingPongImage = getLabel("C:\\Users\\Michał\\Documents\\NetBeansProjects\\PROJEKT\\src\\images\\a.jpg", true);
-            JLabel tetrisImage = getLabel("C:\\Users\\Michał\\Documents\\NetBeansProjects\\PROJEKT\\src\\images\\a.jpg", true);
-            JLabel snakeImage = getLabel("C:\\Users\\Michał\\Documents\\NetBeansProjects\\PROJEKT\\src\\images\\a.jpg", true);
+            pingPongImage = getLabel("C:\\Game\\a.png", true);
+            JLabel tetrisImage = getLabel("C:\\Game\\a.png", true);
+            JLabel snakeImage = getLabel("C:\\Game\\a.png", true);
         
         
             tetrisImage.setText("<-");
@@ -156,5 +155,4 @@ public final class NewGameChoosing {
     public JPanel getJPanel() {
         return newGamePanel;
     }
-
 }
