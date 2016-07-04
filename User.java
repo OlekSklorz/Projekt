@@ -30,9 +30,10 @@ class DialogWindow extends JPanel{
                 char[] tempPasswordConfirmation = getPasswordConfirmation();
                 if(!nick.equals("") && tempPassword.length != 0 && tempPasswordConfirmation.length != 0 && Arrays.equals(tempPassword, tempPasswordConfirmation))
                 {
-                    System.out.println(username.getText());
-                    writeToFile(nick, tempPassword);
-                    dialog.setVisible(false);
+                    if(!isExists(nick)){
+                        writeToFile(nick, tempPassword);
+                        dialog.setVisible(false);
+                    }
                 }
             }
         });
@@ -69,6 +70,33 @@ class DialogWindow extends JPanel{
     }
     public char[] getPasswordConfirmation(){
         return passwordConfirmation.getPassword();
+    }
+    private boolean isExists(String nick){
+        File directory = new File("C:\\Game");
+        if(directory.exists()){
+            BufferedReader file = null;
+            try{
+                file = new BufferedReader(new FileReader("C:\\Game\\Users.txt"));
+                String line = file.readLine();
+                line = file.readLine();
+                String name = "";
+                while(line != null){
+                    name = line.substring(0, line.indexOf(" "));
+                    if(name.equals(nick))
+                        return true;
+                    line = file.readLine();
+                }
+                return false;
+            }catch(IOException e){
+            }finally{
+                if(file != null){
+                    try{
+                        file.close();
+                    }catch(IOException ex){}
+                }
+            }
+        }
+        return false;
     }
     public void writeToFile(String name, char[] p){
         File directory = new File("C:\\Game");
