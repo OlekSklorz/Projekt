@@ -89,8 +89,7 @@ public class DialogWindow extends JPanel{
         return passwordConfirmation.getPassword();
     }
     private boolean isExists(String nick, String p){
-        File directory = new File("C:\\Game");
-        if(directory.exists()){
+        if(new File("C:\\Game").exists()){
             try(BufferedReader file = new BufferedReader(new FileReader("C:\\Game\\Users.txt"))){
                 String line = file.readLine();
                 line = file.readLine();
@@ -140,10 +139,10 @@ public class DialogWindow extends JPanel{
     }
     private void writeToFile(String name, char[] p){
         File directory = new File("C:\\Game");
-        boolean existenceDirectory = directory.exists();
+        boolean existenceFiles = directory.exists() && new File("C:\\Game\\Users.txt").exists();
         Double shift = 0.0;
-        if(!existenceDirectory){
-            directory.mkdir();
+        if(!directory.exists()) directory.mkdir();
+        if(!existenceFiles){
             Random x = new Random();
             shift = (double)(x.nextInt(500) + 1);
         }else{
@@ -151,7 +150,7 @@ public class DialogWindow extends JPanel{
         }
         p = encrypt(p, shift);
         try(PrintWriter fileW = new PrintWriter(new FileWriter("C:\\Game\\Users.txt", true))){
-            if(!existenceDirectory){
+            if(!existenceFiles){
                 fileW.println(shift.hashCode());
             }
             fileW.println(name + " " + String.valueOf(p));
