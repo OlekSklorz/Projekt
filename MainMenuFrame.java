@@ -78,13 +78,15 @@ public class MainMenuFrame extends JFrame {
         
         signInButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent ae){
-                signIn();
+                DialogWindow dialog = new DialogWindow(true);
+                dialog.showDialog(MainMenuFrame.this, "Login");
             }
         });
         
         signUpButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent ae){
-                signUp();
+                DialogWindow dialog = new DialogWindow(false);
+                dialog.showDialog(MainMenuFrame.this, "Registration");
             }
         });
         
@@ -100,18 +102,8 @@ public class MainMenuFrame extends JFrame {
     public JPanel getJPanel() {
         return this.panel;
     }
+    
     public static void setMainWindowVisable() {
         panel.setVisible(true);
     }
-    
-    public String signIn(){
-        DialogWindow dialog = new DialogWindow(true);
-        dialog.showDialog(MainMenuFrame.this, "Login");
-        return "sasas";
-    }
-    public void signUp(){
-        DialogWindow dialog = new DialogWindow(false);
-        dialog.showDialog(MainMenuFrame.this, "Registration");
-    }
-    
 }
