@@ -18,6 +18,7 @@ public class DialogWindow extends JPanel{
     private JDialog dialog;
     private final JButton okButton;
     private final JButton cancelButton;
+    private boolean ok;
     public DialogWindow(boolean log){
         JPanel panel = new JPanel();
         if(!log)
@@ -58,6 +59,7 @@ public class DialogWindow extends JPanel{
                    char[] tempPassword = getPassword();
                    if(isExists(nick, String.valueOf(tempPassword))){
                        dialog.setVisible(false);
+                       ok = true;
                    }else
                        username.setText("Zły użytkownik lub hasło!");
             });
@@ -74,7 +76,8 @@ public class DialogWindow extends JPanel{
      * @param parent komponent będący właścicielem okna dialogowego.
      * @param title tytuł okna dialogowego.
      */
-    public void showDialog(Component parent, String title){
+    public boolean showDialog(Component parent, String title){
+        ok = false;
         Frame owner = null;
         if(parent instanceof Frame) owner = (Frame) parent;
         else owner = (Frame) SwingUtilities.getAncestorOfClass(Frame.class, parent);
@@ -87,6 +90,7 @@ public class DialogWindow extends JPanel{
         }
         dialog.setTitle(title);
         dialog.setVisible(true);
+        return ok;
     }
     
     /**
@@ -186,4 +190,3 @@ public class DialogWindow extends JPanel{
         }
     }
 }
-
