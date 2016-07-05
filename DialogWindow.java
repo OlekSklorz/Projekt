@@ -3,12 +3,14 @@ package game;
 import java.awt.*;
 import java.io.*;
 import java.util.*;
+import java.util.logging.*;
 import javax.swing.*;
 
 /**
  * Obiekt <code>DialogWindow</code> reprezentuje okno dialogowe.
  * To okno służy do rejestracji nowego użytkownika lub logowania się do programu.
  * Pobiera informacje na temat nazwy i hasła użytkownika i zapisuje/odczytuje je do/z pliku.
+ * @author Tomek
  */
 public class DialogWindow extends JPanel{
     private JTextField username;
@@ -136,6 +138,7 @@ public class DialogWindow extends JPanel{
                 }
                 return false;
             }catch(IOException e){
+                Logger.getLogger(DialogWindow.class.getName()).log(Level.SEVERE, e.getMessage(), e);
             }
         }
         return false;
@@ -164,6 +167,7 @@ public class DialogWindow extends JPanel{
                 i++;
             }while(inverse.hashCode() != Integer.parseInt(hashcode));
         }catch(IOException e){
+            Logger.getLogger(DialogWindow.class.getName()).log(Level.SEVERE, e.getMessage(), e);
         }
         return inverse;
     }
@@ -186,6 +190,7 @@ public class DialogWindow extends JPanel{
             }
             fileW.println(name + " " + String.valueOf(p));
         }catch(IOException e){
+            Logger.getLogger(DialogWindow.class.getName()).log(Level.SEVERE, e.getMessage(), e);
         }
     }
 }
