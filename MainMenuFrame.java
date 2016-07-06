@@ -13,17 +13,21 @@ import javax.swing.*;
 public class MainMenuFrame extends JFrame {
     private static final int DEFAULT_WIDTH = 800;
     private static final int DEFAULT_HEIGHT = 600;
-    private static JPanel newGamePanel;
+    private static JPanel newGamePanel, optionsPanel;
     private static JPanel panel;
-    private final JButton newGameButton, loadGameButton, optionsButton, statisticsButton, exitButton, signInButton, signUpButton, logOutButton;
-    private final JLabel user; 
+    private final JButton newGameButton, loadGameButton, optionsButton, statisticsButton, exitButton, signInButton, signUpButton;
+    private final JLabel user;
     
     @SuppressWarnings("OverridableMethodCallInConstructor")
     public MainMenuFrame(){
         Font font = GameFont.makeArtisticFont();
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        
         NewGameChoosing newGame = new NewGameChoosing();
         newGamePanel = newGame.getJPanel();
+        Options options = new Options();
+        optionsPanel = options.getJPanel();
+        
         panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         newGameButton = makeButton("NEW GAME", font);
@@ -32,9 +36,9 @@ public class MainMenuFrame extends JFrame {
         statisticsButton = makeButton("STATISTICS", font); 
         exitButton = makeButton("EXIT GAME", font);
         signInButton = makeButton("Sign In", null);
-        signUpButton = makeButton("Sign Up", null);
-        logOutButton = makeButton("Log Out", null);
-        user = new JLabel("Player: Anonim");
+        signUpButton = new JButton("Sign Up", null);
+        user = new JLabel("Player: ");
+        
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -47,25 +51,23 @@ public class MainMenuFrame extends JFrame {
         panel.add(signInButton, gbc);
         gbc.gridy = 2;
         panel.add(signUpButton, gbc);
-        gbc.gridy = 3;
-        panel.add(logOutButton, gbc);
         gbc.gridx = 1;
-        gbc.gridy = 4;
+        gbc.gridy = 3;
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.weighty = 100;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.ipady = 10;
         panel.add(newGameButton, gbc);
-        gbc.gridy = 5;
+        gbc.gridy = 4;
         panel.add(loadGameButton, gbc);
-        gbc.gridy = 6;
+        gbc.gridy = 5;
         panel.add(optionsButton, gbc);
-        gbc.gridy = 7;
+        gbc.gridy = 6;
         panel.add(statisticsButton, gbc);
-        gbc.gridy = 8;
+        gbc.gridy = 7;
         panel.add(exitButton, gbc);
         gbc.gridx = 2;
-        gbc.gridy = 9;
+        gbc.gridy = 8;
         panel.add(new JPanel(), gbc);
         add(panel);
         panel.setVisible(true);
@@ -78,21 +80,27 @@ public class MainMenuFrame extends JFrame {
             add(newGamePanel);
         });
         
-        signInButton.addActionListener(ae -> {
-            DialogWindow dialog = new DialogWindow(true);
-            if(dialog.showDialog(MainMenuFrame.this, "Login"))
-                user.setText("Player: " + dialog.getUsername());
+        optionsButton.addActionListener(e -> {
+            panel.setVisible(false);
+            optionsPanel.setVisible(true);
+            add(optionsPanel);
         });
         
-        signUpButton.addActionListener(ae -> {
-            DialogWindow dialog = new DialogWindow(false);
-            dialog.showDialog(MainMenuFrame.this, "Registration");
+        signInButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent ae){
+                signIn();
+            }
         });
         
-        logOutButton.addActionListener(ae -> user.setText("Player: Anonim"));
+        signUpButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent ae){
+                signUp();
+            }
+        });
+        
     }
     
-    private JButton makeButton(String name, Font font) {
+    public JButton makeButton(String name, Font font) {
         JButton button = new JButton(name);
         if(font != null)
             button.setFont(font);
@@ -102,8 +110,18 @@ public class MainMenuFrame extends JFrame {
     public JPanel getJPanel() {
         return this.panel;
     }
-    
     public static void setMainWindowVisable() {
         panel.setVisible(true);
     }
+    
+    public String signIn(){
+        DialogWindow dialog = new DialogWindow(true);
+        dialog.showDialog(MainMenuFrame.this, "Login");
+        return "sasas";
+    }
+    public void signUp(){
+        DialogWindow dialog = new DialogWindow(false);
+        dialog.showDialog(MainMenuFrame.this, "Registration");
+    }
+    
 }
