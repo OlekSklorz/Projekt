@@ -91,6 +91,8 @@ public class MainMenuFrame extends JFrame {
             dialog.showDialog(MainMenuFrame.this, "Registration");
         });
         
+        logOutButton.addActionListener(ae -> user.setText("Player: Anonim"));
+        
         optionsButton.addActionListener(e -> {
             panel.setVisible(false);
             optionsPanel.setVisible(true);
