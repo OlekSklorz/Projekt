@@ -12,17 +12,17 @@ public class Tetris {
         informativePanel.setLayout(new BorderLayout());
         informativePanel.add(pointsLabel, BorderLayout.NORTH);
         informativePanel.add(new JLabel("NEXT FIGURE: "), BorderLayout.CENTER);
-        informativePanel.add(new Edge(0,0,0,Toolkit.getDefaultToolkit().getScreenSize().height), BorderLayout.WEST);
+        informativePanel.add(new Edge(0,0,0,Toolkit.getDefaultToolkit().getScreenSize().height, 0), BorderLayout.WEST);
         gamePanel = new JPanel();
-        //gamePanel.setSize(10 * Element.getWidth(),600);
         gamePanel.add(new JLabel("TU BĘDZIE GRA"));
         emptyPanel = new JPanel();
-        emptyPanel.setSize(200,200);
-        emptyPanel.add(new Edge(0,0,0,Toolkit.getDefaultToolkit().getScreenSize().height), BorderLayout.EAST);
+        emptyPanel.setLayout(new BorderLayout());
+        int space = 440;
+        emptyPanel.add(new Edge(space,0,space,Toolkit.getDefaultToolkit().getScreenSize().height, space), BorderLayout.EAST);
         tetrisPanel = new JPanel();
         tetrisPanel.setLayout(new BorderLayout());
         tetrisPanel.add(informativePanel, BorderLayout.EAST);
-        tetrisPanel.add(gamePanel);
+        tetrisPanel.add(gamePanel, BorderLayout.CENTER);
         tetrisPanel.add(emptyPanel, BorderLayout.WEST);
     }
     public JPanel getTetrisPanel(){
@@ -30,15 +30,17 @@ public class Tetris {
     }
     public class Edge extends JComponent{
         Line2D.Double line;
-        public Edge(double xStart,double yStart,double xEnd,double yEnd){
+        int space;
+        public Edge(double xStart,double yStart,double xEnd,double yEnd,int space){
             line = new Line2D.Double(xStart, yStart, xEnd, yEnd);
+            this.space = space;
         }
         public void paintComponent(Graphics g){
             Graphics2D g2 = (Graphics2D)g;
             g2.draw(line);
         }
         public Dimension getPreferredSize(){
-            return new Dimension(1, 601);
+            return new Dimension(1 + space, 601);
         }
     }
 }
