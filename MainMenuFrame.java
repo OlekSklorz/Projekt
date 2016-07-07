@@ -1,8 +1,6 @@
 package game;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
@@ -10,68 +8,54 @@ import javax.swing.*;
  * Zawiera ono przyciski służace do wybrania nowej gry, załadowania zapisanej gry, ustawienia opcji,
  * obejrzenia statystyk, wyjścia z gry oraz zarządzania użytkownikami.
  */
-public class MainMenuFrame extends JFrame {
+public class MainMenuFrame<S> extends JFrame {
     private static final int DEFAULT_WIDTH = 800;
     private static final int DEFAULT_HEIGHT = 600;
-    private static JPanel newGamePanel, optionsPanel;
+    private static JPanel newGamePanel, optionsPanel, controlPanel;
     private static JPanel panel;
-    private final JButton newGameButton, loadGameButton, optionsButton, statisticsButton, exitButton, signInButton, signUpButton, logOutButton;
+    private final JButton newGameButton = new JButton("NEW GAME"), loadGameButton = new JButton("LOAD GAME"), optionsButton = new JButton("OPTIONS"), 
+            statisticsButton = new JButton("STATISTICS"), exitButton = new JButton("EXIT"), signInButton = new JButton("Sign In"), 
+            signUpButton = new JButton("Sign Up"), logOutButton = new JButton("LOG OUT");
     private final JLabel user; 
+    private final GridBagConstraints gbc = new GridBagConstraints();
+    private JButton [] allButton = {signInButton, signUpButton, logOutButton, newGameButton, loadGameButton, optionsButton, statisticsButton, exitButton};
     
     @SuppressWarnings("OverridableMethodCallInConstructor")
     public MainMenuFrame(){
-        Font font = GameFont.makeArtisticFont();
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         NewGameChoosing newGame = new NewGameChoosing();
         newGamePanel = newGame.getJPanel();
         Options options = new Options();
         optionsPanel = options.getJPanel();
+        Control control = new Control();
+        controlPanel = control.getPanel();
         panel = new JPanel();
         panel.setLayout(new GridBagLayout());
-        newGameButton = makeButton("NEW GAME", font);
-        loadGameButton = makeButton("LOAD GAME", font);
-        optionsButton = makeButton("OPTIONS", font);
-        statisticsButton = makeButton("STATISTICS", font); 
-        exitButton = makeButton("EXIT GAME", font);
-        signInButton = makeButton("Sign In", null);
-        signUpButton = makeButton("Sign Up", null);
-        logOutButton = makeButton("Log Out", null);
+
         user = new JLabel("Player: Anonim");
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
+        
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
         gbc.weightx = 100;
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-        panel.add(user, gbc);
-        gbc.gridy = 1;
-        panel.add(signInButton, gbc);
-        gbc.gridy = 2;
-        panel.add(signUpButton, gbc);
-        gbc.gridy = 3;
-        panel.add(logOutButton, gbc);
-        gbc.gridx = 1;
-        gbc.gridy = 4;
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.weighty = 100;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.ipady = 10;
-        panel.add(newGameButton, gbc);
-        gbc.gridy = 5;
-        panel.add(loadGameButton, gbc);
-        gbc.gridy = 6;
-        panel.add(optionsButton, gbc);
-        gbc.gridy = 7;
-        panel.add(statisticsButton, gbc);
-        gbc.gridy = 8;
-        panel.add(exitButton, gbc);
-        gbc.gridx = 2;
-        gbc.gridy = 9;
-        panel.add(new JPanel(), gbc);
+        gbc.anchor = GridBagConstraints.NORTHWEST; 
+        placeOnScreen(user, 0, 0, 1);
+        int x = 0, y = 1, ipady = 1;
+        for(JButton button : allButton) {
+            placeOnScreen(button,x, y, ipady);
+            y++;
+            if(y > 3) {
+                gbc.anchor = GridBagConstraints.CENTER;
+                gbc.weighty = 100;
+                gbc.fill = GridBagConstraints.HORIZONTAL;
+                x = 1;
+                ipady = 10;
+            }
+        }
+        placeOnScreen(new JPanel(), 2, 9, 10);
         add(panel);
         panel.setVisible(true);
-        
+//------------------------------------------------------------------------------        
+        JButton saveOptions = options.getSaveB();        
         exitButton.addActionListener(e -> System.exit(0));
         
         newGameButton.addActionListener(e -> {
@@ -98,13 +82,32 @@ public class MainMenuFrame extends JFrame {
             optionsPanel.setVisible(true);
             add(optionsPanel);
         });
+//-------------OPTIONS        
+        saveOptions.addActionListener(e -> {
+            for(JButton button : allButton) 
+                button.setFont(Font.decode(options.getActiveFont()));
+            user.setFont(Font.decode(options.getActiveFont()));
+        });
+        
+        JButton controlButton = options.getControlButton();
+        controlButton.addActionListener(e ->{
+            panel.setVisible(false);
+            controlPanel.setVisible(true);
+            add(controlPanel);
+        });
+//------------CONTROL        
+        JButton controlBackButton = control.getBackButton();
+        controlBackButton.addActionListener(e -> {
+            controlPanel.setVisible(false);
+            optionsPanel.setVisible(true);
+        });
     }
-    
-    private JButton makeButton(String name, Font font) {
-        JButton button = new JButton(name);
-        if(font != null)
-            button.setFont(font);
-        return button;
+       
+    public void placeOnScreen(Object S, int positionX, int positionY, int ipady) {
+        gbc.ipady = ipady;
+        gbc.gridx = positionX;
+        gbc.gridy = positionY;  
+        panel.add((Component) S, gbc);
     }
     
     public JPanel getJPanel() {
@@ -114,4 +117,5 @@ public class MainMenuFrame extends JFrame {
     public static void setMainWindowVisable() {
         panel.setVisible(true);
     }
+    
 }
