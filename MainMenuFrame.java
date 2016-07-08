@@ -31,7 +31,7 @@ public class MainMenuFrame extends JFrame {
         Control control = new Control();
         controlPanel = control.getPanel();
         /* Tetris tetris = new Tetris();
-        tetrisPanel = tetris.getTetrisPanel(); */
+        tetrisPanel = tetris.getTetrisPanel(); */ // TEN KOMENTARZ ZOSTAWIĆ BO NIE JESTEM PEWIEN (może się przydać)
         DifficultyLevels levels = new DifficultyLevels();
         levelsPanel = levels.getLevelsPanel();
         panel = new JPanel();
