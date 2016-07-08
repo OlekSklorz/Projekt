@@ -17,18 +17,21 @@ import javax.swing.*;
  * @author Łysy
  */
 public final class NewGameChoosing {
-    private JPanel newGamePanel;
+    private JPanel newGamePanel, levelsPanel;
     private int activeGame = 1;
+    private JButton start;
     public NewGameChoosing(){
         try {
-            JButton pingPong, tetris, snake, back, start;
+            DifficultyLevels levels = new DifficultyLevels();
+            levelsPanel = levels.getLevelsPanel();
+            JButton pingPong, tetris, snake, back;
             Font font = GameFont.makeArtisticFont();
             newGamePanel = new JPanel();
             JLabel pingPongImage;
-        
-            pingPongImage = getLabel("C:\\Game\\a.png", true);
-            JLabel tetrisImage = getLabel("C:\\Game\\a.png", true);
-            JLabel snakeImage = getLabel("C:\\Game\\a.png", true);
+            
+            pingPongImage = getLabel("C:\\Users\\Tomek\\Documents\\obr\\a.png", true);
+            JLabel tetrisImage = getLabel("C:\\Users\\Tomek\\Documents\\obr\\a.png", true);
+            JLabel snakeImage = getLabel("C:\\Users\\Tomek\\Documents\\obr\\a.png", true);
         
         
             tetrisImage.setText("<-");
@@ -110,12 +113,8 @@ public final class NewGameChoosing {
             });
 //          BUTTON START
             start.addActionListener(e -> {
-                if(activeGame == 0)
-                    System.out.println("Ping pong");
-                if(activeGame == 1)
-                    System.out.println("Tetris");
-                if(activeGame == 2)
-                    System.out.println("Snake");
+                newGamePanel.setVisible(false);
+                levelsPanel = levels.getLevelsPanel();
             });
 //          BUTTON BACK
             back.addActionListener(e -> {
@@ -155,4 +154,9 @@ public final class NewGameChoosing {
     public JPanel getJPanel() {
         return newGamePanel;
     }
+    
+    public JButton getStart(){
+        return start;
+    }
 }
+
