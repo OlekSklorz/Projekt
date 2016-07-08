@@ -117,6 +117,8 @@ public class MainMenuFrame extends JFrame {
                 button.setFont(Font.decode(options.getActiveFont()));
             levels.getTextLabel().setFont(Font.decode(options.getActiveFont()));
             levels.getBackButton().setFont(Font.decode(options.getActiveFont()));
+            for(JButton button : newGame.getButtons())
+                button.setFont(Font.decode(options.getActiveFont()));
         });
         
         JButton controlButton = options.getControlButton();
