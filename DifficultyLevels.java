@@ -4,6 +4,10 @@ import java.awt.*;
 import javax.swing.*;
 import tetris.Tetris;
 
+/**
+ * Obiekt <code>DifficultyLevels</code> reprezentuje panel pozwalający na wybór poziomów trudności gier.
+ * Do wyboru easy, medium i hard. 
+ */
 public class DifficultyLevels {
     private final JButton easyButton = new JButton("EASY"), mediumButton = new JButton("MEDIUM"), hardButton = new JButton("HARD"), backButton = new JButton("Back");
     private final JButton[] allButtons = {easyButton, mediumButton, hardButton};
@@ -51,19 +55,35 @@ public class DifficultyLevels {
         });
     }
     
+    /**
+     * Pobiera panel zawierający tekst zachęty do wyboru poziomu trudności oraz 
+     * przyciski z poziomami trudności i przycisk do powrotu. 
+     * @return panel wyboru poziomu trudności.
+     */
     public JPanel getLevelsPanel(){
         return levelsPanel;
     }
     
-    
+    /**
+     * Pobiera wszystkie przyciski wyboru trudności.
+     * @return tablica z przyciskami wyboru trudności. 
+     */
     public JButton[] getButtons(){
         return allButtons;
     }
     
+    /**
+     * Pobiera przycisk służący do powrotu do panelu wyboru gry. 
+     * @return przycisk do powrotu 
+     */
     public JButton getBackButton(){
         return backButton;
     }
     
+    /**
+     * Pobiera etykietę z tekstem zachęty do wyboru poziomu trudności. 
+     * @return etykieta z tekstem zachęty. 
+     */
     public JLabel getTextLabel(){
         return textLabel;
     }
