@@ -17,7 +17,7 @@ import javax.swing.*;
  * @author Łysy
  */
 public final class NewGameChoosing {
-    private JPanel newGamePanel, levelsPanel;
+    private static JPanel newGamePanel, levelsPanel;
     private int activeGame = 1;
     private JButton start;
     public NewGameChoosing(){
@@ -158,5 +158,8 @@ public final class NewGameChoosing {
     public JButton getStart(){
         return start;
     }
+    
+    public static void setNewGameVisable(){
+        newGamePanel.setVisible(true);
+    }
 }
-
