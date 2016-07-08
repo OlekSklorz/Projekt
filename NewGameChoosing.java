@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
- *Obiekt NewGameChoosing reprezentuje nowy panel pozwalający na wybór typu rozgrywki
+ *Obiekt <code>NewGameChoosing</code> reprezentuje nowy panel pozwalający na wybór typu rozgrywki
  *Zawiera przyciski PingPong, Tetris, Snake, Start oraz Back
  * BRAK DALSZEJ OBSLUGI PRZYCISKOW,
  * BRAK SCREENOW,
@@ -145,22 +145,42 @@ public final class NewGameChoosing {
         return button;
     }
     
+    /**
+     * Pobiera panel zawierający przyciski do wyboru gry, przyciski do powrotu i rozpoczęcia gry
+     * oraz obrazy ukazujące gry. 
+     * @return panel wyboru gry.
+     */
     public JPanel getJPanel() {
         return newGamePanel;
     }
     
+    /**
+     * Pobiera przycisk do rozpoczęcia wybranej gry. 
+     * @return przycisk rozpoczynający grę 
+     */
     public JButton getStart(){
         return start;
     }
     
+    /**
+     * Ustawia widoczność panelu wyboru gry. 
+     */
     public static void setNewGameVisable(){
         newGamePanel.setVisible(true);
     }
     
+    /**
+     * Pobiera numer aktywnej gry. Ping Pong = 0, Tetris = 1, Snake = 2.
+     * @return numer aktywnej gry.
+     */
     public static int getActiveGame(){
         return activeGame;
     }
     
+    /**
+     * Pobiera wszystkie przyciski z menu do wyboru gry. 
+     * @return tablica przycisków z menu do wyboru gry.
+     */
     public JButton[] getButtons(){
         return allButtons;
     }
