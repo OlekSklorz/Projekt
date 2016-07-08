@@ -2,6 +2,7 @@ package game;
 
 import java.awt.*;
 import javax.swing.*;
+import tetris.Tetris;
 
 /**
  * Obiekt <code>MainMenuFrame</code> reprezentuje menu główne gry. 
@@ -11,7 +12,7 @@ import javax.swing.*;
 public class MainMenuFrame<S> extends JFrame {
     private static final int DEFAULT_WIDTH = 800;
     private static final int DEFAULT_HEIGHT = 600;
-    private static JPanel newGamePanel, optionsPanel, controlPanel, levelsPanel;
+    private static JPanel newGamePanel, optionsPanel, controlPanel, levelsPanel, tetrisPanel;
     private static JPanel panel;
     private final JButton newGameButton = new JButton("NEW GAME"), loadGameButton = new JButton("LOAD GAME"), optionsButton = new JButton("OPTIONS"), 
             statisticsButton = new JButton("STATISTICS"), exitButton = new JButton("EXIT"), signInButton = new JButton("Sign In"), 
@@ -29,6 +30,8 @@ public class MainMenuFrame<S> extends JFrame {
         optionsPanel = options.getJPanel();
         Control control = new Control();
         controlPanel = control.getPanel();
+        Tetris tetris = new Tetris();
+        tetrisPanel = tetris.getTetrisPanel();
         DifficultyLevels levels = new DifficultyLevels();
         levelsPanel = levels.getLevelsPanel();
         panel = new JPanel();
@@ -65,14 +68,26 @@ public class MainMenuFrame<S> extends JFrame {
             newGamePanel.setVisible(true);
             add(newGamePanel);
         });
-        
+
+//-------------NEW GAME 
         JButton startButton = newGame.getStart();
         startButton.addActionListener(e -> {
             panel.setVisible(false);
             levelsPanel.setVisible(true);
             add(levelsPanel);
         });
-        
+//------------DifficultyLevels - TETRIS
+        JButton[] levelsButton = levels.getButtons();
+        for(JButton button : levelsButton){
+            button.addActionListener(e -> {
+                if(!button.isSelected()){
+                    panel.setVisible(false);
+                    System.out.println("sasasa");
+                    tetrisPanel.setVisible(true);
+                    add(tetrisPanel);
+                }
+            });
+        } 
         signInButton.addActionListener(ae -> {
             DialogWindow dialog = new DialogWindow(true);
             if(dialog.showDialog(MainMenuFrame.this, "Login"))
@@ -98,6 +113,8 @@ public class MainMenuFrame<S> extends JFrame {
             user.setFont(Font.decode(options.getActiveFont()));
             for(JButton button : levels.getLevelsButton())
                 button.setFont(Font.decode(options.getActiveFont()));
+            levels.getTextLabel().setFont(Font.decode(options.getActiveFont()));
+            levels.getBackButton().setFont(Font.decode(options.getActiveFont()));
         });
         
         JButton controlButton = options.getControlButton();
@@ -128,5 +145,4 @@ public class MainMenuFrame<S> extends JFrame {
     public static void setMainWindowVisable() {
         panel.setVisible(true);
     }
-    
 }
