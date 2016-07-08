@@ -9,7 +9,7 @@ import tetris.Tetris;
  * Zawiera ono przyciski służace do wybrania nowej gry, załadowania zapisanej gry, ustawienia opcji,
  * obejrzenia statystyk, wyjścia z gry oraz zarządzania użytkownikami.
  */
-public class MainMenuFrame<S> extends JFrame {
+public class MainMenuFrame extends JFrame {
     private static final int DEFAULT_WIDTH = 800;
     private static final int DEFAULT_HEIGHT = 600;
     private static JPanel newGamePanel, optionsPanel, controlPanel, levelsPanel, tetrisPanel;
@@ -30,8 +30,8 @@ public class MainMenuFrame<S> extends JFrame {
         optionsPanel = options.getJPanel();
         Control control = new Control();
         controlPanel = control.getPanel();
-        Tetris tetris = new Tetris();
-        tetrisPanel = tetris.getTetrisPanel();
+        /* Tetris tetris = new Tetris();
+        tetrisPanel = tetris.getTetrisPanel(); */
         DifficultyLevels levels = new DifficultyLevels();
         levelsPanel = levels.getLevelsPanel();
         panel = new JPanel();
@@ -81,10 +81,12 @@ public class MainMenuFrame<S> extends JFrame {
         for(JButton button : levelsButton){
             button.addActionListener(e -> {
                 if(!button.isSelected()){
-                    panel.setVisible(false);
-                    System.out.println("sasasa");
-                    tetrisPanel.setVisible(true);
-                    add(tetrisPanel);
+                    if(NewGameChoosing.getActiveGame() == 1){
+                        panel.setVisible(false);
+                        tetrisPanel = new Tetris(Levels.valueOf(button.getText()).lvl).getTetrisPanel();
+                        tetrisPanel.setVisible(true);
+                        add(tetrisPanel);
+                    }
                 }
             });
         } 
@@ -111,7 +113,7 @@ public class MainMenuFrame<S> extends JFrame {
             for(JButton button : allButton) 
                 button.setFont(Font.decode(options.getActiveFont()));
             user.setFont(Font.decode(options.getActiveFont()));
-            for(JButton button : levels.getLevelsButton())
+            for(JButton button : levels.getButtons())
                 button.setFont(Font.decode(options.getActiveFont()));
             levels.getTextLabel().setFont(Font.decode(options.getActiveFont()));
             levels.getBackButton().setFont(Font.decode(options.getActiveFont()));
