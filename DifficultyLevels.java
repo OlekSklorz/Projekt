@@ -4,14 +4,11 @@ import java.awt.*;
 import javax.swing.*;
 
 public class DifficultyLevels {
-    private JButton easyButton, mediumButton, hardButton, backButton;
+    private JButton easyButton = new JButton("EASY"), mediumButton = new JButton("MEDIUM"), hardButton = new JButton("HARD"), backButton = new JButton("Back");
+    private JButton[] allButtons = {easyButton, mediumButton, hardButton, backButton};
     private JPanel levelsPanel;
     public DifficultyLevels(){
         JLabel textLabel = new JLabel("Choose level of difficulty");
-        easyButton = new JButton("EASY");
-        mediumButton = new JButton("MEDIUM");
-        hardButton = new JButton("HARD");
-        backButton = new JButton("Back");
         levelsPanel = new JPanel();
         levelsPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -23,16 +20,13 @@ public class DifficultyLevels {
         gbc.gridx = 1;
         gbc.gridheight = 1;
         levelsPanel.add(textLabel, gbc);
-        gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.ipady = 20;
-        levelsPanel.add(easyButton, gbc);
-        gbc.gridy = 2;
-        levelsPanel.add(mediumButton, gbc);
-        gbc.gridy = 3;
-        levelsPanel.add(hardButton, gbc);
-        gbc.gridy = 4;
-        levelsPanel.add(backButton, gbc);
+        for(JButton button : allButtons)
+        {
+            gbc.gridy++;
+            levelsPanel.add(button, gbc);
+        }
         gbc.gridx = 2;
         gbc.gridy = 0;
         gbc.gridheight = 5;
@@ -43,7 +37,12 @@ public class DifficultyLevels {
             NewGameChoosing.setNewGameVisable();
         });
     }
+    
     public JPanel getLevelsPanel(){
         return levelsPanel;
+    }
+    
+    public JButton[] getLevelsButton(){
+        return allButtons;
     }
 }
