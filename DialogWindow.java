@@ -1,5 +1,4 @@
 package game;
-
 import java.awt.*;
 import java.io.*;
 import java.util.*;
@@ -43,12 +42,16 @@ public class DialogWindow extends JPanel{
                     if(!nick.matches("^[a-zA-Z0-9]*$"))
                         username.setText("Zły zakres");
                     else{
-                        if(!nick.equals("") && tempPassword.length != 0 && tempPasswordConfirmation.length != 0 && Arrays.equals(tempPassword, tempPasswordConfirmation)){
-                            if(!isExists(nick, null)){
-                                writeToFile(nick, tempPassword);
-                                dialog.setVisible(false);
-                            }else{
-                                username.setText("Użytkownik istnieje!");
+                        if(nick.equals("Anonim"))
+                            username.setText("Nie jesteś anonimem, komputera nie oszukasz!");
+                        else{
+                            if(!nick.equals("") && tempPassword.length != 0 && tempPasswordConfirmation.length != 0 && Arrays.equals(tempPassword, tempPasswordConfirmation)){
+                                if(!isExists(nick, null)){
+                                    writeToFile(nick, tempPassword);
+                                    dialog.setVisible(false);
+                                }else{
+                                    username.setText("Użytkownik istnieje!");
+                                }
                             }
                         }
                     }
