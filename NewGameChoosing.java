@@ -19,13 +19,12 @@ import javax.swing.*;
 public final class NewGameChoosing {
     private static JPanel newGamePanel, levelsPanel;
     private static int activeGame = 1;
-    private JButton start;
+    private JButton start = new JButton("Start"), pingPong = new JButton("Ping Pong"), tetris = new JButton("Tetris"), snake = new JButton("Snake"), back = new JButton("Back");
+    private JButton[] allButtons = {start, pingPong, tetris, snake, back};
     public NewGameChoosing(){
         try {
             DifficultyLevels levels = new DifficultyLevels();
             levelsPanel = levels.getLevelsPanel();
-            JButton pingPong, tetris, snake, back;
-            Font font = GameFont.makeArtisticFont();
             newGamePanel = new JPanel();
             JLabel pingPongImage;
             
@@ -35,11 +34,6 @@ public final class NewGameChoosing {
         
         
             tetrisImage.setText("<-");
-            pingPong = makeButton("Ping Pong", font);
-            tetris = makeButton("Tetris", font);
-            snake = makeButton("Snake", font);
-            back = makeButton("Back", font);
-            start = makeButton("Start", font);
 //          POSITIONS OF BUTTONS        
             GridBagConstraints gbc = new GridBagConstraints();
             newGamePanel.setLayout(new GridBagLayout());
@@ -165,5 +159,9 @@ public final class NewGameChoosing {
     
     public static int getActiveGame(){
         return activeGame;
+    }
+    
+    public JButton[] getButtons(){
+        return allButtons;
     }
 }
