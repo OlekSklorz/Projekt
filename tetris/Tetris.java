@@ -24,6 +24,7 @@ public class Tetris {
         tetrisPanel.add(informativePanel, BorderLayout.EAST);
         tetrisPanel.add(gamePanel, BorderLayout.CENTER);
         tetrisPanel.add(emptyPanel, BorderLayout.WEST);
+        tetrisPanel.setVisible(true);
     }
     public JPanel getTetrisPanel(){
         return tetrisPanel;
