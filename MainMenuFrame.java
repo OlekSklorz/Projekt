@@ -11,7 +11,7 @@ import javax.swing.*;
 public class MainMenuFrame<S> extends JFrame {
     private static final int DEFAULT_WIDTH = 800;
     private static final int DEFAULT_HEIGHT = 600;
-    private static JPanel newGamePanel, optionsPanel, controlPanel;
+    private static JPanel newGamePanel, optionsPanel, controlPanel, levelsPanel;
     private static JPanel panel;
     private final JButton newGameButton = new JButton("NEW GAME"), loadGameButton = new JButton("LOAD GAME"), optionsButton = new JButton("OPTIONS"), 
             statisticsButton = new JButton("STATISTICS"), exitButton = new JButton("EXIT"), signInButton = new JButton("Sign In"), 
@@ -29,6 +29,8 @@ public class MainMenuFrame<S> extends JFrame {
         optionsPanel = options.getJPanel();
         Control control = new Control();
         controlPanel = control.getPanel();
+        DifficultyLevels levels = new DifficultyLevels();
+        levelsPanel = levels.getLevelsPanel();
         panel = new JPanel();
         panel.setLayout(new GridBagLayout());
 
@@ -62,6 +64,13 @@ public class MainMenuFrame<S> extends JFrame {
             panel.setVisible(false);
             newGamePanel.setVisible(true);
             add(newGamePanel);
+        });
+        
+        JButton startButton = newGame.getStart();
+        startButton.addActionListener(e -> {
+            panel.setVisible(false);
+            levelsPanel.setVisible(true);
+            add(levelsPanel);
         });
         
         signInButton.addActionListener(ae -> {
