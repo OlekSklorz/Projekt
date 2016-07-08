@@ -5,10 +5,10 @@ import javax.swing.*;
 import tetris.Tetris;
 
 public class DifficultyLevels {
-    private JButton easyButton = new JButton("EASY"), mediumButton = new JButton("MEDIUM"), hardButton = new JButton("HARD"), backButton = new JButton("Back");
-    private JButton[] allButtons = {easyButton, mediumButton, hardButton};
+    private final JButton easyButton = new JButton("EASY"), mediumButton = new JButton("MEDIUM"), hardButton = new JButton("HARD"), backButton = new JButton("Back");
+    private final JButton[] allButtons = {easyButton, mediumButton, hardButton};
     private JPanel levelsPanel, tetrisPanel;
-    private JLabel textLabel;
+    private final JLabel textLabel;
     private int activeGame;
     public DifficultyLevels(){
         this.activeGame = activeGame;
