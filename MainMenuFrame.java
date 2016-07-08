@@ -96,6 +96,8 @@ public class MainMenuFrame<S> extends JFrame {
             for(JButton button : allButton) 
                 button.setFont(Font.decode(options.getActiveFont()));
             user.setFont(Font.decode(options.getActiveFont()));
+            for(JButton button : levels.getLevelsButton())
+                button.setFont(Font.decode(options.getActiveFont()));
         });
         
         JButton controlButton = options.getControlButton();
