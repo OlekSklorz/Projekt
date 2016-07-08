@@ -18,7 +18,7 @@ import javax.swing.*;
  */
 public final class NewGameChoosing {
     private static JPanel newGamePanel, levelsPanel;
-    private int activeGame = 1;
+    private static int activeGame = 1;
     private JButton start;
     public NewGameChoosing(){
         try {
@@ -161,5 +161,9 @@ public final class NewGameChoosing {
     
     public static void setNewGameVisable(){
         newGamePanel.setVisible(true);
+    }
+    
+    public static int getActiveGame(){
+        return activeGame;
     }
 }
