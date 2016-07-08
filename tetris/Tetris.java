@@ -3,10 +3,15 @@ package tetris;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import javax.swing.*;
+
+/**
+ * Obiekt <code>Tetris</code> reprezentuje planszę do gry Tetris. 
+ * Zawiera ona panel do gry oraz panel do wyświetlania wyniku i następnego elementu. 
+ */
 public class Tetris {
-    JPanel informativePanel, tetrisPanel, gamePanel, emptyPanel;
-    JLabel pointsLabel;
-    public Tetris(){
+    private JPanel informativePanel, tetrisPanel, gamePanel, emptyPanel;
+    private JLabel pointsLabel;
+    public Tetris(int lvl){
         informativePanel = new JPanel();
         pointsLabel = new JLabel("Points: 9999999999999");
         informativePanel.setLayout(new BorderLayout());
@@ -26,9 +31,18 @@ public class Tetris {
         tetrisPanel.add(emptyPanel, BorderLayout.WEST);
         tetrisPanel.setVisible(true);
     }
+    
+    /**
+     * Pobiera panel gry Tetris zawierajacej panel do gry oraz panel do
+     * wyświetlania wyniku i kolejnego elementu. 
+     * @return panel gry Tetris.
+     */
     public JPanel getTetrisPanel(){
         return tetrisPanel;
     }
+    /**
+     * Obiekt <code>Edge</code> reprezentuje linię przedstawiajacą krawędź. 
+     */
     public class Edge extends JComponent{
         Line2D.Double line;
         int space;
@@ -36,12 +50,23 @@ public class Tetris {
             line = new Line2D.Double(xStart, yStart, xEnd, yEnd);
             this.space = space;
         }
+        
+        /**
+         * Rysuje linię o wymiarach podanych w konstruktorze. 
+         * @param g obiekt Graphics służący do wykonywania operacji na figurach. 
+         */
         public void paintComponent(Graphics g){
             Graphics2D g2 = (Graphics2D)g;
             g2.draw(line);
         }
+        
+        /**
+         * Pobiera preferowany rozmiar komponentu zawierającego linię. 
+         * @return preferowany rozmiar komponentu zawierającego linię. 
+         */
         public Dimension getPreferredSize(){
             return new Dimension(1 + space, 601);
         }
     }
 }
+
