@@ -19,7 +19,7 @@ public class DifficultyLevels {
         textLabel = new JLabel("Choose level of difficulty");
         levelsPanel = new JPanel();
         /*Tetris tetris = new Tetris();
-        tetrisPanel = tetris.getTetrisPanel();*/
+        tetrisPanel = tetris.getTetrisPanel();*/ // TEN KOMENTARZ ZOSTAWIĆ BO NIE JESTEM PEWIEN (może się przydać)
         levelsPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.weightx = gbc.weighty = 100;
@@ -88,4 +88,3 @@ public class DifficultyLevels {
         return textLabel;
     }
 }
-
