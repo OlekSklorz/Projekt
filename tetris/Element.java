@@ -1,3 +1,5 @@
+package tetris;
+
 import java.awt.geom.Rectangle2D;
 /**
  * Obiekt <code>Element</code> reprezentuje jeden mały kwadracik. 
@@ -34,6 +36,11 @@ public class Element{
         return HEIGHT;
     }
     
+    /**
+     * Ustawia współrzędne małego kwadracika. 
+     * @param x położenie w poziomie kwadracika. 
+     * @param y położenie w pionie kwadracika.
+     */
     public void setLeftTop(int x, int y){
         leftX += x;
         topX += y;
