@@ -2,7 +2,6 @@ package tetris;
 
 import java.awt.*;
 import java.util.Random;
-import javax.swing.JComponent;
 
 /**
  * Obiekt <code>Square</code> reprezentuje duży kwadrat złożony z mniejszych kwadracików.
@@ -11,6 +10,7 @@ import javax.swing.JComponent;
 public class Square{
     private int leftX, topX;
     private Element[][] elements;
+    private Color color;
     public Square(int leftX, int topX){
         elements = new Element[2][2];
         this.leftX = leftX;
@@ -19,6 +19,7 @@ public class Square{
         elements[1][0] = new Element(leftX, topX + Element.getHeight());
         elements[0][1] = new Element(leftX + Element.getWidth(), topX);
         elements[1][1] = new Element(leftX + Element.getWidth(), topX + Element.getHeight());
+        color = MyColors.getColor(new Random().nextInt(12));
     }
     
     /**
@@ -56,5 +57,12 @@ public class Square{
     public Element[][] getElements(){
         return elements;
     }
+    
+    /**
+     * Pobiera kolor kwadratu.
+     * @return kolor kwadratu
+     */
+    public Color getColor(){
+        return color;
+    }
 }
-
