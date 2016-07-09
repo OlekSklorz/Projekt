@@ -22,15 +22,19 @@ public class GameField extends JComponent {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
         for(Square square : squares){
-            g2.setPaint(MyColors.getColor(new Random().nextInt(12)));
+            g2.setPaint(square.getColor());
             Element[][] elements = square.getElements();
-            for(int i = 0; i < 2; i++)
-                for(int k = 0; k < 2; k++)
-                    g2.fill(elements[i][k].getElement());
+            for(int i = 0; i < elements.length; i++)
+                for(int k = 0; k < elements[i].length; k++){
+                    if(elements[i][k] != null)
+                        g2.fill(elements[i][k].getElement());
+                }
             g2.setPaint(Color.BLACK);
-            for(int i = 0; i < 2; i++)
-                for(int k = 0; k < 2; k++)
-                    g2.draw(elements[i][k].getElement());
+            for(int i = 0; i < elements.length; i++)
+                for(int k = 0; k < elements[i].length; k++){
+                    if(elements[i][k] != null)
+                        g2.draw(elements[i][k].getElement());
+                }
         }
     }
     
