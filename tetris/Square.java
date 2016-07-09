@@ -7,63 +7,13 @@ import java.util.Random;
  * Obiekt <code>Square</code> reprezentuje duży kwadrat złożony z mniejszych kwadracików.
  * Jego wymiary: 2x2. 
  */
-public class Square{
-    private int leftX, topX;
-    private Element[][] elements;
-    private Color color;
+public class Square extends Figure{
     public Square(int leftX, int topX){
-        elements = new Element[2][2];
-        this.leftX = leftX;
-        this.topX = topX;
+        super(leftX, topX, 2, 2);
         elements[0][0] = new Element(leftX, topX);
         elements[1][0] = new Element(leftX, topX + Element.getHeight());
         elements[0][1] = new Element(leftX + Element.getWidth(), topX);
         elements[1][1] = new Element(leftX + Element.getWidth(), topX + Element.getHeight());
-        color = MyColors.getColor(new Random().nextInt(12));
-    }
-    
-    /**
-     * Zmiania pozycje kwadratu poprzez zmienianie pozycji każdego kwadracika. 
-     * @param x zmiana pozycji w poziomie. 
-     * @param y zmiana pozycji w pionie. 
-     */
-    public void move(int x, int y){
-        for(int i = 0; i < elements.length; i++)
-            for(int k = 0; k < elements[i].length; k++){
-                if(elements[i][k] != null)
-                    elements[i][k].setLeftTop(x, y);
-            }
-    }
-    
-    /**
-     * Pobiera położenie kwadratu w poziomie. 
-     * @return położenie w poziomie. 
-     */
-    public int getLeftX(){
-        return leftX;
-    }
-    
-    /**
-     * Pobiera położenie kwadratu w pionie. 
-     * @return położenie w pionie. 
-     */
-    public int getTopX(){
-        return topX;
-    }
-    
-    /**
-     * Pobiera wszystkie elementy (kwadraciki) z których złożony jest kwadrat. 
-     * @return tablica składowych kwadratu. 
-     */
-    public Element[][] getElements(){
-        return elements;
-    }
-    
-    /**
-     * Pobiera kolor kwadratu.
-     * @return kolor kwadratu
-     */
-    public Color getColor(){
-        return color;
     }
 }
+
