@@ -8,7 +8,7 @@ import javax.swing.JComponent;
  * Obiekt <code>Square</code> reprezentuje duży kwadrat złożony z mniejszych kwadracików.
  * Jego wymiary: 2x2. Kolor kwadratu przydzielany losowo.
  */
-public class Square extends JComponent{
+public class Square{
     private int leftX, topX;
     private Element[][] elements;
     public Square(int leftX, int topX){
@@ -21,28 +21,23 @@ public class Square extends JComponent{
         elements[1][1] = new Element(leftX + Element.getWidth(), topX + Element.getHeight());
     }
     
-    /**
-     * Rysuje duży kwadrat o wymiarach 2x2 i wypełnia go losowym kolorem. 
-     * @param g obiekt Graphics służący do operacji na figurach
-     */
-    public void paintComponent(Graphics g){
-        Graphics2D g2 = (Graphics2D)g;
-        g2.setPaint(MyColors.getColor(new Random().nextInt(12)));
-        for(int i = 0; i < 2; i++)
-            for(int k = 0; k < 2; k++)
-                g2.fill(elements[i][k].getElement());
-        g2.setPaint(Color.BLACK);
-        for(int i = 0; i < 2; i++)
-            for(int k = 0; k < 2; k++)
-                g2.draw(elements[i][k].getElement());
+    public void move(int x, int y){
+        elements[0][0].setLeftTop(x, y); 
+        elements[1][0].setLeftTop(x, y); 
+        elements[0][1].setLeftTop(x, y);
+        elements[1][1].setLeftTop(x, y);
     }
     
-    /**
-     * Pobiera preferowany rozmiar komponentu zawierającego kwadrat.
-     * @return preferowany rozmiar komponentu.
-     */
-    public Dimension getPreferredSize(){
-        return new Dimension(leftX + 2*Element.getWidth() + 1,topX + 2*Element.getHeight() + 1);
+    public int getLeftX(){
+        return leftX;
+    }
+    
+    public int getTopX(){
+        return topX;
+    }
+    
+    public Element[][] getElements(){
+        return elements;
     }
 }
 
