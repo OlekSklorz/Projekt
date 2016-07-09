@@ -21,13 +21,9 @@ public class Tetris {
         informativePanel.add(new Edge(0,0,0,Toolkit.getDefaultToolkit().getScreenSize().height, 0), BorderLayout.WEST);
         gamePanel = new JPanel();
         c = new GameField();
-        Figure square = new Square(0, 0);
-        c.add(square);
-        System.out.println(square.getColor() + " " + square.getLeftX() + " " + square.getTopX() + " " + square.getElements().length);
-        Runnable r = new SquareRunnable(square, c);
-        //FigureI f = new FigureI(0,0);
-        //c.add(f);
-        //Runnable r = new FigureIRunnable(f, c);
+        Figure figureI = new FigureI(0, 0);
+        c.add(figureI);
+        Runnable r = new FigureRunnable(figureI, c);
         Thread t = new Thread(r);
         t.start();
         gamePanel.add(c);
