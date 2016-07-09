@@ -9,21 +9,20 @@ import javax.swing.JComponent;
  * W tym polu rysowane są kolejne elementy gry.
  */
 public class GameField extends JComponent {
-    ArrayList<Square> squares = new ArrayList();
-    public void add(Square square){
-        squares.add(square);
+    ArrayList<Figure> figures = new ArrayList();
+    public void add(Figure figure){
+        figures.add(figure);
     }
     /**
-     * Rysuje wszystkie elementy które występują w grze. Kolor jest wybierany
-     * w sposób losowy. 
+     * Rysuje wszystkie elementy które występują w grze.
      * @param g obiekt Graphics służący do operacji na figurach. 
      */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
-        for(Square square : squares){
-            g2.setPaint(square.getColor());
-            Element[][] elements = square.getElements();
+        for(Figure figure : figures){
+            g2.setPaint(figure.getColor());
+            Element[][] elements = figure.getElements();
             for(int i = 0; i < elements.length; i++)
                 for(int k = 0; k < elements[i].length; k++){
                     if(elements[i][k] != null)
@@ -46,3 +45,4 @@ public class GameField extends JComponent {
         return new Dimension(200, 561);
     }
 }
+
