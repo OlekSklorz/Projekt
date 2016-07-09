@@ -2,7 +2,6 @@ package tetris;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
-import java.util.Scanner;
 import javax.swing.*;
 
 /**
@@ -78,5 +77,6 @@ public class Tetris {
         }
     }
 }
+
 
 
