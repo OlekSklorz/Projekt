@@ -28,10 +28,11 @@ public class Square{
      * @param y zmiana pozycji w pionie. 
      */
     public void move(int x, int y){
-        elements[0][0].setLeftTop(x, y); 
-        elements[1][0].setLeftTop(x, y); 
-        elements[0][1].setLeftTop(x, y);
-        elements[1][1].setLeftTop(x, y);
+        for(int i = 0; i < elements.length; i++)
+            for(int k = 0; k < elements[i].length; k++){
+                if(elements[i][k] != null)
+                    elements[i][k].setLeftTop(x, y);
+            }
     }
     
     /**
