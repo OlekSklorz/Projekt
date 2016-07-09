@@ -2,6 +2,7 @@ package tetris;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.util.Scanner;
 import javax.swing.*;
 
 /**
@@ -11,6 +12,7 @@ import javax.swing.*;
 public class Tetris {
     private JPanel informativePanel, tetrisPanel, gamePanel, emptyPanel;
     private JLabel pointsLabel;
+    private GameField c;
     public Tetris(int lvl){
         informativePanel = new JPanel();
         pointsLabel = new JLabel("Points: 9999999999999");
@@ -19,15 +21,21 @@ public class Tetris {
         informativePanel.add(new JLabel("NEXT FIGURE: "), BorderLayout.CENTER);
         informativePanel.add(new Edge(0,0,0,Toolkit.getDefaultToolkit().getScreenSize().height, 0), BorderLayout.WEST);
         gamePanel = new JPanel();
-        gamePanel.add(new JLabel("TU BĘDZIE GRA"));
+        c = new GameField();
+        Square square = new Square(0, 0);
+        c.add(square);
+        Runnable r = new SquareRunnable(square, c);
+        Thread t = new Thread(r);
+        t.start();
+        gamePanel.add(c);
         emptyPanel = new JPanel();
         emptyPanel.setLayout(new BorderLayout());
-        int space = 440;
+        int space = 451;
         emptyPanel.add(new Edge(space,0,space,Toolkit.getDefaultToolkit().getScreenSize().height, space), BorderLayout.EAST);
         tetrisPanel = new JPanel();
         tetrisPanel.setLayout(new BorderLayout());
         tetrisPanel.add(informativePanel, BorderLayout.EAST);
-        tetrisPanel.add(gamePanel, BorderLayout.CENTER);
+        tetrisPanel.add(gamePanel);
         tetrisPanel.add(emptyPanel, BorderLayout.WEST);
         tetrisPanel.setVisible(true);
     }
@@ -40,6 +48,7 @@ public class Tetris {
     public JPanel getTetrisPanel(){
         return tetrisPanel;
     }
+    
     /**
      * Obiekt <code>Edge</code> reprezentuje linię przedstawiajacą krawędź. 
      */
@@ -69,4 +78,5 @@ public class Tetris {
         }
     }
 }
+
 
