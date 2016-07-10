@@ -1,8 +1,4 @@
 package tetris;
-
-import java.awt.*;
-import java.util.Random;
-
 /**
  * Obiekt <code>Square</code> reprezentuje duży kwadrat złożony z mniejszych kwadracików.
  * Jego wymiary: 2x2. 
@@ -16,4 +12,3 @@ public class Square extends Figure{
         elements[1][1] = new Element(leftX + Element.getWidth(), topX + Element.getHeight());
     }
 }
-
