@@ -1,9 +1,4 @@
 package tetris;
-
-import java.awt.*;
-import java.util.Random;
-import javax.swing.JComponent;
-
 /**
  * Obiekt <code>FigureI</code> reprezentuje figurę w kształcie litery I zbudowanej z małych kwadracików.
  * Jej wymiary to: 4x1.
@@ -15,4 +10,3 @@ public class FigureI extends Figure{
             elements[i][0] = new Element(leftX, topX + Element.getHeight() * i);
     }
 }
-
