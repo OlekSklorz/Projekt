@@ -11,8 +11,6 @@ import javax.swing.JComponent;
 public class FigureL extends Figure{
     public FigureL(int leftX, int topX){
         super(leftX, topX, 3, 2);
-        this.leftX = leftX;
-        this.topX = topX;
         for(int i = 0; i < 3; i++)
             for(int k = 0; k < 2; k++)
                 if(k == 1 && (i == 0 || i == 1))
