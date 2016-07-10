@@ -6,7 +6,7 @@ import javax.swing.JComponent;
 
 /**
  * Obiekt <code>FigureL</code> reprezentuje figurę w kształcie litery L. 
- * Jej wymiary to: 3x2. Kolor figury przydzielony losowo. 
+ * Jej wymiary to: 3x2. 
  */
 public class FigureL extends Figure{
     public FigureL(int leftX, int topX){
