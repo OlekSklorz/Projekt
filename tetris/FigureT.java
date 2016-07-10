@@ -1,12 +1,7 @@
 package tetris;
-
-import java.awt.*;
-import java.util.Random;
-import javax.swing.JComponent;
-
 /**
  * Obiekt <code>FigureT</code> reprezentuje figurę w kształcie litery T.
- * Jej wymiary to: 3x2. 
+ * Jej wymiary to: 3x2.
  */
 public class FigureT extends Figure{
     public FigureT(int leftX, int topX){
