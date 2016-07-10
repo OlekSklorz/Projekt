@@ -19,12 +19,12 @@ public class FigureRunnable implements Runnable{
      */
     public void run(){
         try{
-            int overflow = figure.getElements().length - 2;
-            for(int i = 1; i < 27 - overflow; i++){
-                figure.move(0, figure.getTopX() + Element.getHeight());
+            Element[][] elements = figure.getElements();
+            do{
+                figure.move(0, figure.getLeftX() + Element.getHeight());
                 c.repaint();
                 Thread.sleep(500);
-            }
+            }while(figure.elements[0][0].getTopX() + elements.length * Element.getHeight() != 560);
         }catch(InterruptedException e){}
     }
 }
