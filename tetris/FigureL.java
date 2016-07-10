@@ -1,9 +1,4 @@
 package tetris;
-
-import java.awt.*;
-import java.util.Random;
-import javax.swing.JComponent;
-
 /**
  * Obiekt <code>FigureL</code> reprezentuje figurę w kształcie litery L. 
  * Jej wymiary to: 3x2. 
@@ -19,3 +14,4 @@ public class FigureL extends Figure{
                     elements[i][k] = new Element(leftX + k * Element.getHeight(), topX + i * Element.getWidth());
     }
 }
+
