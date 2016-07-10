@@ -21,9 +21,9 @@ public class Tetris {
         informativePanel.add(new Edge(0,0,0,Toolkit.getDefaultToolkit().getScreenSize().height, 0), BorderLayout.WEST);
         gamePanel = new JPanel();
         c = new GameField();
-        Figure figureI = new FigureI(0, 0);
-        c.add(figureI);
-        Runnable r = new FigureRunnable(figureI, c);
+        Figure s = new Square(0, 0);
+        c.add(s);
+        Runnable r = new FigureRunnable(s, c);
         Thread t = new Thread(r);
         t.start();
         gamePanel.add(c);
@@ -77,6 +77,5 @@ public class Tetris {
         }
     }
 }
-
 
 
