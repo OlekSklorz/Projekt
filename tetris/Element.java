@@ -45,4 +45,12 @@ public class Element{
         leftX += x;
         topX += y;
     }
+    
+    public int getTopX(){
+        return topX;
+    }
+    
+    public int getLeftX(){
+        return leftX;
+    }
 }
