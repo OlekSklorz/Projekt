@@ -21,11 +21,12 @@ public class Tetris {
         informativePanel.add(new Edge(0,0,0,Toolkit.getDefaultToolkit().getScreenSize().height, 0), BorderLayout.WEST);
         gamePanel = new JPanel();
         c = new GameField();
-        Figure s = new Square(0, 0);
-        c.add(s);
-        Runnable r = new FigureRunnable(s, c);
-        Thread t = new Thread(r);
-        t.start();
+        //Figure s = new Square(0, 0);
+        //c.add(s);
+        //Runnable r = new FigureRunnable(s, c);
+        //Thread t = new Thread(r);
+        //t.start();
+        play();
         gamePanel.add(c);
         emptyPanel = new JPanel();
         emptyPanel.setLayout(new BorderLayout());
@@ -37,6 +38,28 @@ public class Tetris {
         tetrisPanel.add(gamePanel);
         tetrisPanel.add(emptyPanel, BorderLayout.WEST);
         tetrisPanel.setVisible(true);
+    }
+    
+    /**
+     * Uruchamia grę. 
+     */
+    public void play(){
+        FigureRunnable r = new FigureRunnable(c, 'a', 'd', 's', 200);
+        int i = 0;
+        int center = (int)c.getPreferredSize().width/2;
+        center -= 20;
+        do{
+            center -= 1;
+        }while(center % 20 != 0);
+        center = center;
+        do{
+            Figure s = new Square(center,-Figure.getHeightFigure());
+            c.add(s);
+            r.add(s);
+            i++;
+        }while(i < 10);
+        Thread t = new Thread(r);
+        t.start();
     }
     
     /**
@@ -77,5 +100,4 @@ public class Tetris {
         }
     }
 }
-
 
