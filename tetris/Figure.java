@@ -2,18 +2,22 @@ package tetris;
 
 import java.awt.Color;
 import java.util.Random;
+import javax.swing.JComponent;
 
 /**
  * Obiekt <code>Figure</code> reprezentuje dowolną figurę o podanych wymiarach.
  * Jej kolor jest dobierany losowo. 
  */
-public abstract class Figure {
+public abstract class Figure extends JComponent{
     protected int leftX, topX;
     protected Element[][] elements;
     protected Color color;
+    private static int x, y;
     public Figure(int leftX, int topX, int x, int y){
         this.leftX = leftX;
         this.topX = topX;
+        this.x = x;
+        this.y = y;
         this.elements = new Element[x][y];
         color = MyColors.getColor(new Random().nextInt(12));
     }
@@ -61,5 +65,29 @@ public abstract class Figure {
      */
     public Color getColor(){
         return color;
+    }
+    
+    /**
+     * Pobiera aktualne położenie figury w pionie. 
+     * @return aktualne położenie figury w pionie. 
+     */
+    public int getActualTopX(){
+        return elements[0][0].getTopX();
+    }
+    
+    /**
+     * Pobiera wysokość figury. 
+     * @return wysokość figury. 
+     */
+    public static int getHeightFigure(){
+        return x * Element.getHeight();
+    }
+    
+    /**
+     * Pobiera szerokość figury. 
+     * @return szerokość figury. 
+     */
+    public static int getWidthFigure(){
+        return y * Element.getWidth();
     }
 }
