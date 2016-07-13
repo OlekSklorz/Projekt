@@ -9,7 +9,7 @@ import javax.swing.JComponent;
  * W tym polu rysowane są kolejne elementy gry.
  */
 public class GameField extends JComponent {
-    ArrayList<Figure> figures = new ArrayList();
+    private ArrayList<Figure> figures = new ArrayList();
     public void add(Figure figure){
         figures.add(figure);
     }
