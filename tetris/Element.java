@@ -46,11 +46,20 @@ public class Element{
         topX += y;
     }
     
+    /**
+     * Pobiera położenie małego kwadracika w pionie.
+     * @return położenie małego kwadracika w pionie.
+     */
     public int getTopX(){
         return topX;
     }
     
+    /**
+     * Pobiera położenie małego kwadracika w poziomie.
+     * @return położenie małego kwadracika w poziomie.
+     */
     public int getLeftX(){
         return leftX;
     }
 }
+
