@@ -35,7 +35,7 @@ public class FigureRunnable implements Runnable{
                c.addKeyListener(new MovementAction(figure));
                do{
                    figure.move(0, Math.abs(figure.getTopX() + Element.getHeight()));
-                   is = isObstracle(figure);
+                   is = isObstacle(figure);
                    int i = 0;
                    if(is)
                        figure.move(0, figure.getTopX() + Element.getHeight());
@@ -55,7 +55,7 @@ public class FigureRunnable implements Runnable{
         figures.add(f);
     }
     
-    private boolean isObstracle(Figure figure){
+    private boolean isObstacle(Figure figure){
         boolean is = false;
         int i = 0;
         do{
@@ -96,7 +96,7 @@ public class FigureRunnable implements Runnable{
                 if(key == left){
                     if(leftX != 0){
                         figure.move(-Element.getWidth(), 0);
-                        boolean is = isObstracle(figure);
+                        boolean is = isObstacle(figure);
                         c.repaint();
                         if(is){
                             figure.move(Element.getWidth(), 0);
@@ -107,7 +107,7 @@ public class FigureRunnable implements Runnable{
                     if(key == right){
                         if(leftX != 4 * Figure.getWidthFigure()){
                             figure.move(Element.getWidth(), 0);
-                            boolean is = isObstracle(figure);
+                            boolean is = isObstacle(figure);
                             c.repaint();
                             if(is){
                                 figure.move(-Element.getWidth(), 0);
@@ -117,7 +117,7 @@ public class FigureRunnable implements Runnable{
                     }else{
                         if(key == down){
                             figure.move(0, Math.abs(figure.getTopX() + Element.getHeight()));
-                            boolean is = isObstracle(figure);
+                            boolean is = isObstacle(figure);
                             c.repaint();
                             if(is){
                                 figure.move(0, figure.getTopX() + Element.getHeight());
