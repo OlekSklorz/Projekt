@@ -38,6 +38,38 @@ public class GameField extends JComponent {
     }
     
     /**
+     * Sprawdza czy w punkcie o danych współrzędnych x i y znajduje się 
+     * jakaś figura która występuje w liście przed indeksem limit. 
+     * @param x współrzędna pozioma. 
+     * @param y współrzędna pionowa. 
+     * @param limit indeks ograniczający do którego miejsca z listy mają być pobrane figury.
+     * @return informacja czy w danym punkcie znajduje się jakaś figura. 
+     */
+    public boolean isComponent(int x, int y, int limit){
+        boolean is = false;
+        int i = 0; 
+        Figure figure;
+        while(i < limit){
+            figure = figures.get(i);
+            int w = 0;
+            Element[][] elements = figure.getElements();
+            do{
+                int k = 0;
+                do{
+                    if(elements[w][k].getTopX() == x && elements[w][k].getLeftX() == y){
+                        is = true;
+                    }
+                    k++;
+                }while(k < elements[w].length && !is);
+                w++;
+            }while(w < elements.length && !is);
+            if(is) break;
+            i++;
+        }
+        return is;
+    }
+    
+    /**
      * Pobiera preferowany rozmiar pola do gry. 
      * @return preferowany rozmiar pola do gry. 
      */
