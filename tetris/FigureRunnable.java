@@ -1,6 +1,5 @@
 package tetris;
 
-import java.awt.Component;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -10,10 +9,11 @@ import java.util.ArrayList;
  */
 public class FigureRunnable implements Runnable{
     private ArrayList<Figure> figures = new ArrayList();
-    private Component c;
+    private GameField c;
     public char left, right, down; 
     private int delayed;
-    public FigureRunnable(Component c, char left,char right,char down,int delayed){
+    private int limit = 0;
+    public FigureRunnable(GameField c, char left,char right,char down,int delayed){
         this.c = c;
         this.left = left;
         this.right = right;
@@ -28,14 +28,21 @@ public class FigureRunnable implements Runnable{
     public void run(){
         c.setFocusable(true);
         //c.addKeyListener(new DownAction());
+        //int limit = 0;
+        boolean is;
         try{
            for(Figure figure : figures){
                c.addKeyListener(new MovementAction(figure));
                do{
                    figure.move(0, Math.abs(figure.getTopX() + Element.getHeight()));
+                   is = isObstracle(figure);
+                   int i = 0;
+                   if(is)
+                       figure.move(0, figure.getTopX() + Element.getHeight());
                    c.repaint();
                    Thread.sleep(delayed);
-               }while(figure.getActualTopX() + Figure.getHeightFigure() != 560);
+               }while(figure.getActualTopX() + Figure.getHeightFigure() != 560 && !is);
+               limit++;
            }
         }catch(InterruptedException e){}
     }
@@ -48,6 +55,19 @@ public class FigureRunnable implements Runnable{
         figures.add(f);
     }
     
+    private boolean isObstracle(Figure figure){
+        boolean is = false;
+        int i = 0;
+        do{
+            int k = 0;
+            do{
+                is = c.isComponent(figure.getElements()[i][k].getTopX(), figure.getElements()[i][k].getLeftX(), limit);
+                k++;
+            }while(k < figure.getElements()[i].length && !is);
+            i++;
+        }while(i < figure.getElements().length && !is);
+        return is;
+    }
     /**
      * Obiekt <code>MovementAction</code> reprezentuje ruch figury. 
      * Za pomocą odpowiednich klawiszy figura może poruszać się w lewo, prawo lub
@@ -76,18 +96,33 @@ public class FigureRunnable implements Runnable{
                 if(key == left){
                     if(leftX != 0){
                         figure.move(-Element.getWidth(), 0);
+                        boolean is = isObstracle(figure);
                         c.repaint();
+                        if(is){
+                            figure.move(Element.getWidth(), 0);
+                            c.repaint();
+                        }
                     }
                 }else{
                     if(key == right){
                         if(leftX != 4 * Figure.getWidthFigure()){
                             figure.move(Element.getWidth(), 0);
+                            boolean is = isObstracle(figure);
                             c.repaint();
+                            if(is){
+                                figure.move(-Element.getWidth(), 0);
+                                c.repaint();
+                            }
                         }
                     }else{
                         if(key == down){
                             figure.move(0, Math.abs(figure.getTopX() + Element.getHeight()));
+                            boolean is = isObstracle(figure);
                             c.repaint();
+                            if(is){
+                                figure.move(0, figure.getTopX() + Element.getHeight());
+                                c.repaint();
+                            }
                         }
                     }
                 }
