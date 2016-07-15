@@ -52,12 +52,25 @@ public class Tetris {
             center -= 1;
         }while(center % 20 != 0);
         center = center;
+        Figure figure;
         do{
-            Figure s = new Square(center,-Figure.getHeightFigure());
-            c.add(s);
-            r.add(s);
+            figure  = new Square(center,-(Square.getYElements() * Element.getHeight()));
+            c.add(figure);
+            r.add(figure);
+            figure = new FigureI(center,-(FigureI.getYElements() * Element.getHeight()));
+            c.add(figure);
+            r.add(figure);
+            figure = new FigureL(center,-(FigureL.getYElements() * Element.getHeight()));
+            c.add(figure);
+            r.add(figure);
+            figure = new FigureT(center,-(FigureT.getYElements() * Element.getHeight()));
+            c.add(figure);
+            r.add(figure);
+            figure = new FigureZ(center,-(FigureZ.getYElements() * Element.getHeight()));
+            c.add(figure);
+            r.add(figure);
             i++;
-        }while(i < 10);
+        }while(i < 2);
         Thread t = new Thread(r);
         t.start();
     }
