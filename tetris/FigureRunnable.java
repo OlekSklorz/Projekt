@@ -34,14 +34,15 @@ public class FigureRunnable implements Runnable{
            for(Figure figure : figures){
                c.addKeyListener(new MovementAction(figure));
                do{
-                   figure.move(0, Math.abs(figure.getTopX() + Element.getHeight()));
+                   int y = figure.getActualTopX();
+                   figure.move(0, Element.getHeight());
                    is = isObstacle(figure);
                    int i = 0;
-                   if(is)
-                       figure.move(0, figure.getTopX() + Element.getHeight());
+                   if(is && y - figure.getActualTopX() != 0)
+                       figure.move(0, -Element.getHeight());
                    c.repaint();
                    Thread.sleep(delayed);
-               }while(figure.getActualTopX() + Figure.getHeightFigure() != 560 && !is);
+               }while(figure.getActualTopX() + figure.getHeightFigure() != 560 && !is);
                limit++;
            }
         }catch(InterruptedException e){}
@@ -61,7 +62,8 @@ public class FigureRunnable implements Runnable{
         do{
             int k = 0;
             do{
-                is = c.isComponent(figure.getElements()[i][k].getTopX(), figure.getElements()[i][k].getLeftX(), limit);
+                if(figure.getElements()[i][k] != null)
+                    is = c.isComponent(figure.getElements()[i][k].getTopX(), figure.getElements()[i][k].getLeftX(), limit);
                 k++;
             }while(k < figure.getElements()[i].length && !is);
             i++;
@@ -90,7 +92,7 @@ public class FigureRunnable implements Runnable{
          * @param ke 
          */
         public void keyPressed(KeyEvent ke) {
-            if(figure.getActualTopX() + Figure.getHeightFigure() != 560){
+            if(figure.getActualTopX() + figure.getHeightFigure() != 560){
                 char key = ke.getKeyChar();
                 int leftX = elements[0][0].getLeftX();
                 if(key == left){
@@ -105,7 +107,7 @@ public class FigureRunnable implements Runnable{
                     }
                 }else{
                     if(key == right){
-                        if(leftX != 4 * Figure.getWidthFigure()){
+                        if(leftX != (10 * Element.getWidth()) - figure.getWidthFigure()){
                             figure.move(Element.getWidth(), 0);
                             boolean is = isObstacle(figure);
                             c.repaint();
@@ -116,11 +118,11 @@ public class FigureRunnable implements Runnable{
                         }
                     }else{
                         if(key == down){
-                            figure.move(0, Math.abs(figure.getTopX() + Element.getHeight()));
+                            figure.move(0, Element.getHeight());
                             boolean is = isObstacle(figure);
                             c.repaint();
                             if(is){
-                                figure.move(0, figure.getTopX() + Element.getHeight());
+                                figure.move(0, -Element.getHeight());
                                 c.repaint();
                             }
                         }
