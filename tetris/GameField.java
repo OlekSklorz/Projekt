@@ -49,21 +49,20 @@ public class GameField extends JComponent {
         boolean is = false;
         int i = 0; 
         Figure figure;
-        while(i < limit){
+        while(i < limit && !is){
             figure = figures.get(i);
             int w = 0;
             Element[][] elements = figure.getElements();
             do{
                 int k = 0;
                 do{
-                    if(elements[w][k].getTopX() == x && elements[w][k].getLeftX() == y){
+                    if(elements[w][k] != null && elements[w][k].getTopX() == x && elements[w][k].getLeftX() == y){
                         is = true;
                     }
                     k++;
                 }while(k < elements[w].length && !is);
                 w++;
             }while(w < elements.length && !is);
-            if(is) break;
             i++;
         }
         return is;
