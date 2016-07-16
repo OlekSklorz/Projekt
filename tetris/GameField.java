@@ -69,6 +69,81 @@ public class GameField extends JComponent {
     }
     
     /**
+     * Pobiera informacje o numerze zapełnionego przez elementy wiersza. 
+     * Wiersze numerowane od góry w dół. 
+     * @param limit określa do którego indeksu mają być pobierane figury z listy.
+     * @return numer zapełnionego wiersza. 
+     */
+    public Integer checkLine(int limit){
+        ArrayList<Integer> coordinates = getCoordinates(limit);
+        int counter;
+        for(Integer c : coordinates){
+            counter = 1;
+            for(int i = coordinates.indexOf(c) + 1; i < coordinates.size(); i++){
+                if(c.equals(coordinates.get(i))){
+                    counter++;
+                }
+                if(counter == 10){
+                    return c/Element.getHeight();
+                }
+                    
+            }
+        }
+        return -1;
+    }
+    
+    /**
+     * Usuwa zapełnioną linię. 
+     * @param limit określa do którego indeksu mają być pobierane figury z listy.
+     * @param line podaje numer zapełnionej linii (linii do usuniecia). 
+     */
+    public void deleteLine(int limit, int line){
+        int x = line * Element.getHeight();
+        int i = 0;
+        int counter = 0;
+        Figure figure;
+        Element[][] elements;
+        boolean deleted;
+        int w, k;
+        while(i < limit){
+            figure = figures.get(i);
+            elements = figure.getElements();
+            deleted = false;
+            w = 0;
+            do{
+                k = 0;
+                do{
+                    if(elements[w][k] != null && elements[w][k].getTopX() == x){
+                        figure.deleteElement(w);
+                        deleted = true;
+                    }
+                    k++;
+                }while(k < elements[w].length && !deleted);
+                w++;
+            }while(w < elements.length && !deleted);
+            i++;
+        }
+    }
+    
+    private ArrayList<Integer> getCoordinates(int limit){
+        ArrayList<Integer> coordinates = new ArrayList();
+        int i = 0;
+        Element[][] elements;
+        while(i < limit){
+            elements = figures.get(i).getElements();
+            for(int w = 0; w < elements.length; w++){
+                for(int k = 0; k < elements[w].length; k++){
+                    if(elements[w][k] != null){
+                        coordinates.add(elements[w][k].getTopX());
+                    }
+                }     
+            }
+            i++;
+        }
+        return coordinates;
+    }
+    
+    /**
      * Pobiera preferowany rozmiar pola do gry. 
      * @return preferowany rozmiar pola do gry. 
      */
