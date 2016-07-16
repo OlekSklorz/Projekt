@@ -30,9 +30,11 @@ public class FigureRunnable implements Runnable{
         //c.addKeyListener(new DownAction());
         //int limit = 0;
         boolean is;
+        int fullLine;
         try{
            for(Figure figure : figures){
                c.addKeyListener(new MovementAction(figure));
+               fullLine = -1;
                do{
                    int y = figure.getActualTopX();
                    figure.move(0, Element.getHeight());
@@ -44,6 +46,11 @@ public class FigureRunnable implements Runnable{
                    Thread.sleep(delayed);
                }while(figure.getActualTopX() + figure.getHeightFigure() != 560 && !is);
                limit++;
+               fullLine = c.checkLine(limit);
+               if(fullLine != -1){
+                   c.deleteLine(limit, fullLine);
+                   c.repaint();
+               }
            }
         }catch(InterruptedException e){}
     }
