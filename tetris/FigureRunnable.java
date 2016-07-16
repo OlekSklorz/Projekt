@@ -29,8 +29,9 @@ public class FigureRunnable implements Runnable{
         c.setFocusable(true);
         //c.addKeyListener(new DownAction());
         //int limit = 0;
-        boolean is;
+        boolean is, deleted;
         int fullLine;
+        Figure tempFigure;
         try{
            for(Figure figure : figures){
                c.addKeyListener(new MovementAction(figure));
@@ -45,12 +46,22 @@ public class FigureRunnable implements Runnable{
                    c.repaint();
                    Thread.sleep(delayed);
                }while(figure.getActualTopX() + figure.getHeightFigure() != 560 && !is);
+               figure.stop = true;
                limit++;
-               fullLine = c.checkLine(limit);
-               if(fullLine != -1){
-                   c.deleteLine(limit, fullLine);
-                   c.repaint();
-               }
+               do{
+                    fullLine = c.checkLine(limit);
+                    deleted = false;
+                    if(fullLine != -1){
+                        c.deleteLine(limit, fullLine);
+                        c.repaint();
+                        deleted = true;
+                        for(int i = 0; i < limit; i++){
+                            tempFigure = figures.get(i);
+                            tempFigure.move(0, Element.getHeight());
+                            c.repaint();
+                        }
+                    }
+               }while(deleted);
            }
         }catch(InterruptedException e){}
     }
@@ -99,7 +110,7 @@ public class FigureRunnable implements Runnable{
          * @param ke 
          */
         public void keyPressed(KeyEvent ke) {
-            if(figure.getActualTopX() + figure.getHeightFigure() != 560){
+            if(!figure.stop && figure.getActualTopX() + figure.getHeightFigure() != 560){
                 char key = ke.getKeyChar();
                 int leftX = elements[0][0].getLeftX();
                 if(key == left){
@@ -127,6 +138,7 @@ public class FigureRunnable implements Runnable{
                         if(key == down){
                             figure.move(0, Element.getHeight());
                             boolean is = isObstacle(figure);
+                            int actual = figure.getActualTopX();
                             c.repaint();
                             if(is){
                                 figure.move(0, -Element.getHeight());
