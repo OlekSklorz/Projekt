@@ -12,7 +12,7 @@ public abstract class Figure extends JComponent{
     protected int leftX, topX;
     protected Element[][] elements;
     protected Color color;
-    private static int x, y;
+    private int x, y;
     public Figure(int leftX, int topX, int x, int y){
         this.leftX = leftX;
         this.topX = topX;
@@ -79,7 +79,7 @@ public abstract class Figure extends JComponent{
      * Pobiera wysokość figury. 
      * @return wysokość figury. 
      */
-    public static int getHeightFigure(){
+    public int getHeightFigure(){
         return x * Element.getHeight();
     }
     
@@ -87,7 +87,18 @@ public abstract class Figure extends JComponent{
      * Pobiera szerokość figury. 
      * @return szerokość figury. 
      */
-    public static int getWidthFigure(){
+    public int getWidthFigure(){
         return y * Element.getWidth();
+    }
+    
+    /**
+     * Usuwa wiersz elementów z danej figury. 
+     * @param oldX numer wiersza do usunięcia. 
+     */
+    public void deleteElement(int oldX){
+        for(int i = 0; i < elements[oldX].length; i++){
+            if(elements[oldX][i] != null)
+                elements[oldX][i] = null;
+        }
     }
 }
