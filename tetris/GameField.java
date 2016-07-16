@@ -103,13 +103,14 @@ public class GameField extends JComponent {
         int counter = 0;
         Figure figure;
         Element[][] elements;
-        boolean deleted;
+        boolean deleted = false;
         int w, k;
         while(i < limit){
             figure = figures.get(i);
             elements = figure.getElements();
             deleted = false;
             w = 0;
+            //if(!figure.ostatniElement())
             do{
                 k = 0;
                 do{
