@@ -13,6 +13,7 @@ public abstract class Figure extends JComponent{
     protected Element[][] elements;
     protected Color color;
     private int x, y;
+    boolean stop = false;
     public Figure(int leftX, int topX, int x, int y){
         this.leftX = leftX;
         this.topX = topX;
