@@ -30,7 +30,7 @@ public class FigureRunnable implements Runnable{
         //c.addKeyListener(new DownAction());
         //int limit = 0;
         boolean is, deleted;
-        int fullLine;
+        int fullLine, x;
         Figure tempFigure;
         try{
            for(Figure figure : figures){
@@ -46,18 +46,22 @@ public class FigureRunnable implements Runnable{
                    c.repaint();
                    Thread.sleep(delayed);
                }while(figure.getActualTopX() + figure.getHeightFigure() != 560 && !is);
-               figure.stop = true;
+               figure.setStopMovement(true);
                limit++;
                do{
                     fullLine = c.checkLine(limit);
                     deleted = false;
                     if(fullLine != -1){
-                        c.deleteLine(limit, fullLine);
+                        x = fullLine * Element.getHeight();
+                        c.deleteLine(limit, x);
                         c.repaint();
                         deleted = true;
                         for(int i = 0; i < limit; i++){
                             tempFigure = figures.get(i);
-                            tempFigure.move(0, Element.getHeight());
+                            if(tempFigure.getActualTopX() < x-1 && !c.isEmptyLine(tempFigure)){
+                                
+                                tempFigure.move(0, Element.getHeight());
+                            }
                             c.repaint();
                         }
                     }
@@ -110,7 +114,7 @@ public class FigureRunnable implements Runnable{
          * @param ke 
          */
         public void keyPressed(KeyEvent ke) {
-            if(!figure.stop && figure.getActualTopX() + figure.getHeightFigure() != 560){
+            if(!figure.getStopMovement() && figure.getActualTopX() + figure.getHeightFigure() != 560){
                 char key = ke.getKeyChar();
                 int leftX = elements[0][0].getLeftX();
                 if(key == left){
