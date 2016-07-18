@@ -13,7 +13,7 @@ public abstract class Figure extends JComponent{
     protected Element[][] elements;
     protected Color color;
     private int x, y;
-    boolean stop = false;
+    private boolean stopMovement = false;
     public Figure(int leftX, int topX, int x, int y){
         this.leftX = leftX;
         this.topX = topX;
@@ -73,7 +73,14 @@ public abstract class Figure extends JComponent{
      * @return aktualne położenie figury w pionie. 
      */
     public int getActualTopX(){
-        return elements[0][0].getTopX();
+        //return elements[0][0].getTopX();
+        for(int w = 0; w < elements.length; w++){
+            for(int k = 0; k < elements[w].length; k++){
+                if(elements[w][k] != null)
+                    return elements[w][k].getTopX();
+            }
+        }
+        return -1;
     }
     
     /**
@@ -98,8 +105,59 @@ public abstract class Figure extends JComponent{
      */
     public void deleteElement(int oldX){
         for(int i = 0; i < elements[oldX].length; i++){
-            if(elements[oldX][i] != null)
+            if(elements[oldX][i] != null){
                 elements[oldX][i] = null;
+            }
         }
+    }
+    
+    /**
+     * Pobiera indeks wiersza o podanych współrzędnych. Będzie to wiersz do usunięcia.
+     * @param line współrzędna pionowa usuwanego wiersza. 
+     * @return indeks usuwanego wiersza. 
+     */
+    public int getNumberDeletedLine(int line){
+        int w = 0, k;
+        do{
+            k = 0;
+            do{
+                if(elements[w][k] != null && elements[w][k].getTopX() == line)
+                    return w;
+                k++;
+            }while(k < elements[w].length);
+            w++;
+        }while(w < elements.length);
+        return -1;
+    }
+    
+    /**
+     * Wstawia pod podane indeksy, podany element. 
+     * @param newX położenie pionowe.
+     * @param newY położenie poziome.
+     * @param el element do wstawienia. 
+     */
+    public void setElements(int newX, int newY, Element el){
+        elements[newX - 1][newY] = null;
+        elements[newX][newY] = el;
+        if(elements[newX][newY] != null)
+            elements[newX][newY].setLeftTop(0, 20);
+    }
+    
+    /**
+     * Ustawia stan poruszania się. Jeśli true - figura nie porusza się, 
+     * jeśli false - figura porusza się. 
+     * @param stopMovement stan poruszania się. 
+     */
+    public void setStopMovement(boolean stopMovement){
+        this.stopMovement = stopMovement;
+    }
+    
+    /**
+     * Pobiera stan poruszania się. Jeśli true - figura nie porusza się, 
+     * jeśli false - figura porusza się. 
+     * @return stan poruszania się. 
+     */
+    public boolean getStopMovement(){
+        return stopMovement;
     }
 }
