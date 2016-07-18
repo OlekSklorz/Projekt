@@ -1,6 +1,7 @@
 package tetris;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.util.Random;
 import javax.swing.JComponent;
 
@@ -14,6 +15,7 @@ public abstract class Figure extends JComponent{
     protected Color color;
     private int x, y;
     private boolean stopMovement = false;
+    private int position;
     public Figure(int leftX, int topX, int x, int y){
         this.leftX = leftX;
         this.topX = topX;
@@ -21,6 +23,7 @@ public abstract class Figure extends JComponent{
         this.y = y;
         this.elements = new Element[x][y];
         color = MyColors.getColor(new Random().nextInt(12));
+        position = 0;
     }
     
     /**
@@ -32,7 +35,7 @@ public abstract class Figure extends JComponent{
         for(int i = 0; i < elements.length; i++)
             for(int k = 0; k < elements[i].length; k++){
                 if(elements[i][k] != null)
-                    elements[i][k].setLeftTop(x, y);
+                    elements[i][k].addLeftTop(x, y);
             }
     }
     
@@ -78,6 +81,16 @@ public abstract class Figure extends JComponent{
             for(int k = 0; k < elements[w].length; k++){
                 if(elements[w][k] != null)
                     return elements[w][k].getTopX();
+            }
+        }
+        return -1;
+    }
+    
+    public int getActualLeftX(){
+        for(int w = 0; w < elements.length; w++){
+            for(int k = 0; k < elements[w].length; k++){
+                if(elements[w][k] != null)
+                    return elements[w][k].getLeftX();
             }
         }
         return -1;
@@ -140,7 +153,7 @@ public abstract class Figure extends JComponent{
         elements[newX - 1][newY] = null;
         elements[newX][newY] = el;
         if(elements[newX][newY] != null)
-            elements[newX][newY].setLeftTop(0, 20);
+            elements[newX][newY].addLeftTop(0, 20);
     }
     
     /**
@@ -159,5 +172,69 @@ public abstract class Figure extends JComponent{
      */
     public boolean getStopMovement(){
         return stopMovement;
+    }
+    
+    public void rotate(double angle, GameField c, int limit){
+        boolean received = false, obstacle = true;
+        int oldX = 0, oldY = 0, newX, newY, tempX = x, tempY = y, horizontal, vertical;
+        for(int w = 0; w < elements.length; w++)
+            for(int k = 0; k < elements[w].length; k++)
+                if(!received && elements[w][k] != null){
+                    received = true;
+                    oldX = elements[w][k].getLeftX();
+                    oldY = elements[w][k].getTopX();
+                }
+        for(int w = elements.length - 1; w >= 0; w--){
+            obstacle = false;
+            for(int k = 0; k < elements[w].length; k++){
+                if(elements[w][k] != null){
+                    horizontal = elements[w][k].getLeftX();
+                    vertical = elements[w][k].getTopX();
+                    newX = (int)((horizontal - oldX) * Math.cos(angle) + (-vertical + oldY) * Math.sin(angle) + oldX);
+                    if(newX % 20 != 0){
+                        newX++;
+                        if(newX % 20 != 0) newX -= 2;  
+                    }
+                    x = tempY;
+                    newY = (int)((horizontal - oldX) * Math.sin(angle) - (-vertical + oldY) * Math.cos(angle) + oldY);
+                    if(newY % 20 != 0){
+                        newY++;
+                        if(newY % 20 != 0) newY -= 2;   
+                    }
+                    if(newX >= 0){
+                        elements[w][k].setLeftTop(newX, newY);
+                    }else{
+                        obstacle = true;
+                        break;
+                    }
+                }
+            }
+            if(obstacle) break;
+        }
+        
+        boolean is = false;
+        for(int w = 0; w < elements.length; w++){
+            for(int k = 0; k < elements[w].length; k++){
+                if(elements[w][k] != null && c.isComponent(elements[w][k].getTopX(), elements[w][k].getLeftX(), limit)){
+                    is = true;
+                    break;
+                }
+            }
+            if(is) break;
+        }
+        if(!obstacle){
+            position++;
+            position %= 4;
+            x = tempY;
+            y = tempX;
+        }
+    }
+    
+    public int getPosition(){
+        return position;
+    }
+    
+    public void setPosition(int position){
+        this.position = position;
     }
 }
