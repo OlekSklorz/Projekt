@@ -10,14 +10,15 @@ import java.util.ArrayList;
 public class FigureRunnable implements Runnable{
     private ArrayList<Figure> figures = new ArrayList();
     private GameField c;
-    public char left, right, down; 
+    public char left, right, down, rotation; 
     private int delayed;
     private int limit = 0;
-    public FigureRunnable(GameField c, char left,char right,char down,int delayed){
+    public FigureRunnable(GameField c, char left, char right, char down, char rotation, int delayed){
         this.c = c;
         this.left = left;
         this.right = right;
         this.down = down;
+        this.rotation = rotation;
         this.delayed = delayed;
     }
     
@@ -45,7 +46,7 @@ public class FigureRunnable implements Runnable{
                        figure.move(0, -Element.getHeight());
                    c.repaint();
                    Thread.sleep(delayed);
-               }while(figure.getActualTopX() + figure.getHeightFigure() != 560 && !is);
+               }while(((figure.getActualTopX() + figure.getHeightFigure() != 560 && figure.getPosition() != 2) || (figure.getActualTopX() != 540 && figure.getPosition() == 2)) && !is);
                figure.setStopMovement(true);
                limit++;
                do{
@@ -114,11 +115,11 @@ public class FigureRunnable implements Runnable{
          * @param ke 
          */
         public void keyPressed(KeyEvent ke) {
-            if(!figure.getStopMovement() && figure.getActualTopX() + figure.getHeightFigure() != 560){
+            if(!figure.getStopMovement() && ((figure.getActualTopX() + figure.getHeightFigure() != 560 && figure.getPosition() != 2) || (figure.getActualTopX() != 540 && figure.getPosition() == 2))){
                 char key = ke.getKeyChar();
                 int leftX = elements[0][0].getLeftX();
                 if(key == left){
-                    if(leftX != 0){
+                    if(leftX != 0 && (figure.getPosition() != 1 || leftX + (-1) * figure.getWidthFigure() >= 0)){
                         figure.move(-Element.getWidth(), 0);
                         boolean is = isObstacle(figure);
                         c.repaint();
@@ -129,7 +130,8 @@ public class FigureRunnable implements Runnable{
                     }
                 }else{
                     if(key == right){
-                        if(leftX != (10 * Element.getWidth()) - figure.getWidthFigure()){
+                        System.out.println(leftX);
+                        if((leftX != (10 * Element.getWidth()) - figure.getWidthFigure() && figure.getPosition() != 1) || (figure.getPosition() == 1 && leftX < 180)){
                             figure.move(Element.getWidth(), 0);
                             boolean is = isObstacle(figure);
                             c.repaint();
@@ -142,11 +144,57 @@ public class FigureRunnable implements Runnable{
                         if(key == down){
                             figure.move(0, Element.getHeight());
                             boolean is = isObstacle(figure);
-                            int actual = figure.getActualTopX();
                             c.repaint();
                             if(is){
                                 figure.move(0, -Element.getHeight());
                                 c.repaint();
+                            }
+                        }else{
+                            if(key == rotation){
+                                //figure.rotate(Math.PI/2, c, limit);
+                                Element[][] el = figure.getElements();
+                                int actualT = figure.getActualTopX();
+                                int actualL = figure.getActualLeftX();
+                                boolean is = false;
+                                for(int w = 0; w < el.length; w++){
+                                    for(int k = 0; k < el[w].length; k++){ // góra, lewo
+                                        if(figure.getPosition() == 0){
+                                            if(elements[w][k] != null && c.isComponent(actualT + Element.getHeight() * k, actualL - Element.getWidth() * w, limit))
+                                                is = true;
+                                                break;
+                                        }else{
+                                            if(figure.getPosition() == 10){
+                                                if(elements[w][k] != null && c.isComponent(actualT - Element.getHeight() * k, actualL - Element.getWidth() * w, limit)){
+                                                    is = true;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    if(is) break;
+                                }
+                                System.out.println(is);
+                                if(!is){
+                                figure.rotate(Math.PI/2, c, limit);
+                                c.repaint();
+                                }
+                                /*boolean is = false;
+                                Element[][] elements = figure.getElements();
+                                for(int w = 0; w < elements.length; w++){
+                                    for(int k = 0; k < elements[w].length; k++){
+                                        if(elements[w][k] != null && c.isComponent(elements[w][k].getTopX(), elements[w][k].getLeftX(), limit)){
+                                            is = true;
+                                            break;
+                                        }
+                                    }
+                                    if(is) break;
+                                }
+                                if(!is){*/
+                                c.repaint();
+                                /*}else{
+                                    if(figure.getPosition() > 0)
+                                        figure.setPosition(figure.getPosition() - 1);
+                                }*/
                             }
                         }
                     }
