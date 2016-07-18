@@ -37,11 +37,11 @@ public class Element{
     }
     
     /**
-     * Ustawia współrzędne małego kwadracika. 
+     * Dodaje wartości do współrzędnych małego kwadracika. 
      * @param x położenie w poziomie kwadracika. 
      * @param y położenie w pionie kwadracika.
      */
-    public void setLeftTop(int x, int y){
+    public void addLeftTop(int x, int y){
         leftX += x;
         topX += y;
     }
@@ -60,6 +60,16 @@ public class Element{
      */
     public int getLeftX(){
         return leftX;
+    }
+    
+    /**
+     * Ustawia współrzędne małego kwadracika. 
+     * @param x położenie w poziomie.
+     * @param y położenie w pionie. 
+     */
+    public void setLeftTop(int x, int y){
+        leftX = x;
+        topX = y;
     }
 }
 
