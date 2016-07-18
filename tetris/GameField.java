@@ -98,30 +98,24 @@ public class GameField extends JComponent {
      * @param line podaje numer zapełnionej linii (linii do usuniecia). 
      */
     public void deleteLine(int limit, int line){
-        int x = line * Element.getHeight();
-        int i = 0;
-        int counter = 0;
+        int i = 0, count = 0;
         Figure figure;
-        Element[][] elements;
-        boolean deleted = false;
-        int w, k;
-        while(i < limit){
+        int numberDeletedLine;
+        while(i < limit && count < 10){
             figure = figures.get(i);
-            elements = figure.getElements();
-            deleted = false;
-            w = 0;
-            //if(!figure.ostatniElement())
-            do{
-                k = 0;
-                do{
-                    if(elements[w][k] != null && elements[w][k].getTopX() == x){
-                        figure.deleteElement(w);
-                        deleted = true;
+            numberDeletedLine = figure.getNumberDeletedLine(line);
+            if(numberDeletedLine != -1){
+                figure.deleteElement(numberDeletedLine);
+                count++;
+                //if(numberDeletedLine < figure.getElements().length - 1){
+                if(numberDeletedLine > 0){
+                    for(int w = numberDeletedLine - 1; w >= 0 ; w--){
+                        for(int k = 0; k < figure.getElements()[w].length; k++){
+                            figure.setElements(w + 1, k,figure.getElements()[w][k]);
+                        }
                     }
-                    k++;
-                }while(k < elements[w].length && !deleted);
-                w++;
-            }while(w < elements.length && !deleted);
+                }
+            }
             i++;
         }
     }
@@ -142,6 +136,26 @@ public class GameField extends JComponent {
             i++;
         }
         return coordinates;
+    }
+    
+    /**
+     * Sprawdza czy podana figura ma jakąś pustą linię. 
+     * @param figure figura do sprawdzenia. 
+     * @return czy figura ma pustą linię. 
+     */
+    public boolean isEmptyLine(Figure figure){
+        Element[][] elements = figure.getElements();
+        boolean emptyLine = false;
+        int w;
+        for(w = 0; w < elements.length; w++){
+            emptyLine = true;
+            for(int k = 0; k < elements[w].length; k++){
+                if(elements[w][k] != null)
+                    emptyLine = false;
+            }
+            if(emptyLine) return emptyLine;
+        }
+        return emptyLine;
     }
     
     /**
