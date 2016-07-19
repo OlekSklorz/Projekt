@@ -151,50 +151,21 @@ public class FigureRunnable implements Runnable{
                             }
                         }else{
                             if(key == rotation){
-                                //figure.rotate(Math.PI/2, c, limit);
+                                figure.rotate(Math.PI/2, limit);
                                 Element[][] el = figure.getElements();
-                                int actualT = figure.getActualTopX();
-                                int actualL = figure.getActualLeftX();
-                                boolean is = false;
-                                for(int w = 0; w < el.length; w++){
-                                    for(int k = 0; k < el[w].length; k++){ // góra, lewo
-                                        if(figure.getPosition() == 0){
-                                            if(elements[w][k] != null && c.isComponent(actualT + Element.getHeight() * k, actualL - Element.getWidth() * w, limit))
-                                                is = true;
-                                                break;
-                                        }else{
-                                            if(figure.getPosition() == 10){
-                                                if(elements[w][k] != null && c.isComponent(actualT - Element.getHeight() * k, actualL - Element.getWidth() * w, limit)){
-                                                    is = true;
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    }
-                                    if(is) break;
-                                }
-                                System.out.println(is);
-                                if(!is){
-                                figure.rotate(Math.PI/2, c, limit);
+                                boolean repeating = false;
+                                int w = 0, k;
+                                do{
+                                    k = 0;
+                                    do{
+                                        if(elements[w][k] != null && (elements[w][k].getLeftX() < 0 || elements[w][k].getLeftX() >= 10 * Element.getWidth() || c.isComponent(elements[w][k].getTopX(), elements[w][k].getLeftX(), limit)))
+                                            repeating = true;
+                                        k++;
+                                    }while(k < el[w].length && !repeating);
+                                    w++;
+                                }while(w < el.length && !repeating);
+                                if(repeating) figure.rotate(-Math.PI/2, limit);
                                 c.repaint();
-                                }
-                                /*boolean is = false;
-                                Element[][] elements = figure.getElements();
-                                for(int w = 0; w < elements.length; w++){
-                                    for(int k = 0; k < elements[w].length; k++){
-                                        if(elements[w][k] != null && c.isComponent(elements[w][k].getTopX(), elements[w][k].getLeftX(), limit)){
-                                            is = true;
-                                            break;
-                                        }
-                                    }
-                                    if(is) break;
-                                }
-                                if(!is){*/
-                                c.repaint();
-                                /*}else{
-                                    if(figure.getPosition() > 0)
-                                        figure.setPosition(figure.getPosition() - 1);
-                                }*/
                             }
                         }
                     }
