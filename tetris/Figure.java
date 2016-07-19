@@ -1,7 +1,6 @@
 package tetris;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.util.Random;
 import javax.swing.JComponent;
 
@@ -174,19 +173,29 @@ public abstract class Figure extends JComponent{
         return stopMovement;
     }
     
-    public void rotate(double angle, GameField c, int limit){
-        boolean received = false, obstacle = true;
+    /**
+     * Obrócenie figury względem lewego górnego rogu, pierwszego kwadracika, 
+     * zgodnie z ruchem zegara, jeśli kąt większy od zera, natomiast
+     * przeciwnie do ruchu zegara jeśli kąt mniejszy od zera. 
+     * @param angle kąt obrotu figury.
+     */
+    public void rotate(double angle){
+        boolean received = false;
         int oldX = 0, oldY = 0, newX, newY, tempX = x, tempY = y, horizontal, vertical;
-        for(int w = 0; w < elements.length; w++)
-            for(int k = 0; k < elements[w].length; k++)
-                if(!received && elements[w][k] != null){
+        int w = 0, k;
+        do{
+            k = 0;
+            do{
+                if(elements[w][k] != null){
                     received = true;
                     oldX = elements[w][k].getLeftX();
                     oldY = elements[w][k].getTopX();
                 }
-        for(int w = elements.length - 1; w >= 0; w--){
-            obstacle = false;
-            for(int k = 0; k < elements[w].length; k++){
+                k++;
+            }while(k < elements[w].length && !received);
+        }while(w < elements.length && !received);
+        for(w = elements.length - 1; w >= 0; w--){
+            for(k = 0; k < elements[w].length; k++){
                 if(elements[w][k] != null){
                     horizontal = elements[w][k].getLeftX();
                     vertical = elements[w][k].getTopX();
@@ -201,40 +210,29 @@ public abstract class Figure extends JComponent{
                         newY++;
                         if(newY % 20 != 0) newY -= 2;   
                     }
-                    if(newX >= 0){
-                        elements[w][k].setLeftTop(newX, newY);
-                    }else{
-                        obstacle = true;
-                        break;
-                    }
+                    elements[w][k].setLeftTop(newX, newY);
                 }
             }
-            if(obstacle) break;
         }
-        
-        boolean is = false;
-        for(int w = 0; w < elements.length; w++){
-            for(int k = 0; k < elements[w].length; k++){
-                if(elements[w][k] != null && c.isComponent(elements[w][k].getTopX(), elements[w][k].getLeftX(), limit)){
-                    is = true;
-                    break;
-                }
-            }
-            if(is) break;
-        }
-        if(!obstacle){
+        if(angle >= 0){
             position++;
             position %= 4;
-            x = tempY;
-            y = tempX;
+        }else{
+            position--;
+            if(position < 0)
+                position = 3;
         }
+        x = tempY;
+        y = tempX;
     }
     
+    /**
+     * Pobiera pozycję figury. Pozycje numerowane od 0 do 3 (0 - początek, 3 - koniec)
+     * @return numer pozycji figury. 
+     */
     public int getPosition(){
         return position;
     }
     
-    public void setPosition(int position){
-        this.position = position;
-    }
 }
+
