@@ -159,6 +159,28 @@ public class GameField extends JComponent {
     }
     
     /**
+     * Sprawdza czy dowolny element budujący figurę nie przekracza jakiejkolwiek granicy.
+     * @param figure figura do sprawdzenia. 
+     * @param direction kierunek poruszania się figury.
+     * @return czy figura przekracza granicę. 
+     */
+    public boolean isBorder(Figure figure, String direction){
+        Element[][] elements = figure.getElements();
+        boolean stop = false;
+        int w = elements.length - 1, k;
+        do{
+            k = 0;
+            do{
+                if(elements[w][k] != null && (elements[w][k].getTopX() > 26 * Element.getHeight() && direction.equals("down") || elements[w][k].getLeftX() <= 0 && direction.equals("left") || elements[w][k].getLeftX() >= Element.getWidth() * 9 && direction.equals("right")))
+                    stop = true;
+                k++;
+            }while(k < elements[w].length && !stop);
+            w--;
+        }while(w >= 0 && !stop);
+        return stop;
+    }
+    
+    /**
      * Pobiera preferowany rozmiar pola do gry. 
      * @return preferowany rozmiar pola do gry. 
      */
@@ -166,3 +188,4 @@ public class GameField extends JComponent {
         return new Dimension(200, 561);
     }
 }
+
