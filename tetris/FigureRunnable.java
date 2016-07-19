@@ -151,21 +151,23 @@ public class FigureRunnable implements Runnable{
                             }
                         }else{
                             if(key == rotation){
-                                figure.rotate(Math.PI/2, limit);
-                                Element[][] el = figure.getElements();
-                                boolean repeating = false;
-                                int w = 0, k;
-                                do{
-                                    k = 0;
+                                if(!(figure instanceof Square)){
+                                    figure.rotate(Math.PI/2);
+                                    Element[][] el = figure.getElements();
+                                    boolean repeating = false;
+                                    int w = 0, k;
                                     do{
-                                        if(elements[w][k] != null && (elements[w][k].getLeftX() < 0 || elements[w][k].getLeftX() >= 10 * Element.getWidth() || c.isComponent(elements[w][k].getTopX(), elements[w][k].getLeftX(), limit)))
-                                            repeating = true;
-                                        k++;
-                                    }while(k < el[w].length && !repeating);
-                                    w++;
-                                }while(w < el.length && !repeating);
-                                if(repeating) figure.rotate(-Math.PI/2, limit);
-                                c.repaint();
+                                        k = 0;
+                                        do{
+                                            if(elements[w][k] != null && (elements[w][k].getLeftX() < 0 || elements[w][k].getLeftX() >= 10 * Element.getWidth() || c.isComponent(elements[w][k].getTopX(), elements[w][k].getLeftX(), limit)))
+                                                repeating = true;
+                                            k++;
+                                        }while(k < el[w].length && !repeating);
+                                        w++;
+                                    }while(w < el.length && !repeating);
+                                    if(repeating) figure.rotate(-Math.PI/2);
+                                    c.repaint();
+                                }
                             }
                         }
                     }
