@@ -46,7 +46,8 @@ public class FigureRunnable implements Runnable{
                        figure.move(0, -Element.getHeight());
                    c.repaint();
                    Thread.sleep(delayed);
-               }while(((figure.getActualTopX() + figure.getHeightFigure() != 560 && figure.getPosition() != 2) || (figure.getActualTopX() != 540 && figure.getPosition() == 2)) && !is);
+               }while(!c.isBorder(figure, "down") && !is);
+               //}while(((figure.getActualTopX() + figure.getHeightFigure() != 580 && ( !(figure instanceof FigureL && figure.getPosition() != 3))) || (figure.getActualTopX() != 540 && figure.getPosition() == 2)) && !is);
                figure.setStopMovement(true);
                limit++;
                do{
@@ -115,11 +116,13 @@ public class FigureRunnable implements Runnable{
          * @param ke 
          */
         public void keyPressed(KeyEvent ke) {
-            if(!figure.getStopMovement() && ((figure.getActualTopX() + figure.getHeightFigure() != 560 && figure.getPosition() != 2) || (figure.getActualTopX() != 540 && figure.getPosition() == 2))){
+            if(!figure.getStopMovement() && !c.isBorder(figure, "down")){
+            //if(!figure.getStopMovement() && ((figure.getActualTopX() + figure.getHeightFigure() != 560 && figure.getPosition() != 2) || (figure.getActualTopX() != 540 && figure.getPosition() == 2))){
                 char key = ke.getKeyChar();
                 int leftX = elements[0][0].getLeftX();
                 if(key == left){
-                    if(leftX != 0 && (figure.getPosition() != 1 || leftX + (-1) * figure.getWidthFigure() >= 0)){
+                    if(!c.isBorder(figure, "left")){
+                    //if(leftX != 0 && (figure.getPosition() != 1 || leftX + (-1) * figure.getWidthFigure() >= 0) && (figure instanceof FigureL && figure.getPosition() == 2 && leftX + (-1) * figure.getWidthFigure() >= 0)){
                         figure.move(-Element.getWidth(), 0);
                         boolean is = isObstacle(figure);
                         c.repaint();
@@ -130,8 +133,8 @@ public class FigureRunnable implements Runnable{
                     }
                 }else{
                     if(key == right){
-                        System.out.println(leftX);
-                        if((leftX != (10 * Element.getWidth()) - figure.getWidthFigure() && figure.getPosition() != 1) || (figure.getPosition() == 1 && leftX < 180)){
+                        if(!c.isBorder(figure, "right")){
+                        //if((leftX != (10 * Element.getWidth()) - figure.getWidthFigure() && figure.getPosition() != 1 && !(figure instanceof FigureL && figure.getPosition() == 2)) || (figure.getPosition() == 1 && leftX < 180) || (figure instanceof FigureL && figure.getPosition() == 2 && leftX <= 10 * Element.getWidth() - 2 * Element.getWidth())){
                             figure.move(Element.getWidth(), 0);
                             boolean is = isObstacle(figure);
                             c.repaint();
