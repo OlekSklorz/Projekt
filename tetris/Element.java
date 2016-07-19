@@ -63,12 +63,18 @@ public class Element{
     }
     
     /**
-     * Ustawia współrzędne małego kwadracika. 
-     * @param x położenie w poziomie.
-     * @param y położenie w pionie. 
+     * Ustawia położenie poziome małego kwadracika. 
+     * @param x położenie poziome.
      */
-    public void setLeftTop(int x, int y){
+    public void setLeft(int x){
         leftX = x;
+    }
+    
+    /**
+     * Ustawia położenie pionowe małego kwadracika. 
+     * @param y położenie pionowe. 
+     */
+    public void setTop(int y){
         topX = y;
     }
 }
