@@ -5,6 +5,7 @@ package tetris;
  */
 public class FigureZ extends Figure{
     private static final int yElements = 3, xElements = 2;
+    private boolean start = true;
     public FigureZ(int leftX, int topX){
         super(leftX, topX,yElements,xElements);
         for(int i = 0; i < yElements; i++)
@@ -29,5 +30,21 @@ public class FigureZ extends Figure{
      */
     public static int getXElements(){
         return xElements;
+    }
+    
+    /**
+     * Ustawia stan początkowy figury Z. 
+     * @param start stan początkowy figury Z. 
+     */
+    public void setStart(boolean start){
+        this.start = start;
+    }
+    
+    /**
+     * Zwraca czy figura Z jest w stanie początkowym. 
+     * @return czy figura Z jest w stanie początkowym. 
+     */
+    public boolean getStart(){
+        return start;
     }
 }
