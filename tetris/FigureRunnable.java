@@ -47,7 +47,6 @@ public class FigureRunnable implements Runnable{
                    c.repaint();
                    Thread.sleep(delayed);
                }while(!c.isBorder(figure, "down") && !is);
-               //}while(((figure.getActualTopX() + figure.getHeightFigure() != 580 && ( !(figure instanceof FigureL && figure.getPosition() != 3))) || (figure.getActualTopX() != 540 && figure.getPosition() == 2)) && !is);
                figure.setStopMovement(true);
                limit++;
                do{
@@ -55,14 +54,19 @@ public class FigureRunnable implements Runnable{
                     deleted = false;
                     if(fullLine != -1){
                         x = fullLine * Element.getHeight();
-                        c.deleteLine(limit, x);
+                        for(int i = 0; i < limit; i++)
+                            c.deleteLine(figures.get(i), x);
                         c.repaint();
                         deleted = true;
                         for(int i = 0; i < limit; i++){
                             tempFigure = figures.get(i);
-                            if(tempFigure.getActualTopX() < x-1 && !c.isEmptyLine(tempFigure)){
-                                
-                                tempFigure.move(0, Element.getHeight());
+                            Element[][] elements = tempFigure.getElements();
+                            for(int w = 0; w < elements.length; w++){
+                                for(int k = 0; k < elements[w].length; k++){
+                                    if(elements[w][k] != null && elements[w][k].getTopX() < x - 1){
+                                        elements[w][k].setTop(elements[w][k].getTopX() + 20);
+                                    }
+                                }
                             }
                             c.repaint();
                         }
@@ -117,12 +121,10 @@ public class FigureRunnable implements Runnable{
          */
         public void keyPressed(KeyEvent ke) {
             if(!figure.getStopMovement() && !c.isBorder(figure, "down")){
-            //if(!figure.getStopMovement() && ((figure.getActualTopX() + figure.getHeightFigure() != 560 && figure.getPosition() != 2) || (figure.getActualTopX() != 540 && figure.getPosition() == 2))){
                 char key = ke.getKeyChar();
                 int leftX = elements[0][0].getLeftX();
                 if(key == left){
                     if(!c.isBorder(figure, "left")){
-                    //if(leftX != 0 && (figure.getPosition() != 1 || leftX + (-1) * figure.getWidthFigure() >= 0) && (figure instanceof FigureL && figure.getPosition() == 2 && leftX + (-1) * figure.getWidthFigure() >= 0)){
                         figure.move(-Element.getWidth(), 0);
                         boolean is = isObstacle(figure);
                         c.repaint();
@@ -134,7 +136,6 @@ public class FigureRunnable implements Runnable{
                 }else{
                     if(key == right){
                         if(!c.isBorder(figure, "right")){
-                        //if((leftX != (10 * Element.getWidth()) - figure.getWidthFigure() && figure.getPosition() != 1 && !(figure instanceof FigureL && figure.getPosition() == 2)) || (figure.getPosition() == 1 && leftX < 180) || (figure instanceof FigureL && figure.getPosition() == 2 && leftX <= 10 * Element.getWidth() - 2 * Element.getWidth())){
                             figure.move(Element.getWidth(), 0);
                             boolean is = isObstacle(figure);
                             c.repaint();
