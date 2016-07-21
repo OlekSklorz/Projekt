@@ -3,6 +3,7 @@ package tetris;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Obiekt <code>FigureRunnable</code> reprezentuje proces poruszania figury.
@@ -13,13 +14,15 @@ public class FigureRunnable implements Runnable{
     public char left, right, down, rotation; 
     private int delayed;
     private int limit = 0;
-    public FigureRunnable(GameField c, char left, char right, char down, char rotation, int delayed){
+    private int start;
+    public FigureRunnable(GameField c, char left, char right, char down, char rotation, int delayed, int start){
         this.c = c;
         this.left = left;
         this.right = right;
         this.down = down;
         this.rotation = rotation;
         this.delayed = delayed;
+        this.start = start;
     }
     
     /**
@@ -33,8 +36,13 @@ public class FigureRunnable implements Runnable{
         boolean is, deleted;
         int fullLine, x;
         Figure tempFigure;
+        Figure figure;
         try{
-           for(Figure figure : figures){
+            do{
+                Random randomFigure = new Random();
+                figure = getFigure();
+                figures.add(figure);
+                c.add(figure);
                 c.addKeyListener(new MovementAction(figure));
                 fullLine = -1;
                 do{
@@ -57,7 +65,7 @@ public class FigureRunnable implements Runnable{
                 if(!freeFall || isObstacle(figure))
                     figure.move(0, -Element.getHeight());
                 c.repaint();
-               limit++;
+                limit++;
                 do{
                     fullLine = c.checkLine(limit);
                     deleted = false;
@@ -81,16 +89,28 @@ public class FigureRunnable implements Runnable{
                         }
                     }
                 }while(deleted);
-           }
+                if(isGameOver()){
+                    System.out.println("TAK");
+                }
+            }while(!isGameOver());
         }catch(InterruptedException e){}
     }
     
-    /**
-     * Dodaje figurę do listy figur. 
-     * @param f dodawana figura.
-     */
-    public void add(Figure f){
-        figures.add(f);
+    private Figure getFigure(){
+        Random randomFigure = new Random();
+        switch(randomFigure.nextInt(5)){
+            case 0: 
+                return new Square(start,-(Square.getYElements() * Element.getHeight()));
+            case 1:
+                return new FigureI(start,-(FigureI.getYElements() * Element.getHeight()));
+            case 2:
+                return new FigureL(start,-(FigureL.getYElements() * Element.getHeight()));
+            case 3:
+                return new FigureT(start,-(FigureT.getYElements() * Element.getHeight()));
+            case 4:
+                return new FigureZ(start,-(FigureZ.getYElements() * Element.getHeight()));
+        }
+        return null;
     }
     
     private boolean isObstacle(Figure figure){
@@ -107,6 +127,22 @@ public class FigureRunnable implements Runnable{
         }while(i < figure.getElements().length && !is);
         return is;
     }
+    
+    private boolean isGameOver(){
+        boolean gameOver = false;
+        Element[][] elements;
+        for(int i = 0; i < figures.size(); i++){
+            elements = figures.get(i).getElements();
+            for(int w = 0; w < elements.length; w++){
+                for(int k = 0; k < elements[w].length; k++){
+                    if(elements[w][k] != null && elements[w][k].getTopX() < 0)
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+    
     /**
      * Obiekt <code>MovementAction</code> reprezentuje ruch figury. 
      * Za pomocą odpowiednich klawiszy figura może poruszać się w lewo, prawo lub
