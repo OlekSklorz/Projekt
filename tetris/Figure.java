@@ -114,9 +114,9 @@ public abstract class Figure extends JComponent{
         do{
             k = 0;
             do{
-                if(elements[w][k] != null && elements[w][k].usuniety == false && elements[w][k].getTopX() == line && (position == 0 || position == 2))
+                if(elements[w][k] != null && elements[w][k].getTopX() == line && (position == 0 || position == 2))
                     return w;
-                if(elements[w][k] != null && elements[w][k].usuniety == false && elements[w][k].getTopX() == line && (position == 1 || position == 3))
+                if(elements[w][k] != null && elements[w][k].getTopX() == line && (position == 1 || position == 3))
                     return k;
                 k++;
             }while(k < elements[w].length);
