@@ -9,9 +9,11 @@ public class Element{
     private int leftX, topX;
     private static final int WIDTH = 20;
     private static final int HEIGHT = 20;
+    public boolean usuniety;
     public Element(int leftX, int topX){
         this.leftX = leftX;
         this.topX = topX;
+        usuniety = false;
     }
     /**
      * Tworzy kwadracik z podanych współrzędnych x i y oraz z podanej szerokości i wysokości.
