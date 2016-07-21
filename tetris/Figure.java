@@ -39,22 +39,6 @@ public abstract class Figure extends JComponent{
     }
     
     /**
-     * Pobiera położenie figury w poziomie. 
-     * @return położenie w poziome. 
-     */
-    public int getLeftX(){
-        return leftX;
-    }
-    
-    /**
-     * Pobiera położenie figury w pionie. 
-     * @return położenie w pionie. 
-     */
-    public int getTopX(){
-        return topX;
-    }
-    
-    /**
      * Pobiera wszystkie elementy (kwadraciki) z których złożona jest figura. 
      * @return tablica składowych figury. 
      */
@@ -225,3 +209,4 @@ public abstract class Figure extends JComponent{
         return position;
     }
 }
+
