@@ -35,21 +35,30 @@ public class FigureRunnable implements Runnable{
         Figure tempFigure;
         try{
            for(Figure figure : figures){
-               c.addKeyListener(new MovementAction(figure));
-               fullLine = -1;
-               do{
-                   int y = figure.getActualTopX();
-                   figure.move(0, Element.getHeight());
-                   is = isObstacle(figure);
-                   int i = 0;
-                   if(is && y - figure.getActualTopX() != 0)
-                       figure.move(0, -Element.getHeight());
-                   c.repaint();
-                   Thread.sleep(delayed);
-               }while(!c.isBorder(figure, "down") && !is);
-               figure.setStopMovement(true);
+                c.addKeyListener(new MovementAction(figure));
+                fullLine = -1;
+                do{
+                    int y = figure.getActualTopX();
+                    figure.move(0, Element.getHeight());
+                    is = isObstacle(figure);
+                    int i = 0;
+                    if(is && y - figure.getActualTopX() != 0)
+                        figure.move(0, -Element.getHeight());
+                    c.repaint();
+                    Thread.sleep(delayed);
+                }while(!c.isBorder(figure, "down") && !is);
+                figure.setStopMovement(true);
+                figure.move(0, Element.getHeight());
+                boolean freeFall = false;
+                while(!c.isBorder(figure, "down") && !isObstacle(figure)){
+                    figure.move(0, Element.getHeight());
+                    freeFall = true;
+                }
+                if(!freeFall || isObstacle(figure))
+                    figure.move(0, -Element.getHeight());
+                c.repaint();
                limit++;
-               do{
+                do{
                     fullLine = c.checkLine(limit);
                     deleted = false;
                     if(fullLine != -1){
@@ -71,7 +80,7 @@ public class FigureRunnable implements Runnable{
                             c.repaint();
                         }
                     }
-               }while(deleted);
+                }while(deleted);
            }
         }catch(InterruptedException e){}
     }
@@ -163,7 +172,7 @@ public class FigureRunnable implements Runnable{
                                     do{
                                         k = 0;
                                         do{
-                                            if(elements[w][k] != null && (elements[w][k].getLeftX() < 0 || elements[w][k].getLeftX() >= 10 * Element.getWidth() || c.isComponent(elements[w][k].getTopX(), elements[w][k].getLeftX(), limit)))
+                                            if(elements[w][k] != null && (elements[w][k].getLeftX() < 0 || elements[w][k].getLeftX() >= 10 * Element.getWidth() || c.isComponent(elements[w][k].getTopX(), elements[w][k].getLeftX(), limit) || elements[w][k].getTopX() > 27 * Element.getHeight()))
                                                 repeating = true;
                                             k++;
                                         }while(k < el[w].length && !repeating);
