@@ -20,9 +20,9 @@ public class GameField extends JComponent {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
-        for(Figure figure : figures){
-            g2.setPaint(figure.getColor());
-            Element[][] elements = figure.getElements();
+        for(int f = 0; f < figures.size(); f++){
+            g2.setPaint(figures.get(f).getColor());
+            Element[][] elements = figures.get(f).getElements();
             for(int i = 0; i < elements.length; i++)
                 for(int k = 0; k < elements[i].length; k++){
                     if(elements[i][k] != null)
