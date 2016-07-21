@@ -94,11 +94,12 @@ public class GameField extends JComponent {
     
     /**
      * Usuwa zapełnioną linię. 
-     * @param limit określa do którego indeksu mają być pobierane figury z listy.
+     * @param figure określa z której figury ma zostać usunięta linia. 
      * @param line podaje numer zapełnionej linii (linii do usuniecia). 
      */
-    public void deleteLine(int limit, int line){
-        int i = 0, count = 0;
+    //public void deleteLine(int limit, int line){
+    public void deleteLine(Figure figure, int line){
+        /*int i = 0, count = 0;
         Figure figure;
         int numberDeletedLine;
         while(i < limit && count < 10){
@@ -107,17 +108,12 @@ public class GameField extends JComponent {
             if(numberDeletedLine != -1){
                 figure.deleteElement(numberDeletedLine);
                 count++;
-                //if(numberDeletedLine < figure.getElements().length - 1){
-                if(numberDeletedLine > 0){
-                    for(int w = numberDeletedLine - 1; w >= 0 ; w--){
-                        for(int k = 0; k < figure.getElements()[w].length; k++){
-                            figure.setElements(w + 1, k,figure.getElements()[w][k]);
-                        }
-                    }
-                }
             }
             i++;
-        }
+        }*/
+        int numberDeletedLine = figure.getNumberDeletedLine(line);
+        if(numberDeletedLine != -1)
+            figure.deleteElement(numberDeletedLine);
     }
     
     private ArrayList<Integer> getCoordinates(int limit){
@@ -136,26 +132,6 @@ public class GameField extends JComponent {
             i++;
         }
         return coordinates;
-    }
-    
-    /**
-     * Sprawdza czy podana figura ma jakąś pustą linię. 
-     * @param figure figura do sprawdzenia. 
-     * @return czy figura ma pustą linię. 
-     */
-    public boolean isEmptyLine(Figure figure){
-        Element[][] elements = figure.getElements();
-        boolean emptyLine = false;
-        int w;
-        for(w = 0; w < elements.length; w++){
-            emptyLine = true;
-            for(int k = 0; k < elements[w].length; k++){
-                if(elements[w][k] != null)
-                    emptyLine = false;
-            }
-            if(emptyLine) return emptyLine;
-        }
-        return emptyLine;
     }
     
     /**
