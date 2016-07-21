@@ -44,20 +44,18 @@ public class Tetris {
      * Uruchamia grę. 
      */
     public void play(){
-        FigureRunnable r = new FigureRunnable(c, 'a', 'd', 's', 200);
         int i = 0;
         int center = (int)c.getPreferredSize().width/2;
         center -= 20;
         do{
             center -= 1;
         }while(center % 20 != 0);
-        center = center;
-        Figure figure;
+        FigureRunnable r = new FigureRunnable(c, 'a', 'd', 's', ' ', 200, center);
         do{
-            figure  = new Square(center,-(Square.getYElements() * Element.getHeight()));
-            c.add(figure);
-            r.add(figure);
-            figure = new FigureI(center,-(FigureI.getYElements() * Element.getHeight()));
+            //figure  = new Square(center,-(Square.getYElements() * Element.getHeight()));
+            //c.add(figure);
+            //r.add(figure);
+            /*figure = new FigureI(center,-(FigureI.getYElements() * Element.getHeight()));
             c.add(figure);
             r.add(figure);
             figure = new FigureL(center,-(FigureL.getYElements() * Element.getHeight()));
@@ -68,9 +66,9 @@ public class Tetris {
             r.add(figure);
             figure = new FigureZ(center,-(FigureZ.getYElements() * Element.getHeight()));
             c.add(figure);
-            r.add(figure);
+            r.add(figure);*/
             i++;
-        }while(i < 2);
+        }while(i < 5);
         Thread t = new Thread(r);
         t.start();
     }
