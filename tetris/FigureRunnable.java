@@ -4,6 +4,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Random;
+import javax.swing.JLabel;
 
 /**
  * Obiekt <code>FigureRunnable</code> reprezentuje proces poruszania figury.
@@ -15,7 +16,8 @@ public class FigureRunnable implements Runnable{
     private int delayed;
     private int limit = 0;
     private int start;
-    public FigureRunnable(GameField c, char left, char right, char down, char rotation, int delayed, int start){
+    private JLabel gameOverLabel;
+    public FigureRunnable(GameField c, char left, char right, char down, char rotation, int delayed, int start, JLabel gameOverLabel){
         this.c = c;
         this.left = left;
         this.right = right;
@@ -23,6 +25,8 @@ public class FigureRunnable implements Runnable{
         this.rotation = rotation;
         this.delayed = delayed;
         this.start = start;
+        this.gameOverLabel = gameOverLabel;
+        
     }
     
     /**
@@ -34,7 +38,7 @@ public class FigureRunnable implements Runnable{
         //c.addKeyListener(new DownAction());
         //int limit = 0;
         boolean is, deleted;
-        int fullLine, x;
+        int fullLine, x, size;
         Figure tempFigure;
         Figure figure;
         try{
@@ -72,7 +76,12 @@ public class FigureRunnable implements Runnable{
                     if(fullLine != -1){
                         x = fullLine * Element.getHeight();
                         for(int i = 0; i < limit; i++)
-                            c.deleteLine(figures.get(i), x);
+                            c.deleteLine(figures.get(i), x, i, figures);
+                        ArrayList<Figure> tempFigures = c.przesun(figures);
+                        if(tempFigures != null){
+                            figures = tempFigures;
+                            limit = figures.size();
+                        }
                         c.repaint();
                         deleted = true;
                         for(int i = 0; i < limit; i++){
@@ -89,10 +98,8 @@ public class FigureRunnable implements Runnable{
                         }
                     }
                 }while(deleted);
-                if(isGameOver()){
-                    System.out.println("TAK");
-                }
             }while(!isGameOver());
+            gameOverLabel.setVisible(true);
         }catch(InterruptedException e){}
     }
     
@@ -137,9 +144,9 @@ public class FigureRunnable implements Runnable{
                 for(int k = 0; k < elements[w].length; k++){
                     if(elements[w][k] != null && elements[w][k].getTopX() < 0)
                         return true;
+                    }
                 }
             }
-        }
         return false;
     }
     
