@@ -10,7 +10,7 @@ import javax.swing.*;
  */
 public class Tetris {
     private JPanel informativePanel, tetrisPanel, gamePanel, emptyPanel;
-    private JLabel pointsLabel;
+    private JLabel pointsLabel, gameOverLabel;
     private GameField c;
     public Tetris(int lvl){
         informativePanel = new JPanel();
@@ -21,23 +21,29 @@ public class Tetris {
         informativePanel.add(new Edge(0,0,0,Toolkit.getDefaultToolkit().getScreenSize().height, 0), BorderLayout.WEST);
         gamePanel = new JPanel();
         c = new GameField();
-        //Figure s = new Square(0, 0);
-        //c.add(s);
-        //Runnable r = new FigureRunnable(s, c);
-        //Thread t = new Thread(r);
-        //t.start();
-        play();
         gamePanel.add(c);
-        emptyPanel = new JPanel();
+        emptyPanel = new JPanel(null);
         emptyPanel.setLayout(new BorderLayout());
+        gameOverLabel = new JLabel("GAME OVER");
+        gameOverLabel.setFont(new Font("Serif", Font.BOLD, 25));
+        gameOverLabel.setVisible(false);
+        JPanel gameOverPanel = new JPanel();
+        gameOverPanel.add(gameOverLabel);
+        gameOverPanel.setBounds(150,200,151,200);
+        JPanel edgePanel = new JPanel(new BorderLayout());
+        //int space = 451;
+        //int space = 342;
         int space = 451;
-        emptyPanel.add(new Edge(space,0,space,Toolkit.getDefaultToolkit().getScreenSize().height, space), BorderLayout.EAST);
+        edgePanel.add(new Edge(space,0,space,Toolkit.getDefaultToolkit().getScreenSize().height, space), BorderLayout.EAST);
+        emptyPanel.add(gameOverPanel);
+        emptyPanel.add(edgePanel);
         tetrisPanel = new JPanel();
         tetrisPanel.setLayout(new BorderLayout());
         tetrisPanel.add(informativePanel, BorderLayout.EAST);
         tetrisPanel.add(gamePanel);
         tetrisPanel.add(emptyPanel, BorderLayout.WEST);
         tetrisPanel.setVisible(true);
+        play();
     }
     
     /**
@@ -50,25 +56,7 @@ public class Tetris {
         do{
             center -= 1;
         }while(center % 20 != 0);
-        FigureRunnable r = new FigureRunnable(c, 'a', 'd', 's', ' ', 200, center);
-        do{
-            //figure  = new Square(center,-(Square.getYElements() * Element.getHeight()));
-            //c.add(figure);
-            //r.add(figure);
-            /*figure = new FigureI(center,-(FigureI.getYElements() * Element.getHeight()));
-            c.add(figure);
-            r.add(figure);
-            figure = new FigureL(center,-(FigureL.getYElements() * Element.getHeight()));
-            c.add(figure);
-            r.add(figure);
-            figure = new FigureT(center,-(FigureT.getYElements() * Element.getHeight()));
-            c.add(figure);
-            r.add(figure);
-            figure = new FigureZ(center,-(FigureZ.getYElements() * Element.getHeight()));
-            c.add(figure);
-            r.add(figure);*/
-            i++;
-        }while(i < 5);
+        FigureRunnable r = new FigureRunnable(c, 'a', 'd', 's', ' ', 200, center, gameOverLabel);
         Thread t = new Thread(r);
         t.start();
     }
@@ -101,14 +89,16 @@ public class Tetris {
             Graphics2D g2 = (Graphics2D)g;
             g2.draw(line);
         }
+        //public void set(int s){
+         //   width = s;
+        //}
         
         /**
          * Pobiera preferowany rozmiar komponentu zawierającego linię. 
          * @return preferowany rozmiar komponentu zawierającego linię. 
          */
         public Dimension getPreferredSize(){
-            return new Dimension(1 + space, 601);
+            return new Dimension(space + 1, 601);
         }
     }
 }
-
