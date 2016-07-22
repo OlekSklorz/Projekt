@@ -1,10 +1,12 @@
 package tetris;
 
+import java.awt.Component;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * Obiekt <code>FigureRunnable</code> reprezentuje proces poruszania figury.
@@ -14,8 +16,9 @@ public class FigureRunnable implements Runnable{
     private GameField c;
     public char left, right, down, rotation; 
     private int delayed, limit = 0, start;
-    private JLabel gameOverLabel, pointsLabel;
-    public FigureRunnable(GameField c, char left, char right, char down, char rotation, int delayed, int start, JLabel gameOverLabel, JLabel pointsLabel){
+    private JLabel gameOverLabel;
+    private JPanel informativePanel;
+    public FigureRunnable(GameField c, char left, char right, char down, char rotation, int delayed, int start, JLabel gameOverLabel, JPanel informativePanel){
         this.c = c;
         this.left = left;
         this.right = right;
@@ -24,7 +27,7 @@ public class FigureRunnable implements Runnable{
         this.delayed = delayed;
         this.start = start;
         this.gameOverLabel = gameOverLabel;
-        this.pointsLabel = pointsLabel;
+        this.informativePanel = informativePanel;
     }
     
     /**
@@ -37,12 +40,23 @@ public class FigureRunnable implements Runnable{
         //int limit = 0;
         boolean is, deleted;
         int fullLine, x, points = 0;
+        Component tempComponent;
+        JLabel pointsLabel = null;
+        for(int index = 0; index < informativePanel.getComponentCount(); index++){
+            tempComponent = informativePanel.getComponent(index);
+            if(tempComponent instanceof JLabel && ((JLabel)tempComponent).getText().equals("Points: 0"))
+                pointsLabel = (JLabel)tempComponent;
+        }
         Figure tempFigure;
         Figure figure;
+        Figure nextFigure = null;
         try{
             do{
-                Random randomFigure = new Random();
-                figure = getFigure();
+                if(nextFigure != null)
+                    figure = nextFigure;
+                else
+                    figure = getFigure();
+                nextFigure = getFigure();
                 figures.add(figure);
                 c.add(figure);
                 c.addKeyListener(new MovementAction(figure));
