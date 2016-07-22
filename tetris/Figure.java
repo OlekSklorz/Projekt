@@ -74,16 +74,17 @@ public abstract class Figure extends JComponent{
      * @param oldX numer wiersza do usunięcia. 
      */
     public void deleteElement(int oldX){
-        if(position == 0 || position == 2)
-        for(int i = 0; i < elements[oldX].length; i++){
-            if(elements[oldX][i] != null){
-                elements[oldX][i] = null;
+        if(position == 0 || position == 2){
+            for(int i = 0; i < elements[oldX].length; i++){
+                if(elements[oldX][i] != null){
+                    elements[oldX][i] = null;
+                }
             }
-        }
-        if(position == 1 || position == 3)
+        }else{
             for(int i = 0; i < elements.length; i++){
-            if(elements[i][oldX] != null){
-                elements[i][oldX] = null;
+                if(elements[i][oldX] != null){
+                    elements[i][oldX] = null;
+                }
             }
         }
     }
