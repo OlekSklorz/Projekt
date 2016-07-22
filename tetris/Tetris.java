@@ -82,7 +82,6 @@ public class Tetris {
         tetrisPanel.add(gamePanel, gbc);
         gbc.gridx = 2;
         tetrisPanel.add(informativePanel, gbc);
-        tetrisPanel.setVisible(true);
         play();
     }
     
@@ -96,7 +95,7 @@ public class Tetris {
         do{
             center -= 1;
         }while(center % 20 != 0);
-        FigureRunnable r = new FigureRunnable(c, 'a', 'd', 's', ' ', 200, center, gameOverLabel, pointsLabel);
+        FigureRunnable r = new FigureRunnable(c, 'a', 'd', 's', ' ', 200, center, gameOverLabel, informativePanel);
         Thread t = new Thread(r);
         t.start();
     }
