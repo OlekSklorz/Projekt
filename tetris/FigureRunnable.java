@@ -13,11 +13,9 @@ public class FigureRunnable implements Runnable{
     private ArrayList<Figure> figures = new ArrayList();
     private GameField c;
     public char left, right, down, rotation; 
-    private int delayed;
-    private int limit = 0;
-    private int start;
-    private JLabel gameOverLabel;
-    public FigureRunnable(GameField c, char left, char right, char down, char rotation, int delayed, int start, JLabel gameOverLabel){
+    private int delayed, limit = 0, start;
+    private JLabel gameOverLabel, pointsLabel;
+    public FigureRunnable(GameField c, char left, char right, char down, char rotation, int delayed, int start, JLabel gameOverLabel, JLabel pointsLabel){
         this.c = c;
         this.left = left;
         this.right = right;
@@ -26,7 +24,7 @@ public class FigureRunnable implements Runnable{
         this.delayed = delayed;
         this.start = start;
         this.gameOverLabel = gameOverLabel;
-        
+        this.pointsLabel = pointsLabel;
     }
     
     /**
@@ -38,7 +36,7 @@ public class FigureRunnable implements Runnable{
         //c.addKeyListener(new DownAction());
         //int limit = 0;
         boolean is, deleted;
-        int fullLine, x, size;
+        int fullLine, x, points = 0;
         Figure tempFigure;
         Figure figure;
         try{
@@ -77,7 +75,7 @@ public class FigureRunnable implements Runnable{
                         x = fullLine * Element.getHeight();
                         for(int i = 0; i < limit; i++)
                             c.deleteLine(figures.get(i), x, i, figures);
-                        ArrayList<Figure> tempFigures = c.przesun(figures);
+                        ArrayList<Figure> tempFigures = c.relocateListElements(figures);
                         if(tempFigures != null){
                             figures = tempFigures;
                             limit = figures.size();
@@ -96,6 +94,8 @@ public class FigureRunnable implements Runnable{
                             }
                             c.repaint();
                         }
+                        points += 10;
+                        pointsLabel.setText("Points: " + points);
                     }
                 }while(deleted);
             }while(!isGameOver());
