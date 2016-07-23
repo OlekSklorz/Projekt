@@ -15,7 +15,7 @@ public class NextFigureComponent extends JComponent{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
-        if(this.getBounds().y == 350){
+        if(figure != null && this.getBounds().y == 350){
             g2.setPaint(figure.getColor());
             Element[][] elements = figure.getElements();
             int x = 0, y;
