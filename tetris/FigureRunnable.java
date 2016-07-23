@@ -50,6 +50,9 @@ public class FigureRunnable implements Runnable{
         Figure tempFigure;
         Figure figure;
         Figure nextFigure = null;
+        NextFigureComponent nfc = new NextFigureComponent();
+        nfc.setBounds(10,350,82,62);
+        informativePanel.add(nfc);
         try{
             do{
                 if(nextFigure != null)
@@ -57,6 +60,9 @@ public class FigureRunnable implements Runnable{
                 else
                     figure = getFigure();
                 nextFigure = getFigure();
+                nfc.setFigure(nextFigure);
+                nfc.setBounds(10,350,82,62);
+                nfc.repaint();
                 figures.add(figure);
                 c.add(figure);
                 c.addKeyListener(new MovementAction(figure));
@@ -69,6 +75,8 @@ public class FigureRunnable implements Runnable{
                     if(is && y - figure.getActualTopX() != 0)
                         figure.move(0, -Element.getHeight());
                     c.repaint();
+                    nfc.setBounds(10,350,82,62);
+                nfc.repaint();
                     Thread.sleep(delayed);
                 }while(!c.isBorder(figure, "down") && !is);
                 figure.setStopMovement(true);
