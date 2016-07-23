@@ -10,6 +10,11 @@ import javax.swing.JComponent;
  */
 public class GameField extends JComponent {
     private ArrayList<Figure> figures = new ArrayList();
+    
+    /**
+     * Dodaje figurę do gry (komponentu gry). 
+     * @param figure dodawana figura. 
+     */
     public void add(Figure figure){
         figures.add(figure);
     }
@@ -93,27 +98,20 @@ public class GameField extends JComponent {
     }
     
     /**
-     * Usuwa zapełnioną linię. 
+     * Usuwa zapełnioną linię oraz jeśli figura traci wszystkie wiersze - usuwa figurę. 
      * @param figure określa z której figury ma zostać usunięta linia. 
-     * @param line podaje numer zapełnionej linii (linii do usuniecia). 
+     * @param line numer zapełnionej linii (linii do usuniecia).
+     * @param i indeks przekazanej figury w liscie. 
+     * @param listFigure lista w której znajdują się figury. 
      */
-    //public void deleteLine(int limit, int line){
-    public void deleteLine(Figure figure, int line){
-        /*int i = 0, count = 0;
-        Figure figure;
-        int numberDeletedLine;
-        while(i < limit && count < 10){
-            figure = figures.get(i);
-            numberDeletedLine = figure.getNumberDeletedLine(line);
-            if(numberDeletedLine != -1){
-                figure.deleteElement(numberDeletedLine);
-                count++;
-            }
-            i++;
-        }*/
+    public void deleteLine(Figure figure, int line, int i, ArrayList<Figure> listFigure){
         int numberDeletedLine = figure.getNumberDeletedLine(line);
-        if(numberDeletedLine != -1)
+        if(numberDeletedLine != -1){
             figure.deleteElement(numberDeletedLine);
+            if(isEmptyFigure(figure)){
+                listFigure.set(i, null);
+            }
+        }
     }
     
     private ArrayList<Integer> getCoordinates(int limit){
@@ -154,6 +152,49 @@ public class GameField extends JComponent {
             w--;
         }while(w >= 0 && !stop);
         return stop;
+    }
+    
+    /**
+     * Sprawdza czy figura została usunięta (czyli wszystkie wiersze zostały skasowane). 
+     * @param figure figura do sprawdzenia.
+     * @return czy usunięta. 
+     */
+    public boolean isEmptyFigure(Figure figure){
+        Element[][] elements = figure.getElements();
+        int w = 0, k;
+        do{
+            k = 0;
+            do{
+                if(elements[w][k] != null)
+                    return false;
+                k++;
+            }while(k < elements[w].length);
+            w++;
+        }while(w < elements.length);
+        return true;
+    }
+    
+    /**
+     * Przenosi elementy listy, tak aby usunąć puste figury (nulle). 
+     * Zmienia również listę z tej klasy. 
+     * @param figureList lista z której przenosimy figury tak aby usunąć nulle. 
+     * @return 
+     */
+    public ArrayList<Figure> relocateListElements(ArrayList<Figure> figureList){
+        ArrayList<Figure> tempList = new ArrayList();
+        figures = new ArrayList();
+        int empty = 0;
+        for(int i = 0; i < figureList.size(); i++){
+            if(figureList.get(i) != null){
+                tempList.add(figureList.get(i));
+                figures.add(figureList.get(i));
+            }
+            else empty++;
+        }
+        if(empty != 0){
+            return tempList;
+        }
+        return null;
     }
     
     /**
