@@ -84,6 +84,7 @@ public class MainMenuFrame extends JFrame {
                     if(NewGameChoosing.getActiveGame() == 1){
                         panel.setVisible(false);
                         Tetris tetris = new Tetris(Levels.valueOf(button.getText()).lvl);
+                        tetris.setFrame(MainMenuFrame.this);
                         tetrisPanel = tetris.getTetrisPanel();
                         tetrisPanel.setVisible(true);
                         add(tetrisPanel);
