@@ -1,6 +1,7 @@
 package tetris;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.geom.Line2D;
 import javax.swing.*;
 
@@ -12,6 +13,7 @@ public class Tetris {
     private JPanel informativePanel, tetrisPanel, gamePanel, emptyPanel;
     private JLabel gameOverLabel;
     private GameField c;
+    private JFrame frame;
     public Tetris(int lvl){
         informativePanel = new JPanel(new BorderLayout());
         informativePanel.add(new JLabel("Points: 0"), BorderLayout.NORTH);
@@ -58,7 +60,7 @@ public class Tetris {
         do{
             center -= 1;
         }while(center % 20 != 0);
-        FigureRunnable r = new FigureRunnable(c, 'a', 'd', 's', ' ', 200, center, gameOverLabel, informativePanel);
+        FigureRunnable r = new FigureRunnable(c, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_S, KeyEvent.VK_SPACE, 200, center, gameOverLabel, informativePanel, frame);
         Thread t = new Thread(r);
         t.start();
     }
@@ -99,5 +101,13 @@ public class Tetris {
         public Dimension getPreferredSize(){
             return new Dimension(space + 1, 601);
         }
+    }
+    
+    /**
+     * Ustawia ramkę która jest właścicielem tej gry. 
+     * @param frame 
+     */
+    public void setFrame(JFrame frame){
+        this.frame = frame;
     }
 }
