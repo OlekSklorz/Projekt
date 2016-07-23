@@ -14,6 +14,7 @@ public class Game {
             setTitle("Zestaw gier");
             setDefaultCloseOperation(EXIT_ON_CLOSE);
             setVisible(true);
+            setResizable(false);
         }});
     }
 }
