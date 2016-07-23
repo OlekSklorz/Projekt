@@ -77,4 +77,14 @@
      public void setTop(int y){
          topX = y;
      }
+     
+     /**
+      * Zwraca mały kwadracik, który buduje figurę czekającą w kolejce. 
+      * @param x położenie w poziomie.
+      * @param y położenie w pionie. 
+      * @return 
+      */
+     public Rectangle2D getElementInQueue(int x, int y){
+         return new Rectangle2D.Double(0 + x, 0 + y, WIDTH, HEIGHT);
+     }
  }
