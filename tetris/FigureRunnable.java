@@ -1,12 +1,10 @@
 package tetris;
 
-import java.awt.Component;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Random;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import game.GameDialogWindow;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+import javax.swing.*;
 
 /**
  * Obiekt <code>FigureRunnable</code> reprezentuje proces poruszania figury.
@@ -14,12 +12,15 @@ import javax.swing.JPanel;
 public class FigureRunnable implements Runnable{
     private ArrayList<Figure> figures = new ArrayList();
     private GameField c;
-    public char left, right, down, rotation; 
-    private int delayed, limit = 0, start;
+    private int left, right, down, rotation, delayed, limit = 0, start;
+    private static final int EXIT = KeyEvent.VK_ESCAPE;
     private JLabel gameOverLabel;
     private JPanel informativePanel;
-    public FigureRunnable(GameField c, char left, char right, char down, char rotation, int delayed, int start, JLabel gameOverLabel, JPanel informativePanel){
+    private static JFrame frame;
+    boolean stop;
+    public FigureRunnable(GameField c, int left, int right, int down, int rotation, int delayed, int start, JLabel gameOverLabel, JPanel informativePanel, JFrame frame){
         this.c = c;
+        c.addKeyListener(new MenuAction());
         this.left = left;
         this.right = right;
         this.down = down;
@@ -28,6 +29,8 @@ public class FigureRunnable implements Runnable{
         this.start = start;
         this.gameOverLabel = gameOverLabel;
         this.informativePanel = informativePanel;
+        this.frame = frame;
+        stop = false;
     }
     
     /**
@@ -38,7 +41,7 @@ public class FigureRunnable implements Runnable{
         c.setFocusable(true);
         //c.addKeyListener(new DownAction());
         //int limit = 0;
-        boolean is, deleted;
+        boolean is = false, deleted;
         int fullLine, x, points = 0;
         Component tempComponent;
         JLabel pointsLabel = null;
@@ -47,12 +50,9 @@ public class FigureRunnable implements Runnable{
             if(tempComponent instanceof JLabel && ((JLabel)tempComponent).getText().equals("Points: 0"))
                 pointsLabel = (JLabel)tempComponent;
         }
-        Figure tempFigure;
-        Figure figure;
-        Figure nextFigure = null;
+        Figure tempFigure, figure, nextFigure = null;
         NextFigureComponent nfc = new NextFigureComponent();
         nfc.setBounds(10,350,82,62);
-        informativePanel.add(nfc);
         try{
             do{
                 if(nextFigure != null)
@@ -62,23 +62,25 @@ public class FigureRunnable implements Runnable{
                 nextFigure = getFigure();
                 nfc.setFigure(nextFigure);
                 nfc.setBounds(10,350,82,62);
+                informativePanel.add(nfc);
                 nfc.repaint();
                 figures.add(figure);
                 c.add(figure);
                 c.addKeyListener(new MovementAction(figure));
                 fullLine = -1;
                 do{
-                    int y = figure.getActualTopX();
-                    figure.move(0, Element.getHeight());
-                    is = isObstacle(figure);
-                    int i = 0;
-                    if(is && y - figure.getActualTopX() != 0)
-                        figure.move(0, -Element.getHeight());
-                    c.repaint();
-                    nfc.setBounds(10,350,82,62);
-                nfc.repaint();
-                    Thread.sleep(delayed);
-                }while(!c.isBorder(figure, "down") && !is);
+                    if(!stop){
+                        int y = figure.getActualTopX();
+                        figure.move(0, Element.getHeight());
+                        is = isObstacle(figure);
+                        int i = 0;
+                        if(is && y - figure.getActualTopX() != 0)
+                            figure.move(0, -Element.getHeight());
+                        c.repaint();
+                        nfc.setBounds(10,350,82,62);
+                        Thread.sleep(delayed);
+                    }
+                }while(!c.isBorder(figure, "down") && !is || stop);
                 figure.setStopMovement(true);
                 figure.move(0, Element.getHeight());
                 boolean freeFall = false;
@@ -158,7 +160,6 @@ public class FigureRunnable implements Runnable{
     }
     
     private boolean isGameOver(){
-        boolean gameOver = false;
         Element[][] elements;
         for(int i = 0; i < figures.size(); i++){
             elements = figures.get(i).getElements();
@@ -191,12 +192,11 @@ public class FigureRunnable implements Runnable{
          * KeyPressed różni się od keyTyped tym, że reaguje też na klawisze które
          * nie są zakodowane w unicodzie. 
          * Figura może poruszać się w lewo, prawo lub przyśpieszyć w dół. 
-         * @param ke 
+         * @param ke wciśnięty klawisz. 
          */
         public void keyPressed(KeyEvent ke) {
             if(!figure.getStopMovement() && !c.isBorder(figure, "down")){
-                char key = ke.getKeyChar();
-                int leftX = elements[0][0].getLeftX();
+                int key = ke.getKeyCode();
                 if(key == left){
                     if(!c.isBorder(figure, "left")){
                         figure.move(-Element.getWidth(), 0);
@@ -253,4 +253,24 @@ public class FigureRunnable implements Runnable{
             }
         }
     }
+    
+    /**
+     * Obiekt <code>MenuAction</code> reprezentuje uruchomienie menu w grze. 
+     */
+    public class MenuAction extends KeyAdapter{
+        /**
+         * Uruchamia menu w grze po wciśnięciu klawisza ESC. 
+         * @param ke wciśnięty klawisz. 
+         */
+        public void keyPressed(KeyEvent ke) {
+            int key = ke.getKeyCode();
+            if(key == EXIT){
+                stop = true;
+                GameDialogWindow dialog = new GameDialogWindow();
+                if(dialog.showDialog(frame))
+                    stop = false;
+            }
+        }
+        
+    } 
 }
