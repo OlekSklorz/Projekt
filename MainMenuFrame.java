@@ -11,7 +11,7 @@ import tetris.Tetris;
  */
 public class MainMenuFrame extends JFrame {
     private static final int DEFAULT_WIDTH = 800;
-    private static final int DEFAULT_HEIGHT = 600;
+    private static final int DEFAULT_HEIGHT = 590;
     private static JPanel newGamePanel, optionsPanel, controlPanel, levelsPanel, tetrisPanel;
     private static JPanel panel;
     private final JButton newGameButton = new JButton("NEW GAME"), loadGameButton = new JButton("LOAD GAME"), optionsButton = new JButton("OPTIONS"), 
@@ -83,7 +83,8 @@ public class MainMenuFrame extends JFrame {
                 if(!button.isSelected()){
                     if(NewGameChoosing.getActiveGame() == 1){
                         panel.setVisible(false);
-                        tetrisPanel = new Tetris(Levels.valueOf(button.getText()).lvl).getTetrisPanel();
+                        Tetris tetris = new Tetris(Levels.valueOf(button.getText()).lvl);
+                        tetrisPanel = tetris.getTetrisPanel();
                         tetrisPanel.setVisible(true);
                         add(tetrisPanel);
                     }
