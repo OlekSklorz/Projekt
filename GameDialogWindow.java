@@ -2,6 +2,8 @@ package game;
 
 import java.awt.*;
 import javax.swing.*;
+import static javax.swing.JOptionPane.showConfirmDialog;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * Obiekt <code>GameDialogWindow</code> reprezentuje menu w grze. 
@@ -12,6 +14,7 @@ public class GameDialogWindow extends JPanel{
     private boolean ok;
     private final JButton continueButton = new JButton("CONTINUE"), saveGameButton = new JButton("SAVE GAME"), optionsButton = new JButton("OPTIONS"), exitButton = new JButton("EXIT GAME");
     public GameDialogWindow(JPanel gamePanel){
+        setSize(100,100);
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(4, 1));
         panel.add(continueButton);
@@ -23,10 +26,20 @@ public class GameDialogWindow extends JPanel{
             ok = true;
         });
         exitButton.addActionListener(e -> {
-            dialog.setVisible(false);
-            gamePanel.setVisible(false);
-            MainMenuFrame.setMainWindowVisable();
+            if(showConfirmDialog(null, "Are you sure you want to quit the game?", null, JOptionPane.OK_OPTION) == JOptionPane.YES_OPTION)
+            {
+                dialog.setVisible(false);
+                gamePanel.setVisible(false);
+                MainMenuFrame.setMainWindowVisable();
+            }
         });
+        saveGameButton.addActionListener(e -> {
+           showMessageDialog(null, "This option is available in the full version of the game.");
+        });
+        optionsButton.addActionListener(e -> {
+           showMessageDialog(null, "This option is available in the full version of the game.");
+        });
+        
         add(panel, BorderLayout.CENTER);
     }
     /**
