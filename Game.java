@@ -11,7 +11,7 @@ public class Game {
         
         EventQueue.invokeLater(() -> new MainMenuFrame() {{
             setLocationByPlatform(true);
-            setTitle("Zestaw gier");
+            setTitle("Games");
             setDefaultCloseOperation(EXIT_ON_CLOSE);
             setVisible(true);
             setResizable(false);
