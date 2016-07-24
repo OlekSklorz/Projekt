@@ -14,6 +14,7 @@ public class Tetris {
     private JLabel gameOverLabel;
     private GameField c;
     private JFrame frame;
+    private int[] control = {KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_S, KeyEvent.VK_SPACE,};
     public Tetris(int lvl){
         informativePanel = new JPanel(new BorderLayout());
         informativePanel.add(new JLabel("Points: 0"), BorderLayout.NORTH);
@@ -60,7 +61,7 @@ public class Tetris {
         do{
             center -= 1;
         }while(center % 20 != 0);
-        FigureRunnable r = new FigureRunnable(c, KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_S, KeyEvent.VK_SPACE, 200, center, gameOverLabel, informativePanel, frame);
+        FigureRunnable r = new FigureRunnable(c, control, 200, center, gameOverLabel, informativePanel, frame, tetrisPanel);
         Thread t = new Thread(r);
         t.start();
     }
