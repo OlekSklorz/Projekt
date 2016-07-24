@@ -2,8 +2,7 @@ package game;
 
 import java.awt.*;
 import javax.swing.*;
-import static javax.swing.JOptionPane.showConfirmDialog;
-import static javax.swing.JOptionPane.showMessageDialog;
+import static javax.swing.JOptionPane.*;
 import tetris.Tetris;
 
 /**
@@ -33,8 +32,6 @@ public class MainMenuFrame extends JFrame {
         optionsPanel = options.getJPanel();
         Control control = new Control();
         controlPanel = control.getPanel();
-        /* Tetris tetris = new Tetris();
-        tetrisPanel = tetris.getTetrisPanel(); */ // TEN KOMENTARZ ZOSTAWIĆ BO NIE JESTEM PEWIEN (może się przydać)
         DifficultyLevels levels = new DifficultyLevels();
         levelsPanel = levels.getLevelsPanel();
         panel = new JPanel();
