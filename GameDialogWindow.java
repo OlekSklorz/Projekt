@@ -2,8 +2,7 @@ package game;
 
 import java.awt.*;
 import javax.swing.*;
-import static javax.swing.JOptionPane.showConfirmDialog;
-import static javax.swing.JOptionPane.showMessageDialog;
+import static javax.swing.JOptionPane.*;
 
 /**
  * Obiekt <code>GameDialogWindow</code> reprezentuje menu w grze. 
@@ -46,13 +45,13 @@ public class GameDialogWindow extends JPanel{
      * Wyświetla okno dialogowe (menu w grze) służące do: kontynuowania gry, 
      * zapisu gry, włączeniu opcji albo wyjscia z gry. 
      * @param parent komponent będący właścicielem okna dialogowego.
+     * @param x położenie w poziomie menu. 
+     * @param y położenie w pionie menu. 
      * @return czy okno dialogowe (menu) zostało zamkniete.
      */
     public boolean showDialog(Component parent, int x, int y){
         ok = false;
-        Frame owner = null;
-        if(parent instanceof Frame) owner = (Frame) parent;
-        else owner = (Frame) SwingUtilities.getAncestorOfClass(Frame.class, parent);
+        Frame owner = parent instanceof Frame ? (Frame)parent : (Frame) SwingUtilities.getAncestorOfClass(Frame.class, parent);
         if(dialog == null || dialog.getOwner() != owner)
         {
             Frame mainMenuFrame = MainMenuFrame.getFrames()[0];
