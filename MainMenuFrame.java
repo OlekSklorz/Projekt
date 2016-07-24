@@ -2,6 +2,8 @@ package game;
 
 import java.awt.*;
 import javax.swing.*;
+import static javax.swing.JOptionPane.showConfirmDialog;
+import static javax.swing.JOptionPane.showMessageDialog;
 import tetris.Tetris;
 
 /**
@@ -20,6 +22,7 @@ public class MainMenuFrame extends JFrame {
     private final JLabel user; 
     private final GridBagConstraints gbc = new GridBagConstraints();
     private JButton [] allButton = {signInButton, signUpButton, logOutButton, newGameButton, loadGameButton, optionsButton, statisticsButton, exitButton};
+    private String username = "Anonim";
     
     @SuppressWarnings("OverridableMethodCallInConstructor")
     public MainMenuFrame(){
@@ -37,7 +40,7 @@ public class MainMenuFrame extends JFrame {
         panel = new JPanel();
         panel.setLayout(new GridBagLayout());
 
-        user = new JLabel("Player: Anonim");
+        user = new JLabel("Player: " + username);
         
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
@@ -60,14 +63,20 @@ public class MainMenuFrame extends JFrame {
         add(panel);
         panel.setVisible(true);
 //------------------------------------------------------------------------------        
-        JButton saveOptions = options.getSaveB();        
-        exitButton.addActionListener(e -> System.exit(0));
+        JButton saveOptions = options.getSaveB();   
+        exitButton.addActionListener(e -> {
+            if(showConfirmDialog(null, "Are you sure you want to quit the program?", null, JOptionPane.OK_OPTION) == JOptionPane.YES_OPTION)
+            {
+                System.exit(0);
+            }
+        });
         
         newGameButton.addActionListener(e -> {
             panel.setVisible(false);
             newGamePanel.setVisible(true);
             add(newGamePanel);
         });
+        
 
 //-------------NEW GAME 
         JButton startButton = newGame.getStart();
@@ -83,7 +92,7 @@ public class MainMenuFrame extends JFrame {
                 if(!button.isSelected()){
                     if(NewGameChoosing.getActiveGame() == 1){
                         panel.setVisible(false);
-                        Tetris tetris = new Tetris(Levels.valueOf(button.getText()).lvl);
+                        Tetris tetris = new Tetris(Levels.valueOf(button.getText()).lvl, username);
                         tetris.setFrame(MainMenuFrame.this);
                         tetrisPanel = tetris.getTetrisPanel();
                         tetrisPanel.setVisible(true);
@@ -94,8 +103,10 @@ public class MainMenuFrame extends JFrame {
         } 
         signInButton.addActionListener(ae -> {
             DialogWindow dialog = new DialogWindow(true);
-            if(dialog.showDialog(MainMenuFrame.this, "Login"))
-                user.setText("Player: " + dialog.getUsername());
+            if(dialog.showDialog(MainMenuFrame.this, "Login")){
+                username = dialog.getUsername();
+                user.setText("Player: " + username);
+            }
         });
         
         signUpButton.addActionListener(ae -> {
@@ -134,6 +145,13 @@ public class MainMenuFrame extends JFrame {
         controlBackButton.addActionListener(e -> {
             controlPanel.setVisible(false);
             optionsPanel.setVisible(true);
+        });
+        
+        loadGameButton.addActionListener(e -> {
+           showMessageDialog(null, "This option is available in the full version of the game.");
+        });
+        statisticsButton.addActionListener(e -> {
+           showMessageDialog(null, "This option is available in the full version of the game.");
         });
     }
        
