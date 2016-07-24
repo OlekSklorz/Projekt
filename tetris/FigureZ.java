@@ -48,3 +48,4 @@ public class FigureZ extends Figure{
         return start;
     }
 }
+
