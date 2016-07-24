@@ -15,10 +15,15 @@ public class DialogWindow extends JPanel{
     private final JPasswordField password;
     private JPasswordField passwordConfirmation;
     private JDialog dialog;
-    private final JButton okButton;
-    private final JButton cancelButton;
+    private final JButton okButton, cancelButton;
     private boolean ok;
+    private String path;
     public DialogWindow(boolean log){
+        try{
+            path = new java.io.File(".").getCanonicalPath();
+        }catch(IOException e){
+            Logger.getLogger(DialogWindow.class.getName()).log(Level.SEVERE, e.getMessage(), e);
+        };
         JPanel panel = new JPanel();
         if(!log)
             panel.setLayout(new GridLayout(3, 2));
@@ -78,12 +83,11 @@ public class DialogWindow extends JPanel{
      * Wyświetla okno dialogowe służące do rejestracji lub logowania.
      * @param parent komponent będący właścicielem okna dialogowego.
      * @param title tytuł okna dialogowego.
+     * @return czy okno dialogowe zostało zamknięte. 
      */
     public boolean showDialog(Component parent, String title){
         ok = false;
-        Frame owner = null;
-        if(parent instanceof Frame) owner = (Frame) parent;
-        else owner = (Frame) SwingUtilities.getAncestorOfClass(Frame.class, parent);
+        Frame owner = parent instanceof Frame ? (Frame)parent : (Frame) SwingUtilities.getAncestorOfClass(Frame.class, parent);
         if(dialog == null || dialog.getOwner() != owner)
         {
             dialog = new JDialog(owner, true);
@@ -121,8 +125,8 @@ public class DialogWindow extends JPanel{
     }
     
     private boolean isExists(String nick, String p){
-        if(new File("C:\\Game").exists()){
-            try(BufferedReader file = new BufferedReader(new FileReader("C:\\Game\\Users.txt"))){
+        if(new File(path + "\\Game").exists()){
+            try(BufferedReader file = new BufferedReader(new FileReader(path + "\\Game\\Users.txt"))){
                 String line = file.readLine();
                 line = file.readLine();
                 String name = "";
@@ -160,7 +164,7 @@ public class DialogWindow extends JPanel{
     
     private Double inverseHashcode(){
         Double inverse = 0.0;
-        try(BufferedReader fileR = new BufferedReader(new FileReader("C:\\Game\\Users.txt"))){
+        try(BufferedReader fileR = new BufferedReader(new FileReader(path + "\\Game\\Users.txt"))){
             String hashcode = fileR.readLine();
             int i = 1;
             do
@@ -175,8 +179,8 @@ public class DialogWindow extends JPanel{
     }
     
     private void writeToFile(String name, char[] p){
-        File directory = new File("C:\\Game");
-        boolean existenceFiles = directory.exists() && new File("C:\\Game\\Users.txt").exists();
+        File directory = new File(path + "\\Game");
+        boolean existenceFiles = directory.exists() && new File(path + "\\Game\\Users.txt").exists();
         Double shift = 0.0;
         if(!directory.exists()) directory.mkdir();
         if(!existenceFiles){
@@ -186,7 +190,7 @@ public class DialogWindow extends JPanel{
             shift = inverseHashcode();
         }
         p = encrypt(p, shift);
-        try(PrintWriter fileW = new PrintWriter(new FileWriter("C:\\Game\\Users.txt", true))){
+        try(PrintWriter fileW = new PrintWriter(new FileWriter(path + "\\Game\\Users.txt", true))){
             if(!existenceFiles){
                 fileW.println(shift.hashCode());
             }
