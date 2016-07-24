@@ -15,21 +15,22 @@ public class FigureRunnable implements Runnable{
     private int left, right, down, rotation, delayed, limit = 0, start;
     private static final int EXIT = KeyEvent.VK_ESCAPE;
     private JLabel gameOverLabel;
-    private JPanel informativePanel;
+    private JPanel informativePanel, tetrisPanel;
     private static JFrame frame;
-    boolean stop;
-    public FigureRunnable(GameField c, int left, int right, int down, int rotation, int delayed, int start, JLabel gameOverLabel, JPanel informativePanel, JFrame frame){
+    private boolean stop;
+    public FigureRunnable(GameField c, int[] control, int delayed, int start, JLabel gameOverLabel, JPanel informativePanel, JFrame frame, JPanel tetrisPanel){
         this.c = c;
         c.addKeyListener(new MenuAction());
-        this.left = left;
-        this.right = right;
-        this.down = down;
-        this.rotation = rotation;
+        left = control[0];
+        right = control[1];
+        down = control[2];
+        rotation = control[3];
         this.delayed = delayed;
         this.start = start;
         this.gameOverLabel = gameOverLabel;
         this.informativePanel = informativePanel;
         this.frame = frame;
+        this.tetrisPanel = tetrisPanel;
         stop = false;
     }
     
@@ -67,6 +68,7 @@ public class FigureRunnable implements Runnable{
                 figures.add(figure);
                 c.add(figure);
                 c.addKeyListener(new MovementAction(figure));
+                System.out.println(c.getKeyListeners());
                 fullLine = -1;
                 do{
                     if(!stop){
@@ -266,8 +268,8 @@ public class FigureRunnable implements Runnable{
             int key = ke.getKeyCode();
             if(key == EXIT){
                 stop = true;
-                GameDialogWindow dialog = new GameDialogWindow();
-                if(dialog.showDialog(frame))
+                GameDialogWindow dialog = new GameDialogWindow(tetrisPanel);
+                if(dialog.showDialog(frame, c.getWidth()/2 + 200, c.getHeight()/2))
                     stop = false;
             }
         }
