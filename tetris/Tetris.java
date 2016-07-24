@@ -15,7 +15,7 @@ public class Tetris {
     private GameField c;
     private JFrame frame;
     private int[] control = {KeyEvent.VK_A, KeyEvent.VK_D, KeyEvent.VK_S, KeyEvent.VK_SPACE,};
-    public Tetris(int lvl){
+    public Tetris(int lvl, String username){
         informativePanel = new JPanel(new BorderLayout());
         informativePanel.add(new JLabel("Points: 0"), BorderLayout.NORTH);
         informativePanel.add(new JLabel("NEXT FIGURE: "), BorderLayout.CENTER);
@@ -30,9 +30,13 @@ public class Tetris {
         JPanel gameOverPanel = new JPanel();
         gameOverPanel.add(gameOverLabel);
         gameOverPanel.setBounds(10,200,151,200);
+        JPanel userPanel = new JPanel();
+        userPanel.add(new JLabel("Player: " + username));
+        userPanel.setBounds(0,0,151,200);
         JPanel edgePanel = new JPanel(new BorderLayout());
         int space = 451;
         edgePanel.add(new Edge(space,0,space,Toolkit.getDefaultToolkit().getScreenSize().height, space), BorderLayout.EAST);
+        emptyPanel.add(userPanel);
         emptyPanel.add(gameOverPanel);
         emptyPanel.add(edgePanel);
         tetrisPanel = new JPanel();
@@ -48,20 +52,20 @@ public class Tetris {
         tetrisPanel.add(gamePanel, gbc);
         gbc.gridx = 2;
         tetrisPanel.add(informativePanel, gbc);
-        play();
+        play(lvl);
     }
     
     /**
      * Uruchamia grę. 
      */
-    public void play(){
+    public void play(int lvl){
         int i = 0;
         int center = (int)c.getPreferredSize().width/2;
         center -= 20;
         do{
             center -= 1;
         }while(center % 20 != 0);
-        FigureRunnable r = new FigureRunnable(c, control, 200, center, gameOverLabel, informativePanel, frame, tetrisPanel);
+        FigureRunnable r = new FigureRunnable(c, control, 300, center, gameOverLabel, informativePanel, frame, tetrisPanel, lvl);
         Thread t = new Thread(r);
         t.start();
     }
