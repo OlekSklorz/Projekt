@@ -1,184 +1,143 @@
 package game;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
- *Obiekt <code>NewGameChoosing</code> reprezentuje nowy panel pozwalający na wybór typu rozgrywki
- *Zawiera przyciski PingPong, Tetris, Snake, Start oraz Back
- * BRAK DALSZEJ OBSLUGI PRZYCISKOW,
- * BRAK SCREENOW,
- * BRAK PODSWIETLENIA,
- * @author Łysy
+ *
+ * @author Michał
+ * @param <S>
  */
-public final class NewGameChoosing {
-    private static JPanel newGamePanel, levelsPanel;
-    private static int activeGame = 1;
-    private JButton start = new JButton("Start"), pingPong = new JButton("Ping Pong"), tetris = new JButton("Tetris"), snake = new JButton("Snake"), back = new JButton("Back");
-    private JButton[] allButtons = {start, pingPong, tetris, snake, back};
-    public NewGameChoosing(){
-        try {
-            DifficultyLevels levels = new DifficultyLevels();
-            levelsPanel = levels.getLevelsPanel();
-            newGamePanel = new JPanel();
-            JLabel pingPongImage;
-            String path = new java.io.File(".").getCanonicalPath();
-            pingPongImage = getLabel(path + "\\PingPong.png", true);
-            JLabel tetrisImage = getLabel(path + "\\Tetris.png", true);
-            JLabel snakeImage = getLabel(path + "\\Snake.png", true);
-            tetrisImage.setText("<-");
-//          POSITIONS OF BUTTONS        
-            GridBagConstraints gbc = new GridBagConstraints();
-            newGamePanel.setLayout(new GridBagLayout());
-            gbc.weightx = 100;
-            gbc.weighty = 100;
+public class Options <S>{
+    private JPanel optionsPanel = new JPanel(), controlPanel;
+    private JTextField musicTF = new JTextField("Music"), fullScreenTF = new JTextField("Full Screen"), controlTF = new JTextField("Controls"), 
+            windowSizeTF = new JTextField("Resolution"), fontTF = new JTextField("Fonts");
+    private JButton CreditsButton = new JButton("Credits"), backButton = new JButton("Back"), saveButton = new JButton("Save"), controlButton = new JButton("Controls");
+    private JCheckBox fullScreenCB;
+    private Choice musicChoice, windowSizeChoice, fontChoice;
+    private final GridBagConstraints gbc = new GridBagConstraints();
+    private String [] windowSizeTab = new String [3];
+    private String [] musicTab = new String [3];
+    private String [] fontTab = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+    private Object [] allObject = {musicTF, fullScreenTF, controlTF, windowSizeTF, fontTF, controlButton, CreditsButton, saveButton, backButton};
+    private JTextField [] allJTextField = {musicTF, fullScreenTF, controlTF, windowSizeTF, fontTF};
+
+    /*
+    Constructor generate new JPanel with new components. Changing music, type of screen, font, controls.
+    */
+    public Options() {
+        Control control = new Control();
+        controlPanel = control.getPanel();
+        fullScreenCB = new JCheckBox("", null, false);
+        fullScreenCB.setSelected(false);
+ 
+        windowSizeChoice = makeChoice(windowSizeTab);
+        musicChoice = makeChoice(musicTab);
+        fontChoice = makeChoice(fontTab);
+        
+        for(JTextField textfield : allJTextField)
+            textfield.setEditable(false);
+            
+        optionsPanel.setLayout(new GridBagLayout());
+        gbc.weightx = 100;
+        gbc.weighty = 100;
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;    
+        gbc.weightx = 1;
+
+        int up = 0;
+        for(Object object : allObject) {
             gbc.gridwidth = 1;
-            gbc.gridheight = 1;
-            gbc.anchor = GridBagConstraints.CENTER;
-            gbc.fill = GridBagConstraints.HORIZONTAL;
-
-            gbc.gridx = 1;
-            gbc.gridy = 1;
-            newGamePanel.add(pingPongImage, gbc);
-            gbc.gridx = 1;
-            gbc.gridy = 0;
-            newGamePanel.add(pingPong, gbc);
-
-            gbc.gridx = 2;
-            gbc.gridy = 1;
-            newGamePanel.add(tetrisImage, gbc);
-            gbc.gridx = 2;
-            gbc.gridy = 0;
-            newGamePanel.add(tetris, gbc);
-
-            gbc.gridx = 3;
-            gbc.gridy = 1;
-            newGamePanel.add(snakeImage, gbc);
-            gbc.gridx = 3;
-            gbc.gridy = 0;
-            newGamePanel.add(snake, gbc);
-
-            gbc.gridx = 1;
-            gbc.gridy = 4;
-            newGamePanel.add(new JPanel(), gbc);
-            gbc.gridx = 1;
-            gbc.gridy = 5;
-            gbc.gridwidth = 3;
-            newGamePanel.add(start, gbc);
-
-            gbc.gridx = 2;
-            gbc.gridy = 6;
-            gbc.gridwidth = 1;
-            newGamePanel.add(back,gbc);
-            newGamePanel.setVisible(true);
-//          BUTTON PINGPONG       
-            pingPong.addActionListener(e -> {
-                activeGame = 0;
-                if(activeGame == 0) {
-                    pingPongImage.setText("<-");
-                    tetrisImage.setText("");
-                    snakeImage.setText("");
-                }
-            });
-//          BUTTON TETRIS        
-            tetris.addActionListener(e -> {
-                activeGame = 1;
-                if(activeGame == 1) {
-                    tetrisImage.setText("<-");
-                    pingPongImage.setText("");
-                    snakeImage.setText("");
-                }
-            });
-//          BUTTON SNAKE
-            snake.addActionListener(e -> {
-                activeGame = 2;
-                if(activeGame == 2) {
-                    snakeImage.setText("<-");
-                    tetrisImage.setText("");
-                    pingPongImage.setText("");
-                }
-            });
-//          BUTTON START
-            start.addActionListener(e -> {
-                newGamePanel.setVisible(false);
-                levelsPanel = levels.getLevelsPanel();
-            });
-//          BUTTON BACK
-            back.addActionListener(e -> {
-                newGamePanel.setVisible(false);
-                MainMenuFrame.setMainWindowVisable();
-            });
-
-        } catch (IOException ex) {
-            Logger.getLogger(NewGameChoosing.class.getName()).log(Level.SEVERE, null, ex);
+            placeOnScreen(object, 0, up , 10);
+            if(up == 5)
+                placeOnScreen(object, 1, 2, 10);
+            up++;
         }
-}
-    
-    public Image getImage(String path) throws IOException {
-        File file = new File(path);
-        Image image = ImageIO.read(file);
-        
-        return image;
-    }
-    
-    public JLabel getLabel(String path, boolean visibility) throws IOException {
-        Image image = getImage(path);
-        JLabel label = new JLabel(new ImageIcon(image));
-        label.setVisible(visibility);
-    
-        return label;
-    }
+        placeOnScreen(musicChoice, 1, 0, 10);
+        placeOnScreen(new JPanel(), 2, 0, 10);        
+        placeOnScreen(fullScreenCB, 1, 1, 10);           
+        placeOnScreen(windowSizeChoice, 1, 3, 10);   
+        placeOnScreen(fontChoice, 1, 4, 10);
 
-    public JButton makeButton(String name, Font font) {
-        JButton button = new JButton(name);
-        if(font != null)
-            button.setFont(font);
+        optionsPanel.setVisible(true);    
+//------------------------------------------------------------------------------        
+        saveButton.addActionListener(e -> {
+            for(Object object : allObject) {
+                if(object instanceof JTextField) {
+                    JTextField a = (JTextField) object;
+                    a.setFont(Font.decode(getActiveFont()));
+                }
+                if(object instanceof JButton) {
+                    JButton b = (JButton) object;
+                    b.setFont(Font.decode(getActiveFont()));
+                } 
+            }
+        });
         
-        return button;
+        backButton.addActionListener(e -> {
+            optionsPanel.setVisible(false);
+            MainMenuFrame.setMainWindowVisable();
+        });
+//----------------CONTROL        
+        controlButton.addActionListener(e -> {
+            optionsPanel.setVisible(false);
+            controlPanel = control.getPanel();
+        });
+        
     }
-    
-    /**
-     * Pobiera panel zawierający przyciski do wyboru gry, przyciski do powrotu i rozpoczęcia gry
-     * oraz obrazy ukazujące gry. 
-     * @return panel wyboru gry.
-     */
+  
+    /*
+    Type Choice
+    Returns list of elements (any length) to choice;
+    */
+    public Choice makeChoice(String [] tab) {
+        Choice choice = new Choice();
+        for(int a = 0; a < tab.length; a++) {
+            if(tab[a] == null)
+                tab[a] = "BRAK DANYCH";
+            choice.add(tab[a]); 
+        }
+            
+        return choice;   
+    }   
+    /*
+    Type void
+    Places elements S (any type) on X, Y position;
+    */
+    public void placeOnScreen(Object S, int x, int y, int ipady) {
+        gbc.ipady = ipady;
+        gbc.gridx = x;
+        gbc.gridy = y;  
+        optionsPanel.add((Component) S, gbc);
+    }   
+    /*
+    Type JPanel
+    Returns main panel;
+    */
     public JPanel getJPanel() {
-        return newGamePanel;
+        return optionsPanel;
+    }   
+    /*
+    Type: Button
+    Returns Button;
+    */
+    public JButton getSaveB() {
+        return saveButton;
+    }   
+    /*
+    Type: String
+    Returns selected Font;
+    */
+    public String getActiveFont() {
+        return fontChoice.getSelectedItem();
     }
-    
-    /**
-     * Pobiera przycisk do rozpoczęcia wybranej gry. 
-     * @return przycisk rozpoczynający grę 
-     */
-    public JButton getStart(){
-        return start;
-    }
-    
-    /**
-     * Ustawia widoczność panelu wyboru gry. 
-     */
-    public static void setNewGameVisable(){
-        newGamePanel.setVisible(true);
-    }
-    
-    /**
-     * Pobiera numer aktywnej gry. Ping Pong = 0, Tetris = 1, Snake = 2.
-     * @return numer aktywnej gry.
-     */
-    public static int getActiveGame(){
-        return activeGame;
-    }
-    
-    /**
-     * Pobiera wszystkie przyciski z menu do wyboru gry. 
-     * @return tablica przycisków z menu do wyboru gry.
-     */
-    public JButton[] getButtons(){
-        return allButtons;
+    /*
+    Type JButton
+    Return back Button;
+    */
+    public JButton getControlButton() {
+        return controlButton;
     }
 }
