@@ -18,3 +18,4 @@ public class MyColors {
         return colors[i];
     }
 }
+
