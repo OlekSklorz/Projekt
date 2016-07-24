@@ -2,7 +2,6 @@ package game;
 
 import java.awt.*;
 import javax.swing.*;
-import tetris.Tetris;
 
 /**
  * Obiekt <code>DifficultyLevels</code> reprezentuje panel pozwalający na wybór poziomów trudności gier.
@@ -13,13 +12,9 @@ public class DifficultyLevels {
     private final JButton[] allButtons = {easyButton, mediumButton, hardButton};
     private JPanel levelsPanel, tetrisPanel;
     private final JLabel textLabel;
-    private int activeGame;
     public DifficultyLevels(){
-        this.activeGame = activeGame;
         textLabel = new JLabel("Choose level of difficulty");
         levelsPanel = new JPanel();
-        /*Tetris tetris = new Tetris();
-        tetrisPanel = tetris.getTetrisPanel();*/ // TEN KOMENTARZ ZOSTAWIĆ BO NIE JESTEM PEWIEN (może się przydać)
         levelsPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.weightx = gbc.weighty = 100;
@@ -38,7 +33,6 @@ public class DifficultyLevels {
                 button.addActionListener(e -> {
                     if(NewGameChoosing.getActiveGame() == 1){
                         levelsPanel.setVisible(false);
-                        tetrisPanel = new Tetris(Levels.valueOf(button.getText()).lvl).getTetrisPanel();
                     }
                 });
         }
