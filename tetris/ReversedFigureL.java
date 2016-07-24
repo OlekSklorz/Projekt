@@ -32,3 +32,4 @@ public class ReversedFigureL extends Figure{
         return xElements;
     }
 }
+
