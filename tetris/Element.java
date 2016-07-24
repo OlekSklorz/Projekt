@@ -7,20 +7,21 @@
   */
  public class Element{
       private int leftX, topX;
-      private static final int WIDTH = 20;
-      private static final int HEIGHT = 20;
+      private static final int WIDTH = 20, HEIGHT = 20;
       public Element(int leftX, int topX){
           this.leftX = leftX;
           this.topX = topX;
       }
+      
       /**
        * Tworzy kwadracik z podanych współrzędnych x i y oraz z podanej szerokości i wysokości.
-      * Służy on do budowy innych figur.
-      * @return mały kwadracik
-      */
+       * Służy on do budowy innych figur.
+       * @return mały kwadracik
+       */
      public Rectangle2D getElement(){
          return new Rectangle2D.Double(leftX, topX, WIDTH, HEIGHT);
      }
+     
      /**
       * Pobiera szerokość kwadracika.
       * @return szerokość kwadracika
@@ -28,6 +29,7 @@
      public static int getWidth(){
          return WIDTH;
      }
+     
      /**
       * Pobiera wysokość kwadracika.
       * @return wysokość kwadracika.
