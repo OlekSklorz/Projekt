@@ -205,4 +205,3 @@ public class GameField extends JComponent {
         return new Dimension(200, 561);
     }
 }
-
