@@ -18,7 +18,7 @@ public class FigureRunnable implements Runnable{
     private JPanel informativePanel, tetrisPanel;
     private static JFrame frame;
     private boolean stop;
-    public FigureRunnable(GameField c, int[] control, int delayed, int start, JLabel gameOverLabel, JPanel informativePanel, JFrame frame, JPanel tetrisPanel){
+    public FigureRunnable(GameField c, int[] control, int delayed, int start, JLabel gameOverLabel, JPanel informativePanel, JFrame frame, JPanel tetrisPanel, int lvl){
         this.c = c;
         c.addKeyListener(new MenuAction());
         c.setFocusable(true);
@@ -26,7 +26,7 @@ public class FigureRunnable implements Runnable{
         right = control[1];
         down = control[2];
         rotation = control[3];
-        this.delayed = delayed;
+        this.delayed = delayed - (lvl  * 50);
         this.start = start;
         this.gameOverLabel = gameOverLabel;
         this.informativePanel = informativePanel;
@@ -41,7 +41,7 @@ public class FigureRunnable implements Runnable{
      */
     public void run(){
         boolean is = false, deleted;
-        int fullLine, x, points = 0;
+        int fullLine, x, points = 0, acceleration = 100;
         Component tempComponent;
         JLabel pointsLabel = null;
         for(int index = 0; index < informativePanel.getComponentCount(); index++){
@@ -67,6 +67,10 @@ public class FigureRunnable implements Runnable{
                 c.add(figure);
                 c.addKeyListener(new MovementAction(figure));
                 fullLine = -1;
+                if(delayed > 50 && points >= acceleration && points < acceleration * 5){
+                    delayed -= 50;
+                    acceleration *= 5;
+                }
                 do{
                     if(!stop){
                         int y = figure.getActualTopX();
@@ -128,7 +132,7 @@ public class FigureRunnable implements Runnable{
     
     private Figure getFigure(){
         Random randomFigure = new Random();
-        switch(randomFigure.nextInt(5)){
+        switch(randomFigure.nextInt(6)){
             case 0: 
                 return new Square(start,-(Square.getYElements() * Element.getHeight()));
             case 1:
@@ -139,6 +143,8 @@ public class FigureRunnable implements Runnable{
                 return new FigureT(start,-(FigureT.getYElements() * Element.getHeight()));
             case 4:
                 return new FigureZ(start,-(FigureZ.getYElements() * Element.getHeight()));
+            case 5:
+                return new ReversedFigureL(start, -(ReversedFigureL.getYElements() * Element.getHeight()));
         }
         return null;
     }
