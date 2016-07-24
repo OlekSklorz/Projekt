@@ -1,9 +1,6 @@
 package tetris;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import javax.swing.JComponent;
 
 /**
@@ -49,3 +46,4 @@ public class NextFigureComponent extends JComponent{
         return new Dimension(61, 61);
     }
 }
+
