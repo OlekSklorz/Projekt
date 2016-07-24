@@ -21,6 +21,7 @@ public class FigureRunnable implements Runnable{
     public FigureRunnable(GameField c, int[] control, int delayed, int start, JLabel gameOverLabel, JPanel informativePanel, JFrame frame, JPanel tetrisPanel){
         this.c = c;
         c.addKeyListener(new MenuAction());
+        c.setFocusable(true);
         left = control[0];
         right = control[1];
         down = control[2];
@@ -39,9 +40,6 @@ public class FigureRunnable implements Runnable{
      * Ustawia czas wykonywania tego wątku. 
      */
     public void run(){
-        c.setFocusable(true);
-        //c.addKeyListener(new DownAction());
-        //int limit = 0;
         boolean is = false, deleted;
         int fullLine, x, points = 0;
         Component tempComponent;
@@ -68,7 +66,6 @@ public class FigureRunnable implements Runnable{
                 figures.add(figure);
                 c.add(figure);
                 c.addKeyListener(new MovementAction(figure));
-                System.out.println(c.getKeyListeners());
                 fullLine = -1;
                 do{
                     if(!stop){
@@ -187,6 +184,7 @@ public class FigureRunnable implements Runnable{
         public MovementAction(Figure figure){
             this.figure = figure;
             elements = figure.elements;
+            System.out.println("as");
         }
         
         /**
