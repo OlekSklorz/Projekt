@@ -27,12 +27,10 @@ public final class NewGameChoosing {
             levelsPanel = levels.getLevelsPanel();
             newGamePanel = new JPanel();
             JLabel pingPongImage;
-            
-            pingPongImage = getLabel("C:\\Users\\Tomek\\Documents\\obr\\a.png", true);
-            JLabel tetrisImage = getLabel("C:\\Users\\Tomek\\Documents\\obr\\a.png", true);
-            JLabel snakeImage = getLabel("C:\\Users\\Tomek\\Documents\\obr\\a.png", true);
-        
-        
+            String path = new java.io.File(".").getCanonicalPath();
+            pingPongImage = getLabel(path + "\\PingPong.png", true);
+            JLabel tetrisImage = getLabel(path + "\\Tetris.png", true);
+            JLabel snakeImage = getLabel(path + "\\Snake.png", true);
             tetrisImage.setText("<-");
 //          POSITIONS OF BUTTONS        
             GridBagConstraints gbc = new GridBagConstraints();
@@ -130,7 +128,6 @@ public final class NewGameChoosing {
     
     public JLabel getLabel(String path, boolean visibility) throws IOException {
         Image image = getImage(path);
-        image = image.getScaledInstance(100, 100, java.awt.Image.SCALE_DEFAULT);
         JLabel label = new JLabel(new ImageIcon(image));
         label.setVisible(visibility);
     
@@ -185,3 +182,4 @@ public final class NewGameChoosing {
         return allButtons;
     }
 }
+
