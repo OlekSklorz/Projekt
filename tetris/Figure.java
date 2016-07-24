@@ -210,4 +210,3 @@ public abstract class Figure extends JComponent{
         return position;
     }
 }
-
