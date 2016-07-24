@@ -31,4 +31,3 @@ public class FigureT extends Figure{
         return xElements;
     }
 }
-
