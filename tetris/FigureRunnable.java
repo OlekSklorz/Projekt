@@ -190,7 +190,6 @@ public class FigureRunnable implements Runnable{
         public MovementAction(Figure figure){
             this.figure = figure;
             elements = figure.elements;
-            System.out.println("as");
         }
         
         /**
